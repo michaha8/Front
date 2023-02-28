@@ -8,6 +8,7 @@ import {
   View,
   TextInput,
   Alert,
+  ScrollView,
 } from "react-native";
 import AuthModel, { User } from "../model/AuthModel";
 import { AsyncStorage } from 'react-native';
@@ -17,6 +18,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   const [name, onText4Change] = useState<string>("");
   const [password, onText2Change] = useState<string>("");
   const [avatarUri, setAvatrUri] = useState("")
+  //Stay LoggedIn
    useEffect(() => {
      AsyncStorage.getItem('refreshToken').then(async token => {
        if (token) {
@@ -55,22 +57,23 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
-      <Image
+      {/* <Image
         style={styles.userPictureStyle}
         source={require("../assets/avatar-icon-images-4.jpg")}
-      ></Image>
+      ></Image> */}
 
       <TextInput
         style={styles.input}
         onChangeText={onText1Change}
-        placeholder="username"
+        placeholder="Email"
         value={username}
       />
       <TextInput
         style={styles.input}
         onChangeText={onText2Change}
-        placeholder="password"
+        placeholder="Password"
         secureTextEntry={true}
         value={password}
       />
@@ -90,6 +93,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
         <Text style={styles.text}>or</Text>
       </View>
     </View>
+    </ScrollView>
   );
 };
 

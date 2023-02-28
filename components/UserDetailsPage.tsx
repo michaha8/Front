@@ -7,11 +7,12 @@ import {
   View,
   TextInput,
   Alert,
+  
 } from "react-native";
 import { AntDesign } from "@expo/vector-icons";
 import AuthModel, { Token } from "../model/AuthModel";
 import AsyncStorage from '@react-native-async-storage/async-storage'
-
+import { CommonActions } from '@react-navigation/native';
 import UserModel, { UserUpdate } from "../model/UserModel";
 import * as ImagePicker from 'expo-image-picker';
 
@@ -71,8 +72,13 @@ const UserDetailsPage: FC<{navigation: any}> = ({navigation}) => {
     await AuthModel.logout();
     console.log("Clearing storage...");
     await clearStorage();
-    console.log("Navigating to login page...");
-    navigation.navigate("LoginPage");
+    console.log("Resetting navigation stack...");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'LoginPage' }],
+      })
+    );
     console.log("Loading user details...");
     loadUser();
   };

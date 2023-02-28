@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   View,
+  ScrollView,
   TextInput,
   Alert,
   AsyncStorage,
@@ -81,6 +82,7 @@ const CreatePostPage: FC<{navigation: any}> = ({navigation}) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <TouchableOpacity onPress={handleChoosePhoto}>
         <View style={styles.imageContainer}>
@@ -101,6 +103,7 @@ const CreatePostPage: FC<{navigation: any}> = ({navigation}) => {
         <Text style={styles.postButtonText}>POST</Text>
       </TouchableOpacity>
     </View>
+    </ScrollView>
   );
 };
 

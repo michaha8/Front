@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   TextInput,
+  ScrollView,
   Alert,
 } from "react-native";
 import AuthModel, { User } from "../model/AuthModel";
@@ -67,6 +68,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   };
 
   return (
+    <ScrollView>
     <View style={styles.container}>
       <TouchableOpacity onPress={handleChoosePhoto}>
         <View style={styles.imageContainer}>
@@ -110,6 +112,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
         </TouchableOpacity>
       </View>
     </View>
+    </ScrollView>
   );
 };
 
