@@ -135,10 +135,10 @@ const UserDetailsPage: FC<{navigation: any}> = ({navigation}) => {
             onChangeText={(text) => setTempFullName(text)}
           />
           <TouchableOpacity onPress={handleSaveName}>
-            <Text style={styles.saveText}>Save</Text>
+          <AntDesign name="save" size={24} color="black" />
           </TouchableOpacity>
           <TouchableOpacity onPress={handleCancelEditName}>
-            <Text style={styles.cancelText}>Cancel</Text>
+          <AntDesign name="close" size={24} color="black" />
           </TouchableOpacity>
         </View>
       );
@@ -146,8 +146,8 @@ const UserDetailsPage: FC<{navigation: any}> = ({navigation}) => {
       return (
         <View style={styles.nameContainer}>
           <Text style={styles.fullName}>{fullName}</Text>
-          <TouchableOpacity onPress={handleEditName}>
-            <Text style={styles.editText}>Edit</Text>
+          <TouchableOpacity onPress={handleEditName} >
+          <AntDesign name="edit" size={24} color="black" />
           </TouchableOpacity>
         </View>
       );
@@ -157,13 +157,13 @@ const UserDetailsPage: FC<{navigation: any}> = ({navigation}) => {
   return (
     <View style={styles.container}>
       <TouchableOpacity style={styles.logoutButton} onPress={() => pressHandlerLogOut()}>
-          <Text style={styles.buttonText}>Logout</Text>
+      <AntDesign name="logout" size={24} color="black" />
         </TouchableOpacity>
       <View style={styles.profilePictureContainer}>
         <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
         <View style={styles.editButtonContainer}>
           <TouchableOpacity onPress={handleEditPicture}>
-            <AntDesign name="edit" size={24} color="black" />
+            <AntDesign name="picture" size={24} color="black" />
           </TouchableOpacity>
         </View>
       </View>
@@ -199,7 +199,7 @@ const styles = StyleSheet.create({
     position: "absolute",
     bottom: 50,
     alignSelf: "center",
-    backgroundColor: "blue",
+    backgroundColor: "black",
     borderRadius: 30,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -209,12 +209,12 @@ const styles = StyleSheet.create({
   logoutButton: {
     flexDirection: "row",
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "red",
     padding: 10,
     borderRadius: 10,
   },
   seeAllPostsButton: {
-    backgroundColor: "green",
+    backgroundColor: "black",
     borderRadius: 30,
     paddingVertical: 10,
     paddingHorizontal: 20,
@@ -222,8 +222,8 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   logoutButtonText: {
-    color: 'white',
-    fontSize: 18,
+    color: 'black',
+    fontSize: 23,
     fontWeight: 'bold',
     textAlign: 'center',
   },
@@ -254,11 +254,13 @@ const styles = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-  },
+  }, 
   profilePicture: {
     width: 150,
     height: 150,
-    borderRadius: 75,
+    borderRadius: 10,
+    borderWidth: 3,
+    borderColor: "black",
   },
   cancelText: {
     fontSize: 18,
@@ -296,10 +298,10 @@ const styles = StyleSheet.create({
   },
   editText: {
     fontSize: 18,
-    color: "blue",
+    color: "black",
     padding: 5,
     fontWeight: "bold",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "red",
     borderRadius: 6,
     margin: 5,
   },
