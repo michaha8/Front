@@ -8,6 +8,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import AllPostsPage from "./components/AllPostsPage";
+import SignupPageHospital from "./components/SignupPageHospital";
 
 const Stack = createNativeStackNavigator();
 
@@ -42,6 +43,11 @@ const App: FC = () => {
           name="AllPostsPage"
           component={AllPostsPage}
           options={{ title: "All Posts" }}
+        ></Stack.Screen>
+         <Stack.Screen
+          name="SignupPageHospital"
+          component={SignupPageHospital}
+          options={{ title: "Sign Up As Hospital" }}
         ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
