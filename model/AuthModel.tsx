@@ -1,11 +1,12 @@
 import AuthApi from "../api/AuthApi";
 import apiClient from "../api/ClientApi";
 
-export type UserHospital = {
+export type User = {
     email: String,
     name: String,
     password: String,
     //avatarUrl: String
+    userType:String,
     phoneNumber:String,
     city:String
 }
@@ -32,7 +33,10 @@ const register = async (user: User) => {
       email: user.email,
       name: user.name,
       password: user.password,
-      avatarUrl: user.avatarUrl
+      //avatarUrl: user.avatarUrl
+      userType:user.userType,
+      phoneNumber:user.phoneNumber,
+      city:user.city
     }
     try {
         const res = await AuthApi.register(data)

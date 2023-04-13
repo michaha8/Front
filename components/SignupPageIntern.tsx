@@ -15,10 +15,20 @@ import * as ImagePicker from 'expo-image-picker';
 
 const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   const [avatarUri, setAvatrUri] = useState("")
-  const [username, onText1Change] = useState<string>("");
-  const [password, onText2Change] = useState<string>("");
-  const [confirmPassword, onText3Change] = useState<string>("");
-  const [name, onText4Change] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [confirmPassword, setConfirmPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const[id,setID]=useState<string>("");
+  const[institution,setInstitution]=useState<string>("");
+  const[specialization,setSpecialization]=useState<string>("")
+  const[phoneNumber,setPhoneNuber]=useState<string>("")
+  const[GPA,setGPA]=useState<string>("")
+  const[city,setCity]=useState<string>("")
+  const[description,setDescription]=useState<string>("")
+
+
+
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
 
   const handleChoosePhoto = async () => {
@@ -48,7 +58,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   const pressHandlerSignUp = async () => {
     alert("Hi " + name + " Welcome to the app , please log in");
     const user: User = {
-      email: username,
+      email: email,
       name: name,
       password: password,
       avatarUrl: avatarUri
@@ -63,8 +73,11 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   };
 
   const onConfirmPasswordChange = (text: string) => {
-    onText3Change(text);
+    setConfirmPassword(text);
     setPasswordsMatch(text === password);
+  };
+  const pressHandlerGoBack = () => {
+    navigation.goBack()
   };
 
   return (
@@ -81,19 +94,25 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
       </TouchableOpacity>
       <TextInput
         style={styles.input}
-        onChangeText={onText1Change}
-        placeholder="email"
-        value={username}
+        onChangeText={setID}
+        placeholder="ID"
+        value={id}
       />
-      <TextInput
+       <TextInput
         style={styles.input}
-        onChangeText={onText4Change}
+        onChangeText={setName}
         placeholder="name"
         value={name}
       />
+        <TextInput
+        style={styles.input}
+        onChangeText={setEmail}
+        placeholder="email"
+        value={email}
+      />
       <TextInput
         style={styles.input}
-        onChangeText={onText2Change}
+        onChangeText={setPassword}
         placeholder="password"
         value={password}
         secureTextEntry={true}
@@ -105,10 +124,53 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
         value={confirmPassword}
         secureTextEntry={true}
       />
+      <TextInput
+        style={styles.input}
+        onChangeText={setInstitution}
+        placeholder="Institution"
+        value={institution}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setSpecialization}
+        placeholder="Specialization"
+        value={specialization}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setPhoneNuber}
+        placeholder="Phone Number"
+        value={phoneNumber}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setGPA}
+        placeholder="GPA"
+        value={GPA}
+      />
+      <TextInput
+        style={styles.input}
+        onChangeText={setCity}
+        placeholder="City"
+        value={city}
+      />
+     <TextInput
+        style={styles.inputDescription}
+        onChangeText={setDescription}
+        placeholder="Description -
+              Add Some Information about you."
+        value={description}
+        multiline={true}
+        numberOfLines={4}
+        maxLength={200}>
+      </TextInput>
 
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={pressHandlerSignUp}>
           <Text style={styles.buttonText}>Sign Up</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={pressHandlerGoBack}>
+          <Text style={styles.buttonText}>Cancle</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -157,11 +219,23 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    margin: 12,
-    borderWidth: 1,
+    margin: 10,
+    borderWidth: 2,
+    borderColor:'black',
     padding: 10,
     borderRadius: 10,
-    marginTop: 20,
+    marginTop: 10,
+  },
+  inputDescription: {
+    height: 80,
+    margin: 10,
+    borderWidth: 2,
+    borderColor:'black',
+    padding: 10,
+    paddingTop: 0,
+    borderRadius: 10,
+    marginTop: 5,
+
   },
   inputError: {
     borderColor: "red",

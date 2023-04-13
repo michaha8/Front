@@ -15,9 +15,9 @@ import AuthModel, { User } from "../model/AuthModel";
 import { AsyncStorage } from 'react-native';
 
 const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
-  const [userEmail, onText1Change] = useState<string>("");
-  const [name, onText4Change] = useState<string>("");
-  const [password, onText2Change] = useState<string>("");
+  const [userEmail, setEmail] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
   const [avatarUri, setAvatrUri] = useState("")
   //Stay LoggedIn
   //  useEffect(() => {
@@ -59,10 +59,54 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   const pressHandlerSignUpIntern = () => {
     navigation.navigate("SignupPageIntern");
   };
+  const pressHandlerForgetPassword = () => {
+    //navigation.navigate("forgetPassword");
+    // navigation.navigate('HomePageHospital')
+    navigation.navigate('HomePageIntern')
+  };
 
   return (
     <ScrollView>
-    <View style={styles.container}>
+      <View style={styles.container}>
+        <TextInput
+        style={styles.input}
+        placeholder="Enter Email"
+        onChangeText={setEmail}
+        value={userEmail}
+        />
+        <TextInput
+        style={styles.input}
+        placeholder="Enter Password"
+        onChangeText={setPassword}
+        value={password}
+        secureTextEntry={true} 
+        />
+        <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.button} onPress={pressHandlerLogin}>
+        <Text style={styles.buttonText}>{"Log in"}</Text>
+        </TouchableOpacity>
+        </View>
+        <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.button} onPress={pressHandlerSignUpIntern}>
+        <Text style={styles.buttonText}>{"Sign Up as Intern"}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button} onPress={pressHandlerSignUpHospital}>
+        <Text style={styles.buttonText}>{"Sign Up as Hospital"}</Text>
+        </TouchableOpacity>
+        </View>
+        <View>
+        <TouchableOpacity style={styles.FPBT}onPress={pressHandlerForgetPassword}>
+        <Text style={styles.buttonTextFPBT}>{"Forget Password?"}</Text>
+        </TouchableOpacity>
+        </View>
+
+      </View>
+
+
+
+
+      
+    {/* <View style={styles.container}>
       <View style={styles.rect}>
         <TextInput placeholder="Enter Email"
          style={styles.textInputEmail} 
@@ -90,106 +134,86 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
         <Text style={styles.caption}>{"Sign Up as Hospital"}</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </View> */}
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
   },
-  rect: {
-    width: 298,
-    height: 46,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: 116,
-    marginLeft: 38
+  FPBT:{
+    alignSelf: "center",
+    color:'red'
   },
-  textInputEmail: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 27,
-    width: 259,
-    marginTop: 9,
-    marginLeft: 20
+  userPictureStyle: {
+    marginTop: 10,
+    height: 150,
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 20,
   },
-  rect1: {
-    width: 298,
-    height: 46,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: 25,
-    marginLeft: 38
+  choosePhotoText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#999",
+    textAlign:'center'
   },
-  textInputPassword: {
-    fontFamily:"sans-serif",
-    color: "#121212",
-    height: 27,
-    width: 259,
-    marginTop: 9,
-    marginLeft: 20
+  takePhotoText: {
+    fontSize: 18,
+    fontWeight: "bold",
+    color: "#007aff",
+    marginBottom: 20,
+    resizeMode: "contain",
+    alignSelf: "center",
   },
-  materialButtonPrimary: {
-    height: 30,
+  imageContainer: {
+    backgroundColor: "#f0f0f0",
     width: 100,
-    marginTop: 29,
-    marginLeft: 128
-  },
-  materialButtonDark: {
-    height: 36,
-    width: 140,
-    flex:2
-  },
-  materialButtonDark1: {
-    height: 36,
-    width: 157,
-    marginLeft: 2
-  },
-  materialButtonDarkRow: {
-    height: 36,
-    flexDirection: "row",
-    marginTop: 8,
-    marginLeft: 38,
-    marginRight: 23
-  },
-  containerBt: {
-    backgroundColor: "rgba(0,0,0,1)",
-    justifyContent: "center",
+    height: 100,
     alignItems: "center",
+    justifyContent: "center",
+    resizeMode: "contain",
+    alignSelf: "center",
+    marginBottom: 20,
+  },
+  image: {
+    width: "100%",
+    height: "100%",
+  },
+  input: {
+    height: 40,
+    margin: 12,
+    borderWidth: 1,
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 20,
+  },
+  inputError: {
+    borderColor: "red",
+  },
+  buttonsContainer: {
     flexDirection: "row",
-    borderRadius: 2,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1
-    },
-    shadowOpacity: 0.35,
-    shadowRadius: 5,
-    elevation: 2,
-    minWidth: 88,
-    paddingLeft: 16,
-    paddingRight: 16
+    alignSelf: "baseline",
+    borderRadius: 100,
   },
-  caption: {
-    color: "#fff",
-    fontSize: 14
+  button: {
+    flex: 1,
+    margin: 10,
+    alignItems: "center",
+    backgroundColor: "#DDDDDD",
+    borderRadius: 100,
+    padding: 5,
+   
   },
-  containerLogIn: {
-    width: 100,
-    height: 36
+  buttonText: {
+    padding: 10,
   },
-  materialButtonPrimaryLogIn: {
-    height: 36,
-    width: 100
-  }
+  buttonTextFPBT: {
+    padding: 10,
+    color:'red'
+  },
 });
 
 export default LoginPage;

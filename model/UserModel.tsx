@@ -3,7 +3,16 @@ import AuthApi from "../api/AuthApi";
 import apiClient from "../api/ClientApi";
 import UserApi from "../api/UserApi";
 
-export type User = {
+export type UserHospital = {
+  name: String,
+  email: String,
+  password: String,
+  city:String,
+  phoneNumber:String,
+ // avatarUrl: String
+  description:String
+}
+export type UserIntern = {
   email: String,
   name: String,
   password: String,

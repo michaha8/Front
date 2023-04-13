@@ -1,6 +1,7 @@
 import React, { Component } from "react";
 import MaterialButtonPrimary from "../buttons/MaterialButtonPrimary";
 import { FC, useState } from "react";
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   StyleSheet,
   Text,
@@ -10,7 +11,6 @@ import {
   TextInput,
   ScrollView,
   Alert,
-  TextBase,
 } from "react-native";
 import AuthModel, { UserHospital } from "../model/AuthModel";
 import * as ImagePicker from 'expo-image-picker';
@@ -26,8 +26,8 @@ const SignupPageHospital: FC<{ navigation: any }> = ({ navigation }) => {
   const [name, setName] = useState<string>("");
   const[phoneNumber,setPhoneNumber]=useState<string>("")
   const[city,setCity]=useState<string>("")
+  const[description,setDescription]=useState<string>("")
   
-
   // const handleChoosePhoto = async () => {
   //   try{
   //     const res = await ImagePicker.launchImageLibraryAsync()
@@ -53,22 +53,29 @@ const SignupPageHospital: FC<{ navigation: any }> = ({ navigation }) => {
   // };
 
   const pressHandlerSignUp = async () => {
+    if (!name || !email || !phoneNumber || !password || !confirmPassword || !city) {
+    alert("All fields are required");
+  }
+  else{
+  
     alert("Hi " + name + " Welcome to the app , please log in");
     const user: UserHospital = {
       email: email,
       name: name,
       password: password,
+      userType:'hospital',
       //avatarUrl: avatarUri
       phoneNumber:phoneNumber,
       city:city
     }
     try{
       await AuthModel.register(user)
-      console.log('success signup signuppage')
+      console.log('success signup signUpPage')
     } catch(err) {
       console.log('fail signup' + err)
     }
     navigation.goBack()
+  }
   };
 
   const onConfirmPasswordChange = (text: string) => {
@@ -76,93 +83,138 @@ const SignupPageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     setPasswordsMatch(text === password);
   };
 
-const func=()=>{
-  console.log("presssssdddds")
-}
+  const onCanceleHandler = () => {
+    navigation.goBack();
+  };
 
 return (
-  <View style={styles.container}>
-    <View style={styles.rect1}>
+  <ScrollView>
+    <View style={styles.container}>
       <TextInput
-        placeholder="Enter Email"
-        keyboardType="email-address"
-        style={styles.textInput6}
-        onChangeText={setEmail}
-        value={email}
-      ></TextInput>
-    </View>
-    <View style={styles.rect2}>
-      <TextInput
-        placeholder="Enter Phone Number"
-        defaultValue=""
-        keyboardType="phone-pad"
-        onChangeText={setPhoneNumber}
-        value={phoneNumber}
-        style={styles.textInput2}
-      ></TextInput>
-    </View>
-    <View style={styles.rect3}>
-      <TextInput
-        placeholder="Password confirm"
-        defaultValue=""
-        secureTextEntry={true}
-        style={[styles.textInput3, !passwordsMatch ? styles.inputError : null]}
-        onChangeText={setConfirmPassword}
-        value={confirmPassword}
-      ></TextInput>
-    </View>
-    <View style={styles.rect4}>
-      <TextInput
-        placeholder="Enter Password"
-        secureTextEntry={true}
-        style={styles.textInput4}
-        onChangeText={setPassword}
-        value={password}
-      ></TextInput>
-    </View>
-    <View style={styles.rect5}>
-      <TextInput
-        placeholder="Enter City"
-        style={styles.textInput5}
-        onChangeText={setCity}
-        value={city}
-      ></TextInput>
-    </View>
-    <View style={styles.rect6}>
-      <TextInput
-        placeholder="Enter Name"
+        style={styles.input}
         onChangeText={setName}
+        placeholder="Enter Full Name"
         value={name}
-        style={styles.textInput1}
-      ></TextInput>
-    </View>
+        autoFocus
+        
+      />
+       <TextInput
+        style={styles.input}
+        onChangeText={setEmail}
+        placeholder="Enter Email"
+        value={email}
+        autoComplete='email'
+        keyboardType='email-address'
+        
+      />
+       <TextInput
+        style={styles.input}
+        onChangeText={setCity}
+        placeholder="Enter City"
+        value={city}
+      />
+       <TextInput
+        style={styles.input}
+        onChangeText={setPhoneNumber}
+        placeholder="Enter Phone Numer"
+        value={phoneNumber}
+        keyboardType='number-pad'
+      />
+       <TextInput
+        style={styles.input}
+        onChangeText={setPassword}
+        placeholder="Enter Password"
+        value={password}
+        secureTextEntry={true}
+      />
+       <TextInput
+        style={[styles.input, !passwordsMatch ? styles.inputError : null]}
+        onChangeText={onConfirmPasswordChange}
+        placeholder="Confirme Password"
+        value={confirmPassword}
+        secureTextEntry={true}
+      />
+       <TextInput
+        style={styles.inputDescription}
+        onChangeText={setDescription}
+        placeholder="Description -
+              Add Some Information about the hospital."
+        value={description}
+        multiline={true}
+        numberOfLines={4}
+        maxLength={200}>
+      </TextInput>
 
-    {/* <View style={styles.materialButtonPrimary1Row}>
-        <TouchableOpacity style={styles.containerBt} onPress={func}>
-        <Text style={styles.caption}>{"Save"}</Text>
+      <View style={styles.buttonsContainer}>
+        <TouchableOpacity style={styles.button} onPress={pressHandlerSignUp}>
+          <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.containerBt} onPress={func}>
-        <Text style={styles.caption}>{"Cancele"}</Text>
+        <TouchableOpacity style={styles.button} onPress={onCanceleHandler}>
+          <Text style={styles.buttonText}>Cacnel</Text>
         </TouchableOpacity>
-      </View> */}
-    <View style={styles.materialButtonPrimary1Row}>
-      <TouchableOpacity style={styles.containerSaveBt} onPress={func}>
-      <Text style={styles.captionSaveBt}>{"Save"}</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.containerSaveBt} onPress={func}>
-        <Text style={styles.captionSaveBt}>{"Cancele"}</Text>
-      </TouchableOpacity>
-    </View>
-  </View>
+      </View>
+      </View>
+  </ScrollView>
+  
 );
 }
 const styles = StyleSheet.create({
+  containerKey: {
+    flex: 1,
+  },
+  contentContainer: {
+    padding: 20,
+  },
+  input: {
+    height: 47,
+    margin: 12,
+    borderWidth: 4,
+    borderColor:'black',
+    padding: 10,
+    borderRadius: 10,
+    marginTop: 5,
+  },
+  inputDescription: {
+    height: 80,
+    margin: 12,
+    borderWidth: 4,
+    borderColor:'black',
+    padding: 10,
+    paddingTop: 0,
+    borderRadius: 10,
+    marginTop: 5,
+
+  },
+  buttonsContainer: {
+    flexDirection: "row",
+    alignSelf: "baseline",
+  },
+  button: {
+    flex: 1,
+    margin: 20,
+    alignItems: 'center',
+    backgroundColor: "#DDDDDD",
+    padding: 5,
+    borderRadius: 10,
+    borderWidth: 2, // add border width
+    borderColor: "black", // set border color
+  },
+  buttonText: {
+    padding: 10,
+  },
+  buttonContainer:{
+    flex:1,
+    alignItems:'center',
+  },
   container: {
     flex: 1,
-    backgroundColor: "rgba(15,15, 15,0)"
+    backgroundColor: "white"
+  },inputError: {
+    borderColor: "red",
   },
   rect1: {
     width: 298,
+    alignItems:'center',
     height: 46,
     backgroundColor: "rgba(230,230, 230,1)",
     borderWidth: 3,
@@ -170,15 +222,36 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 100,
     marginTop: 121,
-    marginLeft: 38
+    marginLeft: 50
+  },
+  rect7: {
+    width: 298,
+    alignItems:'center',
+    height: 70,
+    backgroundColor: "rgba(230,230, 230,1)",
+    borderWidth: 3,
+    borderColor: "rgba(0,0,0,1)",
+    borderStyle: "solid",
+    borderRadius: 100,
+    marginTop: 320,
+    marginLeft: 50
   },
   textInput6: {
     fontFamily: "roboto-regular",
     color: "#121212",
+    alignItems:'center',
     height: 27,
     width: 259,
-    marginTop: 12,
+    marginTop: 7,
     marginLeft: 12
+  },textInput7: {
+    fontFamily: "roboto-regular",
+    color: "#121212",
+    alignItems:'center',
+    height: 50,
+    width: 259,
+    marginTop: 0,
+    marginLeft: 10
   },
   rect2: {
     width: 298,
@@ -189,7 +262,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 100,
     marginTop: 198,
-    marginLeft: 38
+    marginLeft: 50
   },
   textInput2: {
     fontFamily: "roboto-regular",
@@ -197,7 +270,7 @@ const styles = StyleSheet.create({
     height: 27,
     width: 259,
     marginTop: 10,
-    marginLeft: 12
+    marginLeft: 10
   },
   rect3: {
     width: 298,
@@ -208,15 +281,15 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 100,
     marginTop: -106,
-    marginLeft: 38
+    marginLeft: 50
   },
   textInput3: {
     fontFamily: "roboto-regular",
     color: "#121212",
-    height: 27,
+    height: 17,
     width: 259,
     marginTop: 15,
-    marginLeft: 20
+    marginLeft: 10
   },
   rect4: {
     width: 298,
@@ -227,7 +300,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 100,
     marginTop: -104,
-    marginLeft: 38
+    marginLeft: 50
   },
   textInput4: {
     fontFamily: "roboto-regular",
@@ -235,7 +308,7 @@ const styles = StyleSheet.create({
     height: 27,
     width: 259,
     marginTop: 11,
-    marginLeft: 12
+    marginLeft: 10
   },
   rect5: {
     width: 298,
@@ -246,7 +319,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 100,
     marginTop: -111,
-    marginLeft: 38
+    marginLeft: 50
   },
   textInput5: {
     fontFamily: "roboto-regular",
@@ -254,7 +327,7 @@ const styles = StyleSheet.create({
     height: 27,
     width: 259,
     marginTop: 10,
-    marginLeft: 20
+    marginLeft: 10
   },
   rect6: {
     width: 298,
@@ -265,7 +338,7 @@ const styles = StyleSheet.create({
     borderStyle: "solid",
     borderRadius: 100,
     marginTop: -169,
-    marginLeft: 38
+    marginLeft: 50
   },
   textInput1: {
     fontFamily: "roboto-regular",
@@ -273,7 +346,7 @@ const styles = StyleSheet.create({
     height: 27,
     width: 259,
     marginTop: 9,
-    marginLeft: 12
+    marginLeft: -14
   },
   materialButtonPrimary1: {
     height: 44,
@@ -300,7 +373,7 @@ const styles = StyleSheet.create({
   justifyContent: "center",
   alignItems: "center",
   flexDirection: "row",
-  borderRadius: 2,
+  borderRadius: 100,
   shadowColor: "#000",
   shadowOffset: {
     width: 0,

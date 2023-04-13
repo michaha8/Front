@@ -9,6 +9,12 @@ import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import React from "react";
 import AllPostsPage from "./components/AllPostsPage";
 import SignupPageHospital from "./components/SignupPageHospital";
+import SignupPageIntern from "./components/SignupPageIntern";
+import forgetPasswordPage from "./components/forgetPassword";
+import HomePageHospital from "./components/HomePageHospital";
+import HomePageIntern from "./components/HomePageIntern"
+import EditHospital from "./components/EditHospital";
+import EditIntern from "./components/EditIntern";
 
 const Stack = createNativeStackNavigator();
 
@@ -48,6 +54,36 @@ const App: FC = () => {
           name="SignupPageHospital"
           component={SignupPageHospital}
           options={{ title: "Sign Up As Hospital" }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="SignupPageIntern"
+          component={SignupPageIntern}
+          options={{ title: "Sign Up As Intern" }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="forgetPassword"
+          component={forgetPasswordPage}
+          options={{ title: "Forget Password" }}
+        ></Stack.Screen>
+         <Stack.Screen
+          name="HomePageIntern"
+          component={HomePageIntern}
+          options={{ title: "Home page Intern" }}
+        ></Stack.Screen>
+         <Stack.Screen
+          name="HomePageHospital"
+          component={HomePageHospital}
+          options={{ title: "Home page Hospital" }}
+        ></Stack.Screen>
+           <Stack.Screen
+          name="EditHospital"
+          component={EditHospital}
+          options={{ title: "Edit Hospital details" }}
+        ></Stack.Screen>
+           <Stack.Screen
+          name="EditIntern"
+          component={EditIntern}
+          options={{ title: "Edit Intern details" }}
         ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

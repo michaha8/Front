@@ -169,14 +169,16 @@ const styles = StyleSheet.create({
   buttonsContainer: {
     flexDirection: "row",
     alignSelf: "baseline",
+    borderRadius: 100,
   },
   button: {
     flex: 1,
     margin: 10,
     alignItems: "center",
     backgroundColor: "#DDDDDD",
+    borderRadius: 100,
     padding: 5,
-    borderRadius: 10,
+   
   },
   buttonText: {
     padding: 10,
