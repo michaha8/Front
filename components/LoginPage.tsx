@@ -62,7 +62,8 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   const pressHandlerForgetPassword = () => {
     //navigation.navigate("forgetPassword");
     // navigation.navigate('HomePageHospital')
-    navigation.navigate('HomePageIntern')
+    navigation.navigate('AllPostsPage')
+    //navigation.navigate('HomePageIntern')
   };
 
   return (

@@ -27,31 +27,8 @@ const SignupPageHospital: FC<{ navigation: any }> = ({ navigation }) => {
   const[phoneNumber,setPhoneNumber]=useState<string>("")
   const[city,setCity]=useState<string>("")
   const[description,setDescription]=useState<string>("")
+  const[hospitalQuantity,setHospitalQuantity]=useState<string>("0")
   
-  // const handleChoosePhoto = async () => {
-  //   try{
-  //     const res = await ImagePicker.launchImageLibraryAsync()
-  //     if(!res.canceled && res.assets.length > 0){
-  //       const uri = res.assets[0].uri;
-  //       setAvatrUri(uri)
-  //     }
-  //   }catch(err){
-  //     console.log("open camera error" + err)
-  //   }
-  // };
-
-  // const handleTakePhoto = async () => {
-  //   try{
-  //     const res = await ImagePicker.launchCameraAsync()
-  //     if(!res.canceled && res.assets.length > 0){
-  //       const uri = res.assets[0].uri;
-  //       setAvatrUri(uri)
-  //     }
-  //   }catch(err){
-  //     console.log("open camera error" + err)
-  //   }
-  // };
-
   const pressHandlerSignUp = async () => {
     if (!name || !email || !phoneNumber || !password || !confirmPassword || !city) {
     alert("All fields are required");
@@ -64,12 +41,13 @@ const SignupPageHospital: FC<{ navigation: any }> = ({ navigation }) => {
       name: name,
       password: password,
       userType:'hospital',
-      //avatarUrl: avatarUri
+      hospitalQuantity:hospitalQuantity,
       phoneNumber:phoneNumber,
+      description:description,
       city:city
     }
     try{
-      await AuthModel.register(user)
+      await AuthModel.registerHospital(user)
       console.log('success signup signUpPage')
     } catch(err) {
       console.log('fail signup' + err)

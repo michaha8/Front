@@ -13,6 +13,7 @@ import AuthModel from "../model/AuthModel";
 AuthModel
 
 const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
+
   const [name, setName] = useState<string>("St. Mary's Hospital");
   const [email, setEmail] = useState<string>("stmaryshospital@example.com");
   const [password, setPassword] = useState<string>("password123");

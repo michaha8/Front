@@ -1,12 +1,10 @@
-import { FC } from "react";
+import React,{ FC } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import LoginPage from "./components/LoginPage";
-import SignupPage from "./components/SignupPage";
 import UserDetailsPage from "./components/UserDetailsPage";
 import CreatePostPage from "./components/CreatePostPage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import React from "react";
 import AllPostsPage from "./components/AllPostsPage";
 import SignupPageHospital from "./components/SignupPageHospital";
 import SignupPageIntern from "./components/SignupPageIntern";
@@ -29,11 +27,6 @@ const App: FC = () => {
           name="LoginPage"
           component={LoginPage}
           options={{ title: "Login" }}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="SignupPage"
-          component={SignupPage}
-          options={{ title: "Signup" }}
         ></Stack.Screen>
         <Stack.Screen
           name="UserDetailsPage"

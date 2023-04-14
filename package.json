@@ -20,7 +20,7 @@
     "form-data": "^4.0.0",
     "react": "^18.1.0",
     "react-dom": "18.1.0",
-    "react-native": "0.70.5",
+    "react-native": "0.70.8",
     "react-native-image-picker": "^5.1.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
     "react-native-loading-spinner-overlay": "^3.0.1",
@@ -36,6 +36,7 @@
     "@babel/core": "^7.12.9",
     "@types/react": "~18.0.14",
     "@types/react-native": "~0.70.6",
+    "@types/react-native-read-more-text": "^1.0.1",
     "@types/react-native-vector-icons": "^6.4.13",
     "expo": "^47.0.13",
     "typescript": "^4.6.3"

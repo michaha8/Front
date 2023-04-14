@@ -10,11 +10,11 @@ import {
   ScrollView,
   Alert,
 } from "react-native";
-import AuthModel, { User } from "../model/AuthModel";
+import AuthModel, { UserIntern } from "../model/AuthModel";
 import * as ImagePicker from 'expo-image-picker';
 
 const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
-  const [avatarUri, setAvatrUri] = useState("")
+  const [avatarUri, setAvatrUri] = useState("https://img.freepik.com/premium-vector/doctor-icon-avatar-white_136162-58.jpg?w=2000")
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -26,6 +26,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   const[GPA,setGPA]=useState<string>("")
   const[city,setCity]=useState<string>("")
   const[description,setDescription]=useState<string>("")
+  const[partnerID,setPartnerID]=useState<string>("None")
 
 
 
@@ -57,19 +58,29 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
 
   const pressHandlerSignUp = async () => {
     alert("Hi " + name + " Welcome to the app , please log in");
-    const user: User = {
+    const user: UserIntern = {
       email: email,
       name: name,
       password: password,
-      avatarUrl: avatarUri
+      avatarUrl: avatarUri,
+      id:id,
+      institution:institution,
+      description:description,
+      GPA:GPA,
+      city:city, 
+      specialization:specialization,
+      phoneNumber:phoneNumber,
+      partnerID:partnerID,
+      userType:'intern'
+
     }
     try{
-      await AuthModel.register(user)
+      await AuthModel.registerIntern(user)
       console.log('success signup signuppage')
     } catch(err) {
       console.log('fail signup' + err)
     }
-    navigation.goBack()
+    // navigation.goBack()
   };
 
   const onConfirmPasswordChange = (text: string) => {
