@@ -1,6 +1,6 @@
 import MaterialButtonPrimary from "../buttons/LogInBt"
 import MaterialButtonDark from "../buttons/LogInBt"
-import React, { Component , useEffect,FC, useState }from "react";
+import React, { Component , useEffect,FC, useState, useCallback }from "react";
 import {
   StyleSheet,
   Text,
@@ -10,6 +10,7 @@ import {
   TextInput,
   Alert,
   ScrollView,
+  KeyboardAvoidingView,
 } from "react-native";
 import AuthModel, { UserIntern,UserHospital } from "../model/AuthModel";
 import { AsyncStorage } from 'react-native';
@@ -62,7 +63,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   //   });
   //  }, [navigation]);
 
-  const pressHandlerLogin = async () => {
+  const pressHandlerLogin = useCallback(async () => {
     console.log('Press Log In BT');
     console.log('user'+userTypeCheck)
 
@@ -73,7 +74,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
        name: name,
        password: password,
        avatarUrl: avatarUri,
-       id: id,
+       idIntern: id,
        institution: institution,
        specialization: specialization,
        phoneNumber: phoneNumber,
@@ -89,6 +90,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
      console.log("RESPONSE"+JSON.stringify(response))
      if (!response) {
        console.log('login failed');
+       setIsValidEmail(false)
        Alert.alert("Wrong Email or password");
        return;
      }
@@ -103,9 +105,11 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
      const RealUser=UserApi.getUserById(id)
      console.log('RealUser' +JSON.stringify(RealUser))
      navigation.replace("HomePageIntern");
+     setIsValidEmail(false)
   
    } catch (error) {
      console.log('login failed:', error);
+     setIsValidEmail(false)
      Alert.alert("Wrong Email or password");
    }
   }
@@ -141,6 +145,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
       const RealUser=UserApi.getUserById(id)
       console.log('RealUser' +JSON.stringify(RealUser))
        navigation.replace("HomePageHospital");
+       setIsValidEmail(false)
     } catch (error) {
       console.log('login failed:', error);
       Alert.alert("Wrong Email or password");
@@ -151,17 +156,11 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
     console.log(password)
     Alert.alert("Email Dont Exist");
   }
- 
-  };
+  
+  }, [password]);
   
   
-  
-const pressHandlerLoginAsHospital=()=>{
-navigation.navigate('LogInHospital')
-}
-const pressHandlerLoginAsIntern=()=>{
-  navigation.navigate('LogInIntern')
-}
+
   const pressHandlerSignUpHospital = () => {
     navigation.navigate("SignupPageHospital");
   };
@@ -169,10 +168,7 @@ const pressHandlerLoginAsIntern=()=>{
     navigation.navigate("SignupPageIntern");
   };
   const pressHandlerForgetPassword = () => {
-    //navigation.navigate("forgetPassword");
-    // navigation.navigate('HomePageHospital')
-    navigation.navigate('AllPostsPage')
-    //navigation.navigate('HomePageIntern')
+    navigation.navigate("forgetPassword");
   };
   const pressHandlerSendEmail=async()=>{
     console.log('try Log In '+ userEmail)
@@ -186,52 +182,77 @@ const pressHandlerLoginAsIntern=()=>{
       return undefined
    
   }
+ 
   return (
-    <ScrollView>
-      <View style={styles.container}>
-        <TextInput
+<ScrollView>
+  {isValidEmail ? (
+       <KeyboardAvoidingView style={styles.container} behavior='padding'>
+       <ScrollView>
+       <View style={styles.container}>
+         <TextInput
+         style={styles.input}
+         placeholder="Enter Email"
+         onChangeText={setEmail}
+         value={userEmail}
+         />
+           <TextInput
+               style={styles.input}
+               placeholder="Enter Password"
+               onChangeText={setPassword}
+               value={password}
+               secureTextEntry={true}
+               keyboardType='default'
+             />
+           <View style={styles.buttonsContainer}>
+               <TouchableOpacity style={styles.button} onPress={pressHandlerLogin}>
+                 <Text style={styles.buttonText}>{"Log In"}</Text>
+               </TouchableOpacity>
+           </View>
+         <View style={styles.buttonsContainer}>
+         <TouchableOpacity style={styles.button} onPress={pressHandlerSignUpIntern}>
+         <Text style={styles.buttonText}>{"Sign Up as Intern"}</Text>
+         </TouchableOpacity>
+         <TouchableOpacity style={styles.button} onPress={pressHandlerSignUpHospital}>
+         <Text style={styles.buttonText}>{"Sign Up as Hospital"}</Text>
+         </TouchableOpacity>
+         </View>
+         <View>
+         <TouchableOpacity style={styles.FPBT}onPress={pressHandlerForgetPassword}>
+         <Text style={styles.buttonTextFPBT}>{"Forget Password?"}</Text>
+         </TouchableOpacity>
+         </View>
+         </View>
+     </ScrollView>
+     </KeyboardAvoidingView>
+  ) : (
+    <View style={styles.container}>
+      <TextInput
         style={styles.input}
         placeholder="Enter Email"
         onChangeText={setEmail}
         value={userEmail}
-        />
-         {/* <View style={styles.buttonsContainer}> */}
-        <TouchableOpacity style={styles.button} onPress={pressHandlerSendEmail}>
+      />
+      <TouchableOpacity style={styles.button} onPress={pressHandlerSendEmail}>
         <Text style={styles.buttonText}>{"Send Email"}</Text>
-        </TouchableOpacity>
-        <View style={styles.buttonsContainer}>
+      </TouchableOpacity>
+      <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={pressHandlerSignUpIntern}>
-        <Text style={styles.buttonText}>{"Sign Up as Intern"}</Text>
+          <Text style={styles.buttonText}>{"Sign Up as Intern"}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={pressHandlerSignUpHospital}>
-        <Text style={styles.buttonText}>{"Sign Up as Hospital"}</Text>
+          <Text style={styles.buttonText}>{"Sign Up as Hospital"}</Text>
         </TouchableOpacity>
-        </View>
-        <View>
+      </View>
+      <View>
         <TouchableOpacity style={styles.FPBT}onPress={pressHandlerForgetPassword}>
-        <Text style={styles.buttonTextFPBT}>{"Forget Password?"}</Text>
+          <Text style={styles.buttonTextFPBT}>{"Forget Password?"}</Text>
         </TouchableOpacity>
-        </View>
-        {isValidEmail ?(
-          <View>
-                 <TextInput
-              style={styles.input}
-              placeholder="Enter Password"
-              onChangeText={setPassword}
-              value={password}
-              secureTextEntry={true}
-            />
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.button} onPress={pressHandlerLogin}>
-                <Text style={styles.buttonText}>{"Log In"}</Text>
-              </TouchableOpacity>
-          </View>
-          </View>
-        ):(
-          <Text>Wrong</Text>
-        )}
-        </View>
-    </ScrollView>
+      </View>
+    </View>
+  )}
+</ScrollView>
+  
+  
   );
 }
 

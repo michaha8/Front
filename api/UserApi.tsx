@@ -10,6 +10,13 @@ const getUserById = async (userId:String) => {
 const getUserTypeByEmail = async (userEmail: string) => {
   return apiClient.get("user/email/"+ userEmail);
 };
+const getUserByEmail = async (userEmail: string) => {
+    return apiClient.get("user/email/"+ userEmail);
+  };
+const getAllInternsUsers= async()=>{
+    console.log('getAllInternsUsers')
+    return apiClient.get('user/')
+}
 
 const addNewPost = async (postJson:any) => {
     return apiClient.post("post/" , postJson)
@@ -23,4 +30,4 @@ const upadteUser = async (userUpdatJson:any) => {
     return apiClient.put("user/",userUpdatJson)
 }
 
-export default {uploadImage, getUserById,addNewPost,getAllPosts,upadteUser,getUserTypeByEmail};
+export default {uploadImage, getUserById,addNewPost,getAllPosts,upadteUser,getUserTypeByEmail,getAllInternsUsers,getUserByEmail };

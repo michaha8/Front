@@ -13,7 +13,7 @@ import ReadMore from 'react-native-read-more-text';
 import AuthModel from "../model/AuthModel";
 import AsyncStorage from '@react-native-async-storage/async-storage'
 import { CommonActions } from '@react-navigation/native';
-import UserModel, { UserUpdate } from "../model/UserModel";
+import UserModel, { UserUpdateIntern } from "../model/UserModel";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
 
@@ -91,7 +91,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       if (!result.cancelled) {
         setAvatrUri(result.uri);
         const id_ = await AsyncStorage.getItem('id')
-        const up : UserUpdate = {
+        const up : UserUpdateIntern = {
           id: id_,
           idIntern:idIntern,
           educationalInstitution:institution,
@@ -106,7 +106,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
           avatarUrl: result.uri
         }
         try{
-          const res = await UserModel.upadteUser(up)
+          const res = await UserModel.upadteUserIntern(up)
           console.log("update user success")
         } catch(err){
           console.log("update user failed " + err)
@@ -144,7 +144,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
 
   const handleSaveToMongoo = async () => {
     const id_ = await AsyncStorage.getItem('id')
-    const up : UserUpdate = {
+    const up : UserUpdateIntern = {
       id: id_,
           idIntern:idIntern,
           educationalInstitution:institution,
@@ -160,24 +160,18 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     }
     console.log(up)
     try{
-      const res = await UserModel.upadteUser(up)
+      const res = await UserModel.upadteUserIntern(up)
       console.log("update user success")
     } catch(err){
       console.log("update user failed " + err)
     }
   };
-    const handleEditDetails = () => {
-        // navigate to edit details screen
-        navigation.navigate('EditDetailsScreen');
-      }
+ 
     
       const handleWatchHospitals = () => {
-        // navigate to watch hospitals screen
-        navigation.navigate('WatchHospitalsScreen');
-      }
-      const handleLogOut = () => {
-        // navigate to watch hospitals screen
-        navigation.navigate('LoginPage');
+        
+    navigation.navigate('AllPostsPage')
+
       }
     
       const handleAddPartner = () => {
@@ -307,10 +301,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
        
           <TouchableOpacity
             style={styles.button}
-            onPress={() => {
-              AuthModel.logout();
-              navigation.replace("Auth");
-            }}
+            onPress={handleWatchHospitals}
           >
             <Text style={styles.buttonText}>Watch Interns and choose preference</Text>
           </TouchableOpacity>
@@ -385,6 +376,10 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         flexDirection: "row",
         alignItems: "center",
         marginBottom: 20,
+        borderWidth: 2,
+        borderRadius: 10,
+        padding:12,
+        borderColor:'black',
         flexWrap: 'wrap'
       },
     label: {
@@ -408,9 +403,8 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     },
     input: {
     fontSize: 18,
-    borderBottomWidth: 1,
-    borderColor: "black",
     padding: 5,
+    borderRadius: 10,
     marginRight: 10,
     flex: 1,
     },

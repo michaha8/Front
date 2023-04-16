@@ -12,20 +12,30 @@ export type UserHospital = {
  // avatarUrl: String
   description:String
 }
-export type UserIntern = {
-  email: String,
-  name: String,
-  password: String,
-  avatarUrl: String
-}
+
 
 export type Post = {
   message: String,
   sender: String,
   avatarUrl: String
 }
+export type UserIntern = {
+  idIntern: String,
+  email: String,
+  name: String,
+  password: String,
+  avatarUrl: String,
+  institution:String,
+  specialization:String,
+  phoneNumber:String,
+  GPA:String,
+  city:String,
+  description:String,
+  partnerID:String,
+  userType:'intern'  
 
-export type UserUpdate = {
+}
+export type UserUpdateIntern = {
   id: any,
   idIntern:String,
   name: String,
@@ -56,6 +66,28 @@ const getUserTypeByEmail = async (email: string) => {
       return null;
     } else {
     return res.data.userType;
+    }
+  } catch (err) {
+    console.log('fail getting user from db by email ' + err);
+    return null;
+  }
+};
+const getUserbyEmail = async (email: string) => {
+  console.log('getUserTypeByEmail')
+  console.log(email)
+  // if (!email) {
+  //   console.log("User email WRONG");
+  //   return null;
+  // }
+  try {
+    console.log('im here')
+    const res = await UserApi.getUserTypeByEmail(email);
+    console.log('resrrrr'+ JSON.stringify(res))
+    if (!res.ok) {
+      console.log("fail getting user from db by email");
+      return null;
+    } else {
+    return res.data
     }
   } catch (err) {
     console.log('fail getting user from db by email ' + err);
@@ -128,6 +160,51 @@ const addNewPost = async (post:Post)=>{
   }
 }
 
+const getAllInternsUsers=async()=>{
+  const res:any = await UserApi.getAllInternsUsers()
+  console.log('res')
+  console.log('res')
+  console.log('res')
+  console.log('res')
+
+  console.log(res)
+  let d = Array<UserIntern>()
+  if (res.data) {
+    res.data.forEach((obj: any) => {
+      const s = obj.avatarUrl
+        const p: UserIntern = {
+         idIntern:obj.idIntern,
+         name:obj.name, email: obj.email,
+         city: obj.city,
+                     institution: obj.educationalInstitution,
+                     specialization: obj.typeOfInternship,
+                     GPA: obj.GPA,
+                     description: obj.description,
+                     partnerID: obj.partnerID,
+                     phoneNumber:obj.phoneNumber,
+                     userType:obj.userType,
+                     password:obj.password,
+
+          avatarUrl: s
+        }
+        console.log(`obj`)
+        console.log(obj)
+        d.push(p)
+        console.log('res')
+        console.log('res')
+        console.log('res')
+        console.log('res')
+        console.log('p')
+        console.log(p)
+        
+    });
+}
+console.log('res')
+console.log('res')
+console.log(d)
+console.log('res')
+return d
+}
 const getAllPosts = async () => {
   const res:any = await UserApi.getAllPosts()
   let d = Array<Post>()
@@ -148,7 +225,7 @@ const getAllPosts = async () => {
   return d
 }
 
-const upadteUser = async (user_update:UserUpdate) => {
+const upadteUserIntern = async (user_update:UserUpdateIntern) => {
   const data = {
     id: user_update.id,
     idIntern:user_update.idIntern,
@@ -174,4 +251,4 @@ const upadteUser = async (user_update:UserUpdate) => {
 }
 
 
-export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUser,getUserTypeByEmail}
+export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail,getAllInternsUsers,getUserbyEmail}

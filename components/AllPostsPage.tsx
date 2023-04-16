@@ -1,24 +1,45 @@
 import React from 'react';
 import { FC, useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler } from 'react-native';
+import { UserIntern } from '../model/AuthModel';
 import UserModel, { Post } from '../model/UserModel';
 
 
-const ListItem: FC<{ message: String, sender: String, avatarUrl: String, onRowSelected: (sender: String) => void }> =
-    ({ message, sender, avatarUrl, onRowSelected }) => {
+const ListItem: FC<{ idIntern: String,
+     name: String, 
+     avatarUrl: String,email:String,
+     city:String ,
+     educationalInstitution: String,
+    typeOfInternship: String,
+    GPA: String,
+    password:String, institution:String, specialization:String, userType:String,
+    description: String,
+    partnerID: String,
+    phoneNumber:String, onRowSelected: (id: String) => void }> =
+    ({ name, city, avatarUrl,educationalInstitution,typeOfInternship,email,GPA,description,partnerID,idIntern,phoneNumber, onRowSelected }) => {
         const onClick = () => {
-            console.log('int he row: row was selected ' + sender)
+            console.log('int he row: row was selected ' + email)
             console.log('int he row: avatrUrl ' + avatarUrl)
-            onRowSelected(sender)
+            onRowSelected(email)
         }
 
         const [userPic, setPic] = useState<String>("");
-        const [userName, setName] = useState<String>("");
+        const [emailU, setEmail] = useState<string>("");
+        const [password, setPassword] = useState<string>("");
+         const [nameU, setName] = useState<string>("");
+        const[idInternU,setIDIntern]=useState<string>("");
+        const[institution,setInstitution]=useState<string>("");
+         const[specialization,setSpecialization]=useState<string>("")
+        const[phoneNumberU,setPhoneNuber]=useState<string>("")
+         const[GPAU,setGPA]=useState<string>("")
+         const[cityU,setCity]=useState<string>("")
+         const[partnerIDU,setPartnerID]=useState<string>("")
+        const[descriptionU,setDescription]=useState<string>(``)
 
         const getUserDetails = async ()=>{
             try{
-                console.log("sender : "+sender)
-                const user = await UserModel.getUserById(sender)
+                console.log("sender : "+ name)
+                const user = await UserModel.getUserbyEmail(email)
                 console.log("getting user by ID " + user)
                 setName(user[0])
                 setPic(user[1])
@@ -38,10 +59,16 @@ const ListItem: FC<{ message: String, sender: String, avatarUrl: String, onRowSe
                     {avatarUrl != "" && <Image style={styles.listRowImage} source={{ uri: avatarUrl.toString() }} />}
 
                     <View style={styles.listRowTextContainer}>
-                        <Text style={styles.listRowName}>{message}</Text>
+                        <Text style={styles.iconLabel}>{name}</Text>
+                        <Text style={styles.iconLabel}>Email-{email}</Text>
                         <View style={styles.userDetailsRow}>
                         <Image style={styles.profilePicture} source={{ uri: userPic }}/>
-                        <Text style={styles.listRowId}>{userName}</Text> 
+                        <Text style={styles.iconLabel}>{idIntern}</Text> 
+                        <Text style={styles.iconLabel}>{GPA}</Text> 
+                        <Text style={styles.iconLabel}>{description}</Text> 
+                        <Text style={styles.iconLabel}>{partnerID}</Text> 
+                        <Text style={styles.iconLabel}>{phoneNumber}</Text> 
+                        <Text style={styles.iconLabel}>{email}</Text> 
                         </View>
                     </View>
                 </View>
@@ -55,34 +82,45 @@ const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }
         console.log("in the list: row was selected " + sender)
     }
 
-    const [posts, setPosts] = useState<Array<Post>>();
+    const [users, setUsers] = useState<Array<UserIntern>>();
 
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
             console.log('focus')
-            let posts: Post[] = []
+            let useres: UserIntern[] = []
             try {
-              posts = await UserModel.getAllPosts()
-                console.log("fetching posts complete")
+                console.log('getAllInternsUsers')
+              useres = await UserModel.getAllInternsUsers()
+                console.log("fetching Users complete")
             } catch (err) {
-                console.log("fail fetching posts " + err)
+                console.log("fail fetching Users " + err)
             }
             console.log("fetching finish")
-            setPosts(posts)
+            setUsers(useres)
         })
         return unsubscribe
     })
 
-
+const handelr= async()=>{
+    console.log("presssssssss")
+   const x=await  UserModel.getAllInternsUsers()
+   console.log(x)
+}
     return (
+        <>
+         <View style={styles.card}>
         <FlatList style={styles.flatlist}
-            data={posts}
-            keyExtractor={post => post.sender.toString()}
+            data={users}
+            keyExtractor={userIntern => userIntern.name.toString()}
             renderItem={({ item }) => (
-                <ListItem message={item.message} sender={item.sender} avatarUrl={item.avatarUrl} onRowSelected={onRowSelected} />
+                <ListItem  GPA={item.GPA} city={item.city} description={item.description} institution={item.institution} specialization={item.specialization} name={item.name} idIntern={item.idIntern} email={item.email} avatarUrl={item.avatarUrl} onRowSelected={onRowSelected} educationalInstitution={item.institution} typeOfInternship={item.specialization} password={item.password} userType={item.userType} partnerID={item.partnerID} phoneNumber={item.phoneNumber} />
             )}
         >
         </FlatList>
+    </View>
+    
+        </>
+     
     );
 };
 
@@ -91,7 +129,7 @@ const styles = StyleSheet.create({
     container: {
         marginTop: StatusBar.currentHeight,
         flex: 1,
-        backgroundColor: 'grey',
+        backgroundColor: 'white',
     },
     flatlist: {
         flex: 1,
@@ -99,14 +137,15 @@ const styles = StyleSheet.create({
     listRow: {
         margin: 4,
         flexDirection: "row",
-        height: 150,
-        elevation: 1,
+        height: 180,
+        elevation: 4,
         borderRadius: 2,
     },
     userDetailsRow: {
         flexDirection: "row",
         height: 40,
         alignItems:'flex-start'
+        ,alignSelf:'center'
     },
     listRowImage: {
         margin: 10,
@@ -116,7 +155,7 @@ const styles = StyleSheet.create({
     },
     listRowTextContainer: {
         flex: 1,
-        margin: 10,
+        margin: 20,
         justifyContent: "space-around"
     },
     listRowName: {
@@ -130,6 +169,32 @@ const styles = StyleSheet.create({
         height: 35,
         borderRadius: 75,
         marginEnd: 20
+      },
+      card: {
+        backgroundColor: '#fff',
+        borderRadius: 10,
+        padding: 20,
+        flexDirection: 'row',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        shadowColor: '#000',
+        shadowOffset: { width: 0, height: 2 },
+        shadowOpacity: 0.25,
+        shadowRadius: 3.84,
+        elevation: 5,
+      },
+      iconContainer: {
+        alignItems: 'center',
+      },
+      icon: {
+        width: 50,
+        height: 50,
+        marginBottom: 10,
+      },
+      iconLabel: {
+        fontSize: 16,
+        fontWeight: 'bold',
+        textAlign: 'center',
       },
 });
 

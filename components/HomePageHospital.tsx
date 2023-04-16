@@ -13,7 +13,7 @@ import ReadMore from 'react-native-read-more-text';
 import AuthModel from "../model/AuthModel";
 import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import UserModel, { UserUpdate } from "../model/UserModel";
+import UserModel, { UserUpdateIntern } from "../model/UserModel";
 
 const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
 
