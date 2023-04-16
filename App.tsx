@@ -1,6 +1,8 @@
 import React,{ FC } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import LoginPage from "./components/LoginPage";
+import LoginPageAsIntern from "./components/LoginPageAsIntern";
+import LoginPageAsHospital from "./components/LoginPageAsHospital";
 import UserDetailsPage from "./components/UserDetailsPage";
 import CreatePostPage from "./components/CreatePostPage";
 import { NavigationContainer } from "@react-navigation/native";
@@ -37,6 +39,16 @@ const App: FC = () => {
           name="CreatePostPage"
           component={CreatePostPage}
           options={{ title: "Create Post" }}
+        ></Stack.Screen>
+         <Stack.Screen
+          name="LogInIntern"
+          component={LoginPageAsIntern}
+          options={{ title: "LogInIntern" }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="LogInHospital"
+          component={LoginPageAsHospital}
+          options={{ title: "LogInHospital" }}
         ></Stack.Screen>
         <Stack.Screen
           name="AllPostsPage"

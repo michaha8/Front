@@ -7,6 +7,9 @@ const uploadImage = async (image: any) => {
 const getUserById = async (userId:String) => {
     return apiClient.get("user/" + userId)
 }
+const getUserTypeByEmail = async (userEmail: string) => {
+  return apiClient.get("user/email/"+ userEmail);
+};
 
 const addNewPost = async (postJson:any) => {
     return apiClient.post("post/" , postJson)
@@ -20,4 +23,4 @@ const upadteUser = async (userUpdatJson:any) => {
     return apiClient.put("user/",userUpdatJson)
 }
 
-export default {uploadImage, getUserById,addNewPost,getAllPosts,upadteUser};
+export default {uploadImage, getUserById,addNewPost,getAllPosts,upadteUser,getUserTypeByEmail};

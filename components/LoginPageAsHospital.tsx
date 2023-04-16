@@ -14,7 +14,6 @@ import {
 import AuthModel, { UserIntern,UserHospital } from "../model/AuthModel";
 import { AsyncStorage } from 'react-native';
 import UserApi from "../api/UserApi";
-import UserModel from "../model/UserModel";
 // const getUserTypeById = async (id: string): Promise<string | undefined> => {
 //   try {
 //     // Retrieve user ID from AsyncStorage
@@ -51,65 +50,18 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   const[city,setCity]=useState<string>("")
   const[description,setDescription]=useState<string>("")
   const[partnerID,setPartnerID]=useState<string>("")
-  const [isValidEmail, setIsValidEmail] = useState(false);
-  const[userTypeCheck,setUserType]=useState<string>("")
   //Stay LoggedIn
-  //  useEffect(() => {
-  //    AsyncStorage.getItem('refreshToken').then(async token => {
-  //      if (token) {
-  //        navigation.replace("UserDetailsPage");
-  //      }
-  //   });
-  //  }, [navigation]);
-
+   useEffect(() => {
+     AsyncStorage.getItem('refreshToken').then(async token => {
+       if (token) {
+         navigation.replace("HomePageHospital");
+       }
+    });
+   }, [navigation]);
+  
   const pressHandlerLogin = async () => {
     console.log('Press Log In BT');
-    console.log('user'+userTypeCheck)
-
-  if(userTypeCheck==='intern'){
-    const user:  UserIntern =
-    {
-       email: userEmail,
-       name: name,
-       password: password,
-       avatarUrl: avatarUri,
-       id: id,
-       institution: institution,
-       specialization: specialization,
-       phoneNumber: phoneNumber,
-       GPA: GPA,
-       city: city,
-       description: description,
-       partnerID: partnerID,
-       userType: 'intern'
-     }
-     console.log("USER " +JSON.stringify(user))
-   try {
-     const response = await AuthModel.login(user);
-     console.log("RESPONSE"+JSON.stringify(response))
-     if (!response) {
-       console.log('login failed');
-       Alert.alert("Wrong Email or password");
-       return;
-     }
- 
-     const [accessToken, id, refreshToken, userType] = response;
-     console.log(user)
-     
-     console.log('userType:', user.userType);
-     await AsyncStorage.setItem('accessToken', accessToken);
-     await AsyncStorage.setItem('id', id);
-     await AsyncStorage.setItem('refreshToken', refreshToken);
-     const RealUser=UserApi.getUserById(id)
-     console.log('RealUser' +JSON.stringify(RealUser))
-     navigation.replace("HomePageIntern");
   
-   } catch (error) {
-     console.log('login failed:', error);
-     Alert.alert("Wrong Email or password");
-   }
-  }
-  else if(userTypeCheck==='hospital'){
     const user:  UserHospital = 
       {
         email: userEmail,
@@ -145,23 +97,9 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
       console.log('login failed:', error);
       Alert.alert("Wrong Email or password");
     }
-  }
-  else{
-    console.log(userEmail)
-    console.log(password)
-    Alert.alert("Email Dont Exist");
-  }
- 
   };
   
-  
-  
-const pressHandlerLoginAsHospital=()=>{
-navigation.navigate('LogInHospital')
-}
-const pressHandlerLoginAsIntern=()=>{
-  navigation.navigate('LogInIntern')
-}
+
   const pressHandlerSignUpHospital = () => {
     navigation.navigate("SignupPageHospital");
   };
@@ -174,18 +112,7 @@ const pressHandlerLoginAsIntern=()=>{
     navigation.navigate('AllPostsPage')
     //navigation.navigate('HomePageIntern')
   };
-  const pressHandlerSendEmail=async()=>{
-    console.log('try Log In '+ userEmail)
-    const type= await UserModel.getUserTypeByEmail(userEmail)
-    console.log('try Log In type '+ JSON.stringify(type))
-    setUserType(type)
-    if(type){
-    setIsValidEmail(true)
-    return type}
-    else
-      return undefined
-   
-  }
+
   return (
     <ScrollView>
       <View style={styles.container}>
@@ -195,13 +122,16 @@ const pressHandlerLoginAsIntern=()=>{
         onChangeText={setEmail}
         value={userEmail}
         />
-         {/* <View style={styles.buttonsContainer}> */}
-        <TouchableOpacity style={styles.button} onPress={pressHandlerSendEmail}>
-        <Text style={styles.buttonText}>{"Send Email"}</Text>
-        </TouchableOpacity>
+        <TextInput
+        style={styles.input}
+        placeholder="Enter Password"
+        onChangeText={setPassword}
+        value={password}
+        secureTextEntry={true} 
+        />
         <View style={styles.buttonsContainer}>
-        <TouchableOpacity style={styles.button} onPress={pressHandlerSignUpIntern}>
-        <Text style={styles.buttonText}>{"Sign Up as Intern"}</Text>
+        <TouchableOpacity style={styles.button} onPress={pressHandlerLogin}>
+        <Text style={styles.buttonText}>{"Log in As Hospital"}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={pressHandlerSignUpHospital}>
         <Text style={styles.buttonText}>{"Sign Up as Hospital"}</Text>
@@ -212,25 +142,42 @@ const pressHandlerLoginAsIntern=()=>{
         <Text style={styles.buttonTextFPBT}>{"Forget Password?"}</Text>
         </TouchableOpacity>
         </View>
-        {isValidEmail ?(
-          <View>
-                 <TextInput
-              style={styles.input}
-              placeholder="Enter Password"
-              onChangeText={setPassword}
-              value={password}
-              secureTextEntry={true}
-            />
-            <View style={styles.buttonsContainer}>
-              <TouchableOpacity style={styles.button} onPress={pressHandlerLogin}>
-                <Text style={styles.buttonText}>{"Log In"}</Text>
-              </TouchableOpacity>
-          </View>
-          </View>
-        ):(
-          <Text>Wrong</Text>
-        )}
-        </View>
+
+      </View>
+
+
+
+
+      
+    {/* <View style={styles.container}>
+      <View style={styles.rect}>
+        <TextInput placeholder="Enter Email"
+         style={styles.textInputEmail} 
+          onChangeText={onText1Change}
+         value={userEmail}></TextInput>
+      </View>
+      <View style={styles.rect1}>
+        <TextInput placeholder="Enter Password" 
+        style={styles.textInputPassword} 
+        secureTextEntry={true} 
+        onChangeText={onText2Change} 
+        value={password}
+        ></TextInput>
+      </View>
+      <View style={styles.materialButtonPrimary}>
+      <TouchableOpacity style={[styles.containerBt]} onPress={pressHandlerLogin}>
+      <Text style={styles.caption}>{"Log In"}</Text>
+    </TouchableOpacity>
+    </View>
+      <View style={styles.materialButtonDarkRow}>
+        <TouchableOpacity style={styles.containerBt} onPress={pressHandlerSignUpIntern}>
+        <Text style={styles.caption}>{"Sign Up as Intern"}</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.containerBt} onPress={pressHandlerSignUpHospital}>
+        <Text style={styles.caption}>{"Sign Up as Hospital"}</Text>
+        </TouchableOpacity>
+      </View>
+    </View> */}
     </ScrollView>
   );
 }

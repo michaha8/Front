@@ -1,5 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -15,38 +15,150 @@ import AsyncStorage from '@react-native-async-storage/async-storage'
 import { CommonActions } from '@react-navigation/native';
 import UserModel, { UserUpdate } from "../model/UserModel";
 import * as ImagePicker from 'expo-image-picker';
-
+import * as Permissions from 'expo-permissions';
 
 const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
-  const [profilePicture, setProfilePicture] = useState<string>(
-    "https://img.freepik.com/premium-vector/doctor-icon-avatar-white_136162-58.jpg?w=2000"
-  );
- 
-  const [avatarUri, setAvatrUri] = useState("")
-  const [email, setEmail] = useState<string>("Intern@Gmail.com");
-  const [password, setPassword] = useState<string>("InternPassword");
-  const [confirmPassword, setConfirmPassword] = useState<string>("");
-  const [name, setName] = useState<string>("Intern");
-  const[id,setID]=useState<string>("123123123");
-  const[institution,setInstitution]=useState<string>("SCE");
-  const[specialization,setSpecialization]=useState<string>("cardio")
-  const[phoneNumber,setPhoneNuber]=useState<string>("0525513098")
-  const[GPA,setGPA]=useState<string>("85")
-  const[city,setCity]=useState<string>("Holon")
+  const [avatarUri, setAvatrUri] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const[idIntern,setIDIntern]=useState<string>("");
+  const[institution,setInstitution]=useState<string>("");
+  const[specialization,setSpecialization]=useState<string>("")
+  const[phoneNumber,setPhoneNuber]=useState<string>("")
+  const[GPA,setGPA]=useState<string>("")
+  const[city,setCity]=useState<string>("")
+  const[partnerID,setPartnerID]=useState<string>("")
   var UriAfretChange = ""
-  const[description,setDescription]=useState<string>(`Im intern my GPA is ${GPA}, live in ${city}, my 
-  speclization in ${specialization}.......................................................`)
+  const[description,setDescription]=useState<string>(``)
 
+
+
+
+  const loadUser = async ()=>{
+    const id = await AsyncStorage.getItem('id')
+    const res = await UserModel.getUserById(id)
+    setName(res[0])
+    setCity(res[1])
+    setEmail(res[2])
+    setDescription(res[3])
+    setGPA(res[4])
+    setPhoneNuber(res[5])
+    setAvatrUri(res[6])
+    setInstitution(res[7])
+    setIDIntern(res[11])
+    setPartnerID(res[9])
+    setSpecialization(res[10])
+    
+    
+  }
+
+  useEffect(() => {
+    try{
+      loadUser()
+    } catch(err) {
+      console.log('fail signup' + err)
+    }
+  }, []);
+  async function clearStorage() {
+    await AsyncStorage.clear();
+  }
+  const pressHandlerLogOut = async () => {
+    console.log("Logging out...");
+    await AuthModel.logout();
+    console.log("Clearing storage...");
+    await clearStorage();
+    console.log("Resetting navigation stack...");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'LoginPage' }],
+      })
+    );
+    console.log("Loading user details...");
+    loadUser();
+  };
   const handleEditPicture = async () => {
-    console.log("before: " + profilePicture)
+    let result: any;
     await handleTakePhoto()
-    console.log("after: " +profilePicture)
+    try {
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      if (!result.cancelled) {
+        setAvatrUri(result.uri);
+        const id_ = await AsyncStorage.getItem('id')
+        const up : UserUpdate = {
+          id: id_,
+          idIntern:idIntern,
+          educationalInstitution:institution,
+          partnerID:partnerID,
+          typeOfInternship:specialization,
+          description:description,
+          phoneNumber:phoneNumber,
+          GPA:GPA,
+          city:city,
+          name: name,
+          email:email,
+          avatarUrl: result.uri
+        }
+        try{
+          const res = await UserModel.upadteUser(up)
+          console.log("update user success")
+        } catch(err){
+          console.log("update user failed " + err)
+        }
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  
+ 
+
+ const handleTakePhoto = async () => {
+    const { status } = await Permissions.askAsync(Permissions.CAMERA);
+    if (status !== 'granted') {
+      console.log('Camera permission not granted');
+      return;
+    }
+  
+    try {
+      console.log('open camera');
+      const res = await ImagePicker.launchCameraAsync();
+      if (!res.cancelled && res.assets.length > 0) {
+        const uri = res.assets[0].uri;
+        UriAfretChange = uri;
+        console.log('while: ' + uri);
+        console.log('while: ' + UriAfretChange);
+        setAvatrUri(uri);
+        console.log('while pp: ' + avatarUri);
+      }
+    } catch (err) {
+      console.log('open camera error' + err);
+    }
+  };
+
+  const handleSaveToMongoo = async () => {
     const id_ = await AsyncStorage.getItem('id')
     const up : UserUpdate = {
       id: id_,
-      name: fullName,
-      avatarUrl: UriAfretChange
+          idIntern:idIntern,
+          educationalInstitution:institution,
+          partnerID:partnerID,
+          typeOfInternship:specialization,
+          description:description,
+          GPA:GPA,
+          city:city,
+          name: name,
+          phoneNumber:phoneNumber,
+          email:email,
+          avatarUrl: avatarUri
     }
+    console.log(up)
     try{
       const res = await UserModel.upadteUser(up)
       console.log("update user success")
@@ -54,27 +166,6 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       console.log("update user failed " + err)
     }
   };
-  
-  const handleTakePhoto = async () => {
-    try{
-      const res = await ImagePicker.launchCameraAsync()
-      if(!res.canceled && res.assets.length > 0){
-        const uri = res.assets[0].uri;
-        UriAfretChange = uri
-        console.log("while: " + uri)
-        console.log("while: " + UriAfretChange)
-        setProfilePicture(uri)
-        console.log("while pp: " + profilePicture)
-      }
-    }catch(err){
-      console.log("open camera error" + err)
-    }
-  };
-  async function clearStorage() {
-    await AsyncStorage.clear();
-  }
-
-
     const handleEditDetails = () => {
         // navigate to edit details screen
         navigation.navigate('EditDetailsScreen');
@@ -106,9 +197,13 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         const [isExpanded, setIsExpanded] = useState(false);
         
       
-        const handleSave = () => {
+        const handleSave = async () => {
           setIsEditing(false);
           onChange(tempValue);
+          console.log("Handle Save")
+          const res =await handleSaveToMongoo()
+          console.log(res)
+
         };
       
         const handleCancel = () => {
@@ -180,14 +275,14 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         <View style={styles.rootContainer}>
         <ScrollView>
           <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={handleLogOut}>
+          <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
       <AntDesign name="logout" size={24} color="black" />
         </TouchableOpacity>
           <View style={styles.profilePictureContainer}>
-        <Image style={styles.profilePicture} source={{ uri: profilePicture }} />
+        <Image style={styles.profilePicture} source={{ uri: avatarUri }} />
         <View style={styles.editButtonContainer}>
           <TouchableOpacity onPress={handleEditPicture}>
-            <AntDesign name="picture" size={24} color="black" />
+            <AntDesign name="picture" size={50} color="black" />
           </TouchableOpacity>
         </View>
       </View>
@@ -196,7 +291,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     <Value label="Password" value={password} onChange={setPassword} />
     <Value label="Phone Number" value={phoneNumber} onChange={setPhoneNuber} />
     <Value label="City" value={city} onChange={setCity} />
-    <Value label="ID" value={id} onChange={setID} />
+    <Value label="ID" value={idIntern} onChange={setIDIntern} />
     <Value label="institution" value={institution} onChange={setInstitution} />
     <Value label="specialization" value={specialization} onChange={setSpecialization} />
     <Value label="GPA" value={GPA} onChange={setGPA} />
@@ -240,13 +335,13 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     },
     profilePictureContainer: {
       marginVertical: 20,
-    }, profilePicture: {
+    }, profilePicture1: {
       width: 110,
       height: 110,
       borderRadius: 50,
       borderWidth: 3,
       borderColor: "black",
-    },  editButtonContainer: {
+    },  editButtonContainer1: {
       position: "absolute",
       width: 40,
       height: 40,
@@ -327,6 +422,32 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       flexDirection: "row",
       alignSelf: "baseline",
       borderRadius: 100,
+    },
+    editButtonContainer: {
+      position: "absolute",
+      width: 40,
+      height: 40,
+      borderRadius: 25,
+      backgroundColor: "#f5f5f5",
+      justifyContent: "center",
+      alignItems: "center",
+      right: 10,
+      bottom: 10,
+      elevation: 2,
+      shadowColor: "#000",
+      shadowOffset: {
+        width: 0,
+        height: 2,
+      },
+      shadowOpacity: 0.25,
+      shadowRadius: 3.84,
+    }, 
+    profilePicture: {
+      width: 150,
+      height: 150,
+      borderRadius: 10,
+      borderWidth: 3,
+      borderColor: "black",
     },
     });
 

@@ -19,7 +19,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
-  const[id,setID]=useState<string>("");
+  const[idIntern,setIDIntern]=useState<string>("");
   const[institution,setInstitution]=useState<string>("");
   const[specialization,setSpecialization]=useState<string>("")
   const[phoneNumber,setPhoneNuber]=useState<string>("")
@@ -63,7 +63,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
       name: name,
       password: password,
       avatarUrl: avatarUri,
-      id:id,
+      idIntern:idIntern,
       institution:institution,
       description:description,
       GPA:GPA,
@@ -105,9 +105,9 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
       </TouchableOpacity>
       <TextInput
         style={styles.input}
-        onChangeText={setID}
+        onChangeText={setIDIntern}
         placeholder="ID"
-        value={id}
+        value={idIntern}
       />
        <TextInput
         style={styles.input}

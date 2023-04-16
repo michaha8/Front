@@ -1,5 +1,5 @@
 import { AntDesign } from "@expo/vector-icons";
-import React, { FC, useState } from "react";
+import React, { FC, useEffect, useState } from "react";
 import {
   StyleSheet,
   Text,
@@ -8,20 +8,24 @@ import {
   View,
   ScrollView,
 } from "react-native";
+import bcrypt from 'bcrypt'
 import ReadMore from 'react-native-read-more-text';
 import AuthModel from "../model/AuthModel";
-AuthModel
+import { CommonActions } from '@react-navigation/native';
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import UserModel, { UserUpdate } from "../model/UserModel";
 
 const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
 
-  const [name, setName] = useState<string>("St. Mary's Hospital");
-  const [email, setEmail] = useState<string>("stmaryshospital@example.com");
-  const [password, setPassword] = useState<string>("password123");
-  const [phoneNumber, setPhoneNumber] = useState<string>("123-456-7890");
-  const [city, setCity] = useState<string>("New York");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+  const [phoneNumber, setPhoneNumber] = useState<string>("");
+  const [city, setCity] = useState<string>("");
   const [description, setDescription] = useState<string>(
-    "St. Mary's Hospital is a leading healthcare provider in New York, offering advanced medical care and cutting-edge technology."
+    ""
   );
+  const [hospitalQuantity,setHospitalQuantity]= useState<string>("");
   const [tempName, setTempName] = useState(name);
   const [tempEmail, setTempEmail] = useState(email);
   const [tempPassword, setTempPassword] = useState(password);
@@ -30,8 +34,43 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
   const [tempDescription, setTempDescription] = useState(description);
 
  
+  const loadUser = async ()=>{
+    const id = await AsyncStorage.getItem('id')
+    const res = await UserModel.getUserById(id)
+    setName(res[0])
+    setCity(res[1])
+    setEmail(res[2])
+    setDescription(res[3])
+    setHospitalQuantity(res[4])
+    setPhoneNumber(res[5])
+    
+  }
 
-
+  useEffect(() => {
+    try{
+      loadUser()
+    } catch(err) {
+      console.log('fail signup' + err)
+    }
+  }, []);
+  async function clearStorage() {
+    await AsyncStorage.clear();
+  }
+  const pressHandlerLogOut = async () => {
+    console.log("Logging out...");
+    await AuthModel.logout();
+    console.log("Clearing storage...");
+    await clearStorage();
+    console.log("Resetting navigation stack...");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'LoginPage' }],
+      })
+    );
+    console.log("Loading user details...");
+    loadUser();
+  };
 
 interface ValueProps {
     label: string;
@@ -119,14 +158,14 @@ interface ValueProps {
     <View style={styles.rootContainer}>
     <ScrollView>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
           <Text style={styles.buttonText}>Log Out</Text>
         </TouchableOpacity>
         <Value label="Name" value={name} onChange={setName} />
 <Value label="Email" value={email} onChange={setEmail} />
-<Value label="Password" value={password} onChange={setPassword} />
 <Value label="Phone Number" value={phoneNumber} onChange={setPhoneNumber} />
 <Value label="City" value={city} onChange={setCity} />
+<Value label="Hospita Quantity" value={hospitalQuantity} onChange={setHospitalQuantity} />
 <Value label="Description" value={description} onChange={setDescription} />
 
 <View style={styles.buttonContainer}>
@@ -134,10 +173,8 @@ interface ValueProps {
     <View style={styles.buttonContainer}>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => {
-          AuthModel.logout();
-          navigation.replace("Auth");
-        }}
+        onPress={pressHandlerLogOut}
+        
       >
         <Text style={styles.buttonText}>Watch Interns and choose preference</Text>
       </TouchableOpacity>

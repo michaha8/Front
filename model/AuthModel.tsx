@@ -1,17 +1,9 @@
 import AuthApi from "../api/AuthApi";
 import apiClient from "../api/ClientApi";
 
-export type User = {
-    email: String,
-    name: String,
-    password: String,
-    //avatarUrl: String
-    userType:String,
-    phoneNumber:String,
-    city:String
-}
+
 export type UserIntern = {
-  id: String,
+  idIntern: String,
   email: String,
   name: String,
   password: String,
@@ -49,7 +41,7 @@ type UserInfo = {
 
 const registerIntern = async (user: UserIntern) => {
     const data = {
-      id:user.id,
+      idIntern:user.idIntern,
       email: user.email,
       name: user.name,
       password: user.password,
@@ -90,15 +82,51 @@ const registerHospital = async (user: UserHospital) => {
   }
 }
 
+// const login = async (user: User): Promise<string | UserInfo | any> => {
+//     const d = {
+//       email: user.email,
+//       name: user.name,
+//       password: user.password,
+//       avatarUrl: user.avatarUrl
+//     };
+//     try {
+//       const res = await AuthApi.login(d);
+//       const data: UserInfo | any = res.data;
+//       if (typeof data.id === 'undefined') {
+//         console.log('data err');
+//         return data.id as string;
+//       } else {
+//         const { accessToken, id, refreshToken } = data;
+//         const userRes = [accessToken, id, refreshToken];
+//         console.log('good data');
+//         return userRes;
+//       }
+//     } catch (err) {
+//       console.log('login failed:', err);
+//       throw err;
+//     }
+//   };
+export type User = UserIntern | UserHospital;
+export type UserLogIn={email:String,password:String}
 const login = async (user: User): Promise<string | UserInfo | any> => {
-    const d = {
+  console.log('Log In User '+JSON.stringify(user))
+  if (user.userType === 'intern') {
+    const intern = {
       email: user.email,
       name: user.name,
       password: user.password,
-      avatarUrl: user.avatarUrl
+      avatarUrl: user.avatarUrl,
+      institution: user.institution,
+      specialization: user.specialization,
+      phoneNumber: user.phoneNumber,
+      GPA: user.GPA,
+      city: user.city,
+      description: user.description,
+      partnerID: user.partnerID,
+      userType: user.userType
     };
     try {
-      const res = await AuthApi.login(d);
+      const res = await AuthApi.login(intern);
       const data: UserInfo | any = res.data;
       if (typeof data.id === 'undefined') {
         console.log('data err');
@@ -113,7 +141,38 @@ const login = async (user: User): Promise<string | UserInfo | any> => {
       console.log('login failed:', err);
       throw err;
     }
-  };
+  } else if (user.userType === 'hospital') {
+    const hospital = {
+      email: user.email,
+      name: user.name,
+      password: user.password,
+      phoneNumber: user.phoneNumber,
+      city: user.city,
+      description: user.description,
+      userType: user.userType,
+      hospitalQuantity: user.hospitalQuantity
+    };
+    try {
+      const res = await AuthApi.login(hospital);
+      const data: UserInfo | any = res.data;
+      if (typeof data.id === 'undefined') {
+        console.log('data err');
+        return data.id as string;
+      } else {
+        const { accessToken, id, refreshToken } = data;
+        const userRes = [accessToken, id, refreshToken];
+        console.log('good data');
+        return userRes;
+      }
+    } catch (err) {
+      console.log('login failed:', err);
+      throw err;
+    }
+  } else {
+    throw new Error('Invalid user type');
+  }
+};
+
 
   const logout = async (): Promise<void> => {
     console.log("logout");
