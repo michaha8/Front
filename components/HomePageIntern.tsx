@@ -31,6 +31,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   const[partnerID,setPartnerID]=useState<string>("")
   var UriAfretChange = ""
   const[description,setDescription]=useState<string>(``)
+  const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
 
 
 
@@ -49,6 +50,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     setIDIntern(res[11])
     setPartnerID(res[9])
     setSpecialization(res[10])
+    setPreferenceArray(res[11])
     
     
   }
@@ -103,7 +105,8 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
           city:city,
           name: name,
           email:email,
-          avatarUrl: result.uri
+          avatarUrl: result.uri,
+          preferenceArray:preferenceArray
         }
         try{
           const res = await UserModel.upadteUserIntern(up)
@@ -157,6 +160,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
           phoneNumber:phoneNumber,
           email:email,
           avatarUrl: avatarUri
+          ,preferenceArray:preferenceArray
     }
     console.log(up)
     try{

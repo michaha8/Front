@@ -2,7 +2,7 @@ import React from 'react';
 import { FC, useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler, TextInputComponent } from 'react-native';
 import { UserIntern } from '../model/AuthModel';
-import UserModel, { Post } from '../model/UserModel';
+import UserModel, { Post, UserUpdateIntern } from '../model/UserModel';
 import { Rating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -98,35 +98,108 @@ const ListItem: FC<{ idIntern: String,
 
 
 const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }) => {
+
+
+    let isFunctionCalledOnlyOnce = false;
+    const [avatarUri, setAvatrUri] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
+    const [email, setEmail] = useState<string>("");
+    const [name, setName] = useState<string>("");
+    const[idIntern,setIDIntern]=useState<string>("");
+    const[institution,setInstitution]=useState<string>("");
+    const[specialization,setSpecialization]=useState<string>("")
+    const[phoneNumber,setPhoneNuber]=useState<string>("")
+    const[GPA,setGPA]=useState<string>("")
+    const[city,setCity]=useState<string>("")
+    const[partnerID,setPartnerID]=useState<string>("")
+    var UriAfretChange = ""
+    const[description,setDescription]=useState<string>(``)
+    const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
+  
     const loadUser = async ()=>{
+
         //Thats way i know how is log in
         const id = await AsyncStorage.getItem('id')
         const res = await UserModel.getUserById(id)
+        setName(res[0])
+        setCity(res[1])
+        setEmail(res[2])
+        setDescription(res[3])
+        setGPA(res[4])
+        setPhoneNuber(res[5])
+        setAvatrUri(res[6])
+        setInstitution(res[7])
+        setIDIntern(res[11])
+        setPartnerID(res[9])
+        setSpecialization(res[10])
+        setPreferenceArray(res[11])
         
         console.log('USerLogIN')
         console.log(id)
         console.log(res)
 
       }
-   
+      const handlerSaveBT=async()=>{
+        setPreferenceArray(preference)
+        console.log('HANDLE SAVE '+ preferenceArray)
+        console.log('HANDLE SAVE '+ preference)
+       try{ await handleSaveToMongoo()
+       }catch(err){
+        console.log('Error Save to Mongo '+ err)
+       }
+      }
+  const handleSaveToMongoo = async () => {
+    const id_ = await AsyncStorage.getItem('id')
+    const up : UserUpdateIntern = {
+      id: id_,
+          idIntern:idIntern,
+          educationalInstitution:institution,
+          partnerID:partnerID,
+          typeOfInternship:specialization,
+          description:description,
+          GPA:GPA,
+          city:city,
+          name: name,
+          phoneNumber:phoneNumber,
+          email:email,
+          avatarUrl: avatarUri
+          ,preferenceArray:preferenceArray
+    }
+    console.log(up)
+    try{
+      const res = await UserModel.upadteUserIntern(up)
+      console.log("update user success")
+    } catch(err){
+      console.log("update user failed " + err)
+    }
+  };
    
    
     const onRowSelected = (sender: String) => {
+        if(!isFunctionCalledOnlyOnce){
+            loadUser()
+            isFunctionCalledOnlyOnce=true;
+            console.log("LOAD USER")
+        }
         console.log("in the list: row was selected " + sender)
         console.log("preference")
         console.log("preference")
         console.log("preference")
         console.log("preference")
-        loadUser()
+        // loadUser()
         console.log(preference)
+        // preference.splice(0,preference.length)
     }
-    const [preference, setPreference] = useState<Array<String>>([]);
+    const [preference, setPreference] = useState<string[]>([]);
     const [users, setUsers] = useState<Array<UserIntern>>();
     const onPreferenceChange = (index: number, name: string) => {
+    
         console.log('Index '+ index +' Name '+name)
+        console.log('preferenceAfterChane '+preference)
              setPreference(preference => {
             const c = preference.findIndex(p => p === name);
+            console.log('c '+c)
             const newPreference = [...preference];
+            console.log('newPreference '+newPreference)
             if (index === -1) {
                 newPreference[index - 1] = name;
             } else {
@@ -135,6 +208,9 @@ const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }
             }
             console.log('newPreferenceNow')
             console.log(newPreference)
+            // setPreference(newPreference)
+            console.log('preferenceAfterChane '+preference)
+            console.log(preference)
             return newPreference;
         });
     };
@@ -184,6 +260,13 @@ const handelr= async()=>{
         >
         </FlatList>
     </View>
+    <View style={styles.buttonContainer}>
+        <TouchableOpacity style={styles.button} onPress={handlerSaveBT}>
+            <Text style={styles.buttonText}>
+                Save Preference
+            </Text>
+        </TouchableOpacity>
+    </View>
     
         </>
      
@@ -200,6 +283,35 @@ const styles = StyleSheet.create({
     flatlist: {
         flex: 1,
     },
+    buttonText: {
+        fontSize: 18,
+        fontWeight: "bold",
+        textAlign: "center",
+        },
+        buttonContainer: {
+            position: 'absolute',
+            bottom: 0,
+            alignSelf: 'center',
+            justifyContent: 'space-around',
+            marginHorizontal: 20,
+          },
+            button: {
+                backgroundColor: 'lightcyan',
+                borderRadius: 10,
+                padding: 8,
+                flexDirection: 'row',
+                justifyContent: 'space-between',
+                alignItems: 'center',
+                shadowColor: '#000',
+                shadowOffset: { width: 0, height: 2 },
+                shadowOpacity: 0.25,
+                shadowRadius: 3.84,
+                elevation: 5,
+        borderWidth:2,
+        borderColor:'gainsboro',
+        marginBottom: 10,
+        alignSelf:'center',
+        },
     listRow: {
         margin: 4,
         flexDirection: "row",

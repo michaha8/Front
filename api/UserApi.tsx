@@ -17,6 +17,10 @@ const getAllInternsUsers= async()=>{
     console.log('getAllInternsUsers')
     return apiClient.get('user/')
 }
+// const getAllHospitalsUsers= async()=>{
+//     console.log('getAllHospitalsUsers')
+//     return apiClient.get('hospital/user/')
+// }
 
 const addNewPost = async (postJson:any) => {
     return apiClient.post("post/" , postJson)

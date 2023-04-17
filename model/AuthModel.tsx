@@ -15,7 +15,8 @@ export type UserIntern = {
   city:String,
   description:String,
   partnerID:String,
-  userType:'intern'
+  userType:'intern',
+  preferenceArray: string[]
 }
 export type UserHospital = {
   email: String,
@@ -26,6 +27,7 @@ export type UserHospital = {
   description:String,
   userType:'hospital'
   hospitalQuantity:String
+
 }
 
 

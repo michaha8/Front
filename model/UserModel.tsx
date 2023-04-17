@@ -32,7 +32,8 @@ export type UserIntern = {
   city:String,
   description:String,
   partnerID:String,
-  userType:'intern'  
+  userType:'intern'  ,
+  preferenceArray: string[]
 
 }
 export type UserUpdateIntern = {
@@ -48,6 +49,7 @@ export type UserUpdateIntern = {
                 description: String,
                 partnerID: String,
                 phoneNumber:String,
+                preferenceArray: string[]
 
 }
 const getUserTypeByEmail = async (email: string) => {
@@ -137,7 +139,7 @@ const getUserById = async (id:string) =>{
         console.log(res)
         const d: any = [res.data.name,res.data.city,res.data.email,
           res.data.description,res.data.GPA,res.data.phoneNumber,res.data.avatarUrl,
-          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern]
+          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern ,res.data.preferenceArray]
         return d
       }
     }
@@ -184,6 +186,7 @@ const getAllInternsUsers=async()=>{
                      phoneNumber:obj.phoneNumber,
                      userType:obj.userType,
                      password:obj.password,
+                     preferenceArray:obj.prefernceArray,
 
           avatarUrl: s
         }
@@ -238,10 +241,12 @@ const upadteUserIntern = async (user_update:UserUpdateIntern) => {
                 GPA: user_update.GPA,
                 description: user_update.description,
                 partnerID: user_update.partnerID,
-                phoneNumber:user_update.phoneNumber
+                phoneNumber:user_update.phoneNumber,
+                preferenceArray:user_update.preferenceArray
+                
 
   }
-
+  console.log(user_update.preferenceArray)
   try {
     const res:any = await UserApi.upadteUser(data)
     console.log('success update user')

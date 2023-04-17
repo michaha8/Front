@@ -27,6 +27,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   const[city,setCity]=useState<string>("")
   const[description,setDescription]=useState<string>("")
   const[partnerID,setPartnerID]=useState<string>("None")
+  const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
 
 
 
@@ -71,7 +72,8 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
       specialization:specialization,
       phoneNumber:phoneNumber,
       partnerID:partnerID,
-      userType:'intern'
+      userType:'intern',
+      preferenceArray:preferenceArray
 
     }
     try{
