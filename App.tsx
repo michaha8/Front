@@ -15,6 +15,7 @@ import HomePageHospital from "./components/HomePageHospital";
 import HomePageIntern from "./components/HomePageIntern"
 import EditHospital from "./components/EditHospital";
 import EditIntern from "./components/EditIntern";
+import WatchInternsPage from "./components/WatcInternsPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -89,6 +90,11 @@ const App: FC = () => {
           name="EditIntern"
           component={EditIntern}
           options={{ title: "Edit Intern details" }}
+        ></Stack.Screen>
+          <Stack.Screen
+          name="WatchInterns"
+          component={WatchInternsPage}
+          options={{ title: "Watch Interns And Choose Preference" }}
         ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>

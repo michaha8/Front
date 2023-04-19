@@ -26,7 +26,9 @@ export type UserHospital = {
   city:String,
   description:String,
   userType:'hospital'
-  hospitalQuantity:String
+  hospitalQuantity:String,
+  preferenceArray: string[]
+
 
 }
 

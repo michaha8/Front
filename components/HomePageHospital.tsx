@@ -13,7 +13,7 @@ import ReadMore from 'react-native-read-more-text';
 import AuthModel from "../model/AuthModel";
 import { CommonActions } from '@react-navigation/native';
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import UserModel, { UserUpdateIntern } from "../model/UserModel";
+import UserModel, { UserUpdateHospital, UserUpdateIntern } from "../model/UserModel";
 
 const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
 
@@ -26,6 +26,7 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     ""
   );
   const [hospitalQuantity,setHospitalQuantity]= useState<string>("");
+  const [preferenceArray, setPreferenceArray] = useState<string[]>(['0']);
   const [tempName, setTempName] = useState(name);
   const [tempEmail, setTempEmail] = useState(email);
   const [tempPassword, setTempPassword] = useState(password);
@@ -43,15 +44,25 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     setDescription(res[3])
     setHospitalQuantity(res[4])
     setPhoneNumber(res[5])
+    setPreferenceArray(res[6])
     
   }
 
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      console.log('focus')
     try{
       loadUser()
+      console.log("LoadUser")
+      console.log("LoadUser")
+      console.log("LoadUser")
+      console.log("LoadUser")
+      console.log("LoadUser")
     } catch(err) {
       console.log('fail signup' + err)
     }
+    })
+    return unsubscribe
   }, []);
   async function clearStorage() {
     await AsyncStorage.clear();
@@ -71,7 +82,61 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     console.log("Loading user details...");
     loadUser();
   };
+  const pressHandlerLWatchInterns = async () => {
+navigation.navigate('WatchInterns')
+  };
 
+  const handleSaveToMongoo = async (label:string, value:string) => {
+    const id_ = await AsyncStorage.getItem('id');
+    const userUpdateHospital:UserUpdateHospital = {
+      id: id_,
+      description: label === 'Description' ? value : description,
+      city: label === 'City' ? value : city,
+      name: label === 'Name' ? value : name,
+      phoneNumber: label === 'Phone Number' ? value : phoneNumber,
+      email: label === 'Email' ? value : email,
+      hospitalQuantity:label === 'Hospital Quantity' ? value : hospitalQuantity,
+      preferenceArray:  preferenceArray
+    };
+    console.log(userUpdateHospital);
+    try {
+      const res = await UserModel.upadteUserHospital(userUpdateHospital);
+      console.log("UpdateUser");
+      console.log("update user success");
+      // if(label==='Add Partner ID')
+      // {
+      //   if(LoadPartnerUserload)
+      //   {
+      //     loadUserPartner(value)
+      //   }
+      //   const  RealIdMoongoPartner=await loadUserPartner(value)
+      //   console.log(`ID OF PARTNER ${RealIdMoongoPartner}}`)
+      //   const partner:UserUpdateIntern = {
+      //     id: RealIdMoongoPartner,
+      //     idIntern: idInternPartner ,
+      //     educationalInstitution: institutionPartner,
+      //     partnerID: idIntern,
+      //     typeOfInternship: specializationPartner,
+      //     description: descriptionPartner,
+      //     GPA: GPAPartner,
+      //     city: cityPartner,
+      //     name: namePartner,
+      //     phoneNumber:phoneNumberPartner,
+      //     email: emailPartner,
+      //     avatarUrl:avatarUriPartner,
+      //     preferenceArray:  preferenceArrayPartner
+      //   };
+      //   try{
+      //     const res= await UserModel.upadteUserIntern(partner)
+      //   }catch (error) {
+      //     console.log(error);
+      //   }
+
+      // }
+    } catch(err) {
+      console.log("update user failed " + err);
+    }
+  };
 interface ValueProps {
     label: string;
     value: string;
@@ -84,9 +149,12 @@ interface ValueProps {
     const [isExpanded, setIsExpanded] = useState(false);
     
   
-    const handleSave = () => {
+    const handleSave = async() => {
       setIsEditing(false);
-      onChange(tempValue);
+          onChange(tempValue);
+          console.log("Handle Save "+ tempValue)
+          console.log("Label "+ label);
+          await handleSaveToMongoo(label,tempValue)
     };
   
     const handleCancel = () => {
@@ -165,7 +233,7 @@ interface ValueProps {
 <Value label="Email" value={email} onChange={setEmail} />
 <Value label="Phone Number" value={phoneNumber} onChange={setPhoneNumber} />
 <Value label="City" value={city} onChange={setCity} />
-<Value label="Hospita Quantity" value={hospitalQuantity} onChange={setHospitalQuantity} />
+<Value label="Hospital Quantity" value={hospitalQuantity} onChange={setHospitalQuantity} />
 <Value label="Description" value={description} onChange={setDescription} />
 
 <View style={styles.buttonContainer}>
@@ -173,7 +241,7 @@ interface ValueProps {
     <View style={styles.buttonContainer}>
       <TouchableOpacity
         style={styles.button}
-        onPress={pressHandlerLogOut}
+        onPress={pressHandlerLWatchInterns}
         
       >
         <Text style={styles.buttonText}>Watch Interns and choose preference</Text>
@@ -186,30 +254,64 @@ interface ValueProps {
 };
 
 const styles = StyleSheet.create({
-    rootContainer: {
-        flex: 1,
-        backgroundColor: 'white',
-      },
+  rootContainer: {
+      flex: 1,
+      backgroundColor: "whitesmoke",
+    },
 container: {
 flex: 1,
-backgroundColor: "#fff",
+
 alignItems: "center",
 justifyContent: "center",
+backgroundColor: "whitesmoke",
 padding: 20,
 },
+profilePictureContainer: {
+marginVertical: 20,
+}, profilePicture1: {
+width: 110,
+height: 110,
+borderRadius: 50,
+borderWidth: 3,
+borderColor: "black",
+},  editButtonContainer1: {
+position: "absolute",
+width: 40,
+height: 40,
+borderRadius: 25,
+backgroundColor: "#f5f5f5",
+justifyContent: "center",
+alignItems: "center",
+right: 10,
+bottom: 10,
+elevation: 2,
+shadowColor: "#000",
+shadowOffset: {
+  width: 0,
+  height: 2,
+},
+shadowOpacity: 0.25,
+shadowRadius: 3.84,
+}, 
 title: {
 fontSize: 24,
 fontWeight: "bold",
 marginBottom: 20,
 },
 button: {
-backgroundColor: "#DDDDDD",
-padding: 15,
-borderRadius: 50,
-// borderStyle:'dotted',
-// borderColor:'blue',
-// borderBottomWidth:10,
+  backgroundColor: 'lightcyan',
+  borderRadius: 10,
+  padding: 7,
+  flexDirection: 'row',
+  justifyContent: 'space-between',
+  alignItems: 'center',
+  shadowColor: '#000',
+  shadowOffset: { width: 0, height: 2 },
+  shadowOpacity: 0.25,
+  shadowRadius: 3.84,
+  elevation: 5,
 borderWidth:2,
+borderColor:'gainsboro',
 marginBottom: 10,
 alignSelf:'center',
 },
@@ -219,23 +321,28 @@ fontWeight: "bold",
 textAlign: "center",
 },
 valueContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    marginBottom: 20,
-    flexWrap: 'wrap'
-  },
+  flexDirection: "row",
+  alignItems: "center",
+  marginBottom: 20,
+  borderWidth: 2,
+  borderRadius: 25,
+  padding:12,
+  borderColor:'#808080',
+  flexWrap: 'wrap'
+},
 label: {
 alignItems:'center',
 fontSize: 18,
 fontWeight: "bold",
 marginRight: 10,
-alignSelf:'flex-start'
-
-
+alignSelf:'flex-start',
+color:'black',
 },
 value: {
 fontSize: 18,
 flex:1,
+fontWeight:'bold',
+color:'#808080',
 overflow: 'hidden',
 textOverflow: 'ellipsis',
 marginRight: 10,
@@ -245,15 +352,45 @@ right:0
 },
 input: {
 fontSize: 18,
-borderBottomWidth: 1,
-borderColor: "black",
 padding: 5,
+borderRadius: 10,
 marginRight: 10,
 flex: 1,
 },
 buttonContainer: {
 alignSelf: 'center',
 marginHorizontal: 20,
+},
+buttonsContainer: {
+flexDirection: "row",
+alignSelf: "baseline",
+borderRadius: 100,
+},
+editButtonContainer: {
+position: "absolute",
+width: 40,
+height: 40,
+borderRadius: 25,
+backgroundColor: "#f5f5f5",
+justifyContent: "center",
+alignItems: "center",
+right: 10,
+bottom: 10,
+elevation: 2,
+shadowColor: "#000",
+shadowOffset: {
+  width: 0,
+  height: 2,
+},
+shadowOpacity: 0.25,
+shadowRadius: 3.84,
+}, 
+profilePicture: {
+width: 150,
+height: 150,
+borderRadius: 10,
+borderWidth: 3,
+borderColor: "black",
 },
 });
 

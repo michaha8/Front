@@ -1,29 +1,34 @@
 import React from 'react';
 import { FC, useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler, TextInputComponent, ScrollView } from 'react-native';
-import { UserHospital, UserIntern } from '../model/AuthModel';
+import { UserIntern } from '../model/AuthModel';
 import UserModel, { Post, UserUpdateHospital, UserUpdateIntern } from '../model/UserModel';
 import { Rating } from 'react-native-ratings';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
-const ListItem: FC<{ 
+const ListItem: FC<{ idIntern: String,
     name: String, 
-    email:String,
+    avatarUrl: String,email:String,
     city:String ,
-   password:String, userType:String,
+    educationalInstitution: String,
+   typeOfInternship: String,
+   GPA: String,
+   password:String, institution:String, specialization:String, userType:String,
    description: String,
- hospitalQuantity:String,
+   partnerID: String,
    phoneNumber:String,
    preference: Array<String>,
    onPreferenceChange: (index: number, name: string) => void,
    onRowSelected: (id: String, rating: number) => void }> =
-    ({ name, city,email,description,phoneNumber,preference,hospitalQuantity, onRowSelected , onPreferenceChange,}) => {
+    ({ name, city, avatarUrl,educationalInstitution,typeOfInternship,email,GPA,description,partnerID,idIntern,phoneNumber,preference, onRowSelected , onPreferenceChange,}) => {
         const onClick = () => {
             console.log('int he row: row was selected ' + email)
+            console.log('int he row: avatrUrl ' + avatarUrl)
             console.log('int he row: avatrUrl ' + rating)
             console.log('Im the user ' + email)
             onRowSelected(email,rating)
+       
         }
         const [rating, setRating] = useState<number>(0);
         const [userPic, setPic] = useState<String>("");
@@ -81,13 +86,15 @@ const ListItem: FC<{
                 {/* <Text style={styles.iconLabel}>Choose preferens from must wanted 1 </Text> */}
                 {/* <View style={styles.listRow}></View> */}
                 <View style={styles.cardItem}>
-
+                    {avatarUrl == "" && <Image style={styles.listRowImage} source={require('../assets/avatar-icon-images-4.jpg')} />}
+                    {avatarUrl != "" && <Image style={styles.listRowImage} source={{ uri: avatarUrl.toString() }} />}
                    < View style={{  alignItems: 'center' }}>
                     <View style={styles.listRowTextContainer}>
                         <IconValu label='Name' value={name} />
                         <IconValu label='Email' value={email} />
-                        <IconValu label='Hospital Quantity' value={hospitalQuantity} />
+                        <IconValu label='ID' value={idIntern} />
                         <IconValu label='phoneNumber' value={phoneNumber} />
+                        <IconValu label='GPA' value={GPA} />
                         <View style={styles.listRowTextContainer}>
                         <Text style={styles.iconLabel}>
                            Description 
@@ -118,9 +125,7 @@ const ListItem: FC<{
     }
 
 
-const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }) => {
-
-
+const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }) => {
 
     const [avatarUri, setAvatrUri] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
     const [email, setEmail] = useState<string>("");
@@ -128,16 +133,14 @@ const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }
     const[idIntern,setIDIntern]=useState<string>("");
     const[institution,setInstitution]=useState<string>("");
     const[specialization,setSpecialization]=useState<string>("")
-    const[phoneNumber,setPhoneNuber]=useState<string>("")
+    const[phoneNumber,setPhoneNumber]=useState<string>("")
+    const [hospitalQuantity,setHospitalQuantity]= useState<string>("");
     const[GPA,setGPA]=useState<string>("")
     const[city,setCity]=useState<string>("")
     const[partnerID,setPartnerID]=useState<string>("")
-    const[userType,setUserType]=useState<string>("")
-    const [hospitalQuantity,setHospitalQuantity]= useState<string>("");
+    var UriAfretChange = ""
+    const[description,setDescription]=useState<string>(``)
     const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
-    const [description, setDescription] = useState<string>(
-        ""
-      );
   
     const loadUser = async ()=>{
 
@@ -148,15 +151,10 @@ const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }
         setCity(res[1])
         setEmail(res[2])
         setDescription(res[3])
-        setGPA(res[4])
-        setPhoneNuber(res[5])
-        setAvatrUri(res[6])
-        setInstitution(res[7])
-        setIDIntern(res[11])
-        setPartnerID(res[9])
-        setSpecialization(res[10])
-        setPreferenceArray(res[12])
-        setUserType(res[13])
+        setHospitalQuantity(res[4])
+        setPhoneNumber(res[5])
+        setPreferenceArray(res[6])
+        
         
         console.log('USerLogIN')
         console.log(id)
@@ -177,32 +175,27 @@ const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }
        }
       }
 
-  const handleSaveToMongoo = async (prefArray: string[]) => {
-    const id_ = await AsyncStorage.getItem('id')
-    const up : UserUpdateIntern = {
-      id: id_,
-          idIntern:idIntern,
-          educationalInstitution:institution,
-          partnerID:partnerID,
-          typeOfInternship:specialization,
-          description:description,
-          GPA:GPA,
-          city:city,
-          name: name,
-          phoneNumber:phoneNumber,
-          email:email,
-          avatarUrl: avatarUri,
-          userType:userType
-          ,preferenceArray:[...prefArray]
-    }
-    console.log(up)
-    try{
-      const res = await UserModel.upadteUserIntern(up)
-      console.log("update user success")
-    } catch(err){
-      console.log("update user failed " + err)
-    }
-  };
+      const handleSaveToMongoo = async (prefArray: string[]) => {
+        const id_ = await AsyncStorage.getItem('id')
+        const up : UserUpdateHospital = {
+          id: id_,
+              hospitalQuantity:hospitalQuantity,
+              description:description,
+              city:city,
+              name: name,
+              phoneNumber:phoneNumber,
+              email:email,
+              preferenceArray:[...prefArray]
+        }
+        console.log(up)
+        try{
+          const res = await UserModel.upadteUserHospital(up)
+          console.log("update user success")
+        } catch(err){
+          console.log("update user failed " + err)
+        }
+      };
+
 
     const onRowSelected = (email: String) => {
       
@@ -210,7 +203,7 @@ const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }
         
     }
     const [preference, setPreference] = useState<string[]>([]);
-    const [users, setUsers] = useState<Array<UserHospital>>();
+    const [users, setUsers] = useState<Array<UserIntern>>();
     const onPreferenceChange = (index: number, name: string) => {
     
         console.log('Index '+ index +' Name '+name)
@@ -246,10 +239,10 @@ const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }
                 ],
                 {cancelable: false},
               );
-            let useres: UserHospital[] = []
+            let useres: UserIntern[] = []
             try {
-                console.log('getAllHospitals')
-              useres = await UserModel.getAllHospitalsUsers()
+                console.log('getAllInternsUsers')
+              useres = await UserModel.getAllInternsUsers()
                 console.log("fetching Users complete")
             } catch (err) {
                 console.log("fail fetching Users " + err)
@@ -266,19 +259,14 @@ const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }
          <View style={styles.card}>
         <FlatList style={styles.flatlist}
             data={users}
-            keyExtractor={userHospital => userHospital.name.toString()}
+            keyExtractor={userIntern => userIntern.name.toString()}
             renderItem={({ item }) => (
-                <ListItem   preference={preference}  city={item.city} description={item.description}  
-                 name={item.name} hospitalQuantity={item.hospitalQuantity} 
-                email={item.email} onPreferenceChange={onPreferenceChange}
-                 onRowSelected={onRowSelected} 
-                 password={item.password} userType={item.userType}  
-                  phoneNumber={item.phoneNumber} />
+                <ListItem   preference={preference} GPA={item.GPA} city={item.city} description={item.description} institution={item.institution} specialization={item.specialization} name={item.name} idIntern={item.idIntern} email={item.email} avatarUrl={item.avatarUrl} onPreferenceChange={onPreferenceChange} onRowSelected={onRowSelected} educationalInstitution={item.institution} typeOfInternship={item.specialization} password={item.password} userType={item.userType} partnerID={item.partnerID} phoneNumber={item.phoneNumber} />
             )}
         >
         </FlatList>
     </View>
-  
+  <View style={{flex:1,padding:10}}></View>
     <View style={styles.buttonContainer}>
         <TouchableOpacity style={styles.button} onPress={handlerSaveBT}>
             <Text style={styles.buttonText}>
@@ -302,11 +290,13 @@ const styles = StyleSheet.create({
         marginTop: StatusBar.currentHeight,
         flex: 1,
         flexDirection:'column',
+     
         alignItems:'center',
         backgroundColor: "whitesmoke",
     },
     flatlist: {
         flex: 1,
+        
     },
     buttonText: {
         fontSize: 18,
@@ -315,7 +305,8 @@ const styles = StyleSheet.create({
         },
         buttonContainer: {
             position: 'absolute',
-            bottom: 0,
+            bottom:9,
+            paddingBottom:0,
             alignSelf: 'center',
             justifyContent: 'space-around',
             marginHorizontal: 20,
@@ -323,7 +314,7 @@ const styles = StyleSheet.create({
             button: {
                 backgroundColor: 'lightcyan',
                 borderRadius: 10,
-                padding: 8,
+                padding: 7,
                 flexDirection: 'row',
                 justifyContent: 'space-between',
                 alignItems: 'center',
@@ -359,7 +350,7 @@ const styles = StyleSheet.create({
     listRowTextContainer: {
         flex: 1,
         flexDirection:'column',
-        margin: 20,
+        margin: 3,
         justifyContent: "space-around"
     },
     listRowName: {
@@ -377,7 +368,6 @@ const styles = StyleSheet.create({
       card: {
         backgroundColor: 'whitesmoke',
         borderRadius: 10,
-        padding: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -392,9 +382,9 @@ const styles = StyleSheet.create({
         borderRadius: 70,
       borderColor:"lightcyan",
       borderWidth:2,
-        padding: 20,
+        padding: 30,
         flexDirection: 'row',
-        justifyContent: 'space-evenly',
+        justifyContent: 'space-around',
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
@@ -412,7 +402,7 @@ const styles = StyleSheet.create({
       },
       iconLabel: {
         fontSize: 15,
-        marginBottom:10,
+        marginBottom:5,
         fontWeight: 'bold',
         color:'black',
         textAlign: 'center',
@@ -432,4 +422,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default AllPostsPage
+export default WatchInternsPage

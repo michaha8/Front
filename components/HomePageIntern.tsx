@@ -8,6 +8,7 @@ import {
   View,
   Image,
   ScrollView,
+  Alert,
 } from "react-native";
 import ReadMore from 'react-native-read-more-text';
 import AuthModel from "../model/AuthModel";
@@ -20,7 +21,6 @@ import * as Permissions from 'expo-permissions';
 const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   const [avatarUri, setAvatrUri] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
   const [email, setEmail] = useState<string>("");
-  const [password, setPassword] = useState<string>("");
   const [name, setName] = useState<string>("");
   const[idIntern,setIDIntern]=useState<string>("");
   const[institution,setInstitution]=useState<string>("");
@@ -31,10 +31,34 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   const[partnerID,setPartnerID]=useState<string>("")
   var UriAfretChange = ""
   const[description,setDescription]=useState<string>(``)
-  const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
-
-
-
+  const[userType,setUserType]=useState<string>(``)
+  const [preferenceArray, setPreferenceArray] = useState<string[]>(['0']);
+  const [avatarUriPartner, setAvatrUriPartner] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
+  const [emailPartner, setEmailPartner] = useState<string>("");
+  const [namePartner, setNamePartner] = useState<string>("");
+  const[idInternPartner,setIDInternPartner]=useState<string>("");
+  const[institutionPartner,setInstitutionPartner]=useState<string>("");
+  const[specializationPartner,setSpecializationPartner]=useState<string>("")
+  const[phoneNumberPartner,setPhoneNuberPartner]=useState<string>("")
+  const[GPAPartner,setGPAPartner]=useState<string>("")
+  const[cityPartner,setCityPartner]=useState<string>("")
+  const[partnerIDPartner,setPartnerIDPartner]=useState<string>("")
+  const[descriptionPartner,setDescriptionPartner]=useState<string>(``)
+  const [preferenceArrayPartner, setPreferenceArrayPartner] = useState<string[]>(['0']);
+  const[tempcity,settempCity]=useState<string>("")
+  let LoadPartnerUserload = false
+  let idUse=''
+  const handleWatchHospitals = () => {
+  
+    navigation.navigate('AllPostsPage')
+         
+      }
+    
+      const handleAddPartner = () => {
+        console.log(partnerID)
+      };
+      
+      
 
   const loadUser = async ()=>{
     const id = await AsyncStorage.getItem('id')
@@ -47,21 +71,71 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     setPhoneNuber(res[5])
     setAvatrUri(res[6])
     setInstitution(res[7])
-    setIDIntern(res[11])
     setPartnerID(res[9])
     setSpecialization(res[10])
-    setPreferenceArray(res[11])
+    setIDIntern(res[11])
+    setPreferenceArray(res[12])
+    setUserType(res[13])
+    console.log(res[13])
+     console.log(userType)
+    console.log('HomePageIntern')
+    console.log(id)
+    console.log(res[12])
+    console.log(preferenceArray)
     
     
   }
 
+//   const loadUserPartner = async (id:string)=>{
+
+
+//     try{
+//       const res = await UserModel.getUserByIdIntern(id)
+//       console.log('ID OF PArtner LOad User '+ id)
+//     setNamePartner(res[0])
+//     setCityPartner(res[1])
+//     setEmailPartner(res[2])
+//     setDescriptionPartner(res[3])
+//     setGPAPartner(res[4])
+//     setPhoneNuberPartner(res[5])
+//     setAvatrUriPartner(res[6])
+//     setInstitutionPartner(res[7])
+//     setPartnerIDPartner(res[9])
+//     setSpecializationPartner(res[10])
+//     setIDInternPartner(res[11])
+//     setPreferenceArrayPartner(res[12])
+// console.log(namePartner)
+// console.log(res)
+// const RealIdMoongoPartner=res[13]
+// console.log( "RealIdMoongoPartner "+  RealIdMoongoPartner)
+// idUse=id
+// LoadPartnerUserload=true
+// return RealIdMoongoPartner
+//     }
+//    catch(err){
+//       Alert.alert('There Is No Intern with The Id '+ id)
+//       console.log('Failed To Add Partner Id '+ err)
+//     }
+  
+//   }
+
   useEffect(() => {
+    const unsubscribe = navigation.addListener('focus', async () => {
+      console.log('focus')
     try{
       loadUser()
+      console.log("LoadUser")
+      console.log("LoadUser")
+      console.log("LoadUser")
+      console.log("LoadUser")
+      console.log("LoadUser")
     } catch(err) {
       console.log('fail signup' + err)
     }
+    })
+    return unsubscribe
   }, []);
+
   async function clearStorage() {
     await AsyncStorage.clear();
   }
@@ -110,6 +184,11 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         }
         try{
           const res = await UserModel.upadteUserIntern(up)
+          console.log("UpdateUser") 
+          console.log("UpdateUser") 
+          console.log("UpdateUser") 
+          console.log("UpdateUser") 
+          console.log(up)
           console.log("update user success")
         } catch(err){
           console.log("update user failed " + err)
@@ -119,88 +198,104 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       console.log(error);
     }
   };
-  
  
-
- const handleTakePhoto = async () => {
-    const { status } = await Permissions.askAsync(Permissions.CAMERA);
-    if (status !== 'granted') {
-      console.log('Camera permission not granted');
-      return;
-    }
-  
+  const handleTakePhoto = async () => {
     try {
-      console.log('open camera');
-      const res = await ImagePicker.launchCameraAsync();
-      if (!res.cancelled && res.assets.length > 0) {
+      const res = await ImagePicker.launchCameraAsync()
+      if (res.cancelled) {
+        console.log("User cancelled the camera")
+        return
+      }
+      if (res.assets && res.assets.length > 0) {
         const uri = res.assets[0].uri;
-        UriAfretChange = uri;
-        console.log('while: ' + uri);
-        console.log('while: ' + UriAfretChange);
-        setAvatrUri(uri);
-        console.log('while pp: ' + avatarUri);
+        UriAfretChange = uri
+        console.log("while: " + uri)
+        console.log("while: " + UriAfretChange)
+        setAvatrUri(uri)
+        console.log("while pp: " + avatarUri)
       }
     } catch (err) {
-      console.log('open camera error' + err);
+      console.log("open camera error" + err)
     }
-  };
-
-  const handleSaveToMongoo = async () => {
-    const id_ = await AsyncStorage.getItem('id')
-    const up : UserUpdateIntern = {
-      id: id_,
-          idIntern:idIntern,
-          educationalInstitution:institution,
-          partnerID:partnerID,
-          typeOfInternship:specialization,
-          description:description,
-          GPA:GPA,
-          city:city,
-          name: name,
-          phoneNumber:phoneNumber,
-          email:email,
-          avatarUrl: avatarUri
-          ,preferenceArray:preferenceArray
-    }
-    console.log(up)
-    try{
-      const res = await UserModel.upadteUserIntern(up)
-      console.log("update user success")
-    } catch(err){
-      console.log("update user failed " + err)
-    }
-  };
+  }
  
-    
-      const handleWatchHospitals = () => {
-        
-    navigation.navigate('AllPostsPage')
+  const handleSaveToMongoo = async (label:string, value:string) => {
+    const id_ = await AsyncStorage.getItem('id');
+    const userUpdateIntern:UserUpdateIntern = {
+      id: id_,
+      idIntern: label === 'ID' ? value :idIntern ,
+      educationalInstitution: label === 'institution' ? value : institution,
+      partnerID: label === 'Add Partner ID' ? value : partnerID,
+      typeOfInternship: label === 'specialization' ? value : specialization,
+      description: label === 'Description' ? value : description,
+      GPA: label === 'GPA' ? value : GPA,
+      city: label === 'City' ? value : city,
+      name: label === 'Name' ? value : name,
+      phoneNumber: label === 'Phone Number' ? value : phoneNumber,
+      email: label === 'Email' ? value : email,
+      avatarUrl: label === 'avatarUri' ? value : avatarUri,
+      userType:userType,
+      preferenceArray:  preferenceArray
+    };
+    console.log(userUpdateIntern);
+    try {
+      const res = await UserModel.upadteUserIntern(userUpdateIntern);
+      console.log("UpdateUser");
+      console.log("update user success");
+      // if(label==='Add Partner ID')
+      // {
+      //   if(LoadPartnerUserload)
+      //   {
+      //     loadUserPartner(value)
+      //   }
+      //   const  RealIdMoongoPartner=await loadUserPartner(value)
+      //   console.log(`ID OF PARTNER ${RealIdMoongoPartner}}`)
+      //   const partner:UserUpdateIntern = {
+      //     id: RealIdMoongoPartner,
+      //     idIntern: idInternPartner ,
+      //     educationalInstitution: institutionPartner,
+      //     partnerID: idIntern,
+      //     typeOfInternship: specializationPartner,
+      //     description: descriptionPartner,
+      //     GPA: GPAPartner,
+      //     city: cityPartner,
+      //     name: namePartner,
+      //     phoneNumber:phoneNumberPartner,
+      //     email: emailPartner,
+      //     avatarUrl:avatarUriPartner,
+      //     preferenceArray:  preferenceArrayPartner
+      //   };
+      //   try{
+      //     const res= await UserModel.upadteUserIntern(partner)
+      //   }catch (error) {
+      //     console.log(error);
+      //   }
 
-      }
-    
-      const handleAddPartner = () => {
-        // navigate to add partner screen
-        navigation.navigate('AddPartnerScreen');
-      }
-    
+      // }
+    } catch(err) {
+      console.log("update user failed " + err);
+    }
+  };
+
+
       interface ValueProps {
         label: string;
         value: string;
         onChange: (value: string) => void;
       }
-      
+  
       const Value: FC<ValueProps> = ({ label, value, onChange }) => {
         const [isEditing, setIsEditing] = useState(false);
         const [tempValue, setTempValue] = useState(value);
-        const [isExpanded, setIsExpanded] = useState(false);
         
       
         const handleSave = async () => {
           setIsEditing(false);
           onChange(tempValue);
-          console.log("Handle Save")
-          const res =await handleSaveToMongoo()
-          console.log(res)
+          console.log("Handle Save "+ tempValue)
+          console.log("Label "+ label);
+          await handleSaveToMongoo(label,tempValue)
+         
 
         };
       
@@ -274,7 +369,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         <ScrollView>
           <View style={styles.container}>
           <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
-      <AntDesign name="logout" size={24} color="black" />
+      <AntDesign name="logout" size={15} color="black" />
         </TouchableOpacity>
           <View style={styles.profilePictureContainer}>
         <Image style={styles.profilePicture} source={{ uri: avatarUri }} />
@@ -286,19 +381,14 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       </View>
      <Value label="Name" value={name} onChange={setName} />
     <Value label="Email" value={email} onChange={setEmail} />
-    <Value label="Password" value={password} onChange={setPassword} />
     <Value label="Phone Number" value={phoneNumber} onChange={setPhoneNuber} />
-    <Value label="City" value={city} onChange={setCity} />
+    <Value label="City" value={city} onChange={setCity}/>
     <Value label="ID" value={idIntern} onChange={setIDIntern} />
     <Value label="institution" value={institution} onChange={setInstitution} />
     <Value label="specialization" value={specialization} onChange={setSpecialization} />
     <Value label="GPA" value={GPA} onChange={setGPA} />
     <Value label="Description" value={description} onChange={setDescription} />
-    <TouchableOpacity onPress={handleAddPartner}>
-      <Text style={{alignSelf:'flex-start'}}>Add Partner
-            <AntDesign name="adduser" size={24} color="black" />
-            </Text>
-          </TouchableOpacity>
+    <Value label="Add Partner ID" value={partnerID} onChange={setPartnerID} />
     <View style={styles.buttonContainer}>
         </View>
         <View style={styles.buttonContainer}>
@@ -307,7 +397,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
             style={styles.button}
             onPress={handleWatchHospitals}
           >
-            <Text style={styles.buttonText}>Watch Interns and choose preference</Text>
+            <Text style={styles.buttonText}>Watch Hospitals and choose preference</Text>
           </TouchableOpacity>
         </View>
       </View>
@@ -317,13 +407,9 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     };
     
     const styles = StyleSheet.create({
-        rootContainer: {
-            flex: 1,
-            backgroundColor: 'white',
-          },
     container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "whitesmoke",
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
@@ -361,14 +447,14 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     marginBottom: 20,
     },
     button: {
-      backgroundColor: "#DDDDDD",
+      backgroundColor: "whitesmoke",
       padding: 15,
-      borderRadius: 50,
+      borderRadius: 12,
       // borderStyle:'dotted',
       // borderColor:'blue',
       // borderBottomWidth:10,
-      borderWidth:2,
-      marginBottom: 10,
+      borderWidth:1,
+      marginBottom: 0,
       alignSelf:'center',
       },
     buttonText: {

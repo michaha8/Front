@@ -4,13 +4,27 @@ import apiClient from "../api/ClientApi";
 import UserApi from "../api/UserApi";
 
 export type UserHospital = {
-  name: String,
   email: String,
+  name: String,
   password: String,
-  city:String,
   phoneNumber:String,
- // avatarUrl: String
-  description:String
+  city:String,
+  description:String,
+  userType:'hospital'
+  hospitalQuantity:String,
+  preferenceArray: string[]
+
+}
+export type UserUpdateHospital = {
+  id: any,
+  email: String,
+  name: String,
+  phoneNumber:String,
+  city:String,
+  description:String,
+  hospitalQuantity:String,
+  preferenceArray: string[]
+
 }
 
 
@@ -49,6 +63,7 @@ export type UserUpdateIntern = {
                 description: String,
                 partnerID: String,
                 phoneNumber:String,
+                userType:string,
                 preferenceArray: string[]
 
 }
@@ -131,7 +146,7 @@ const getUserById = async (id:string) =>{
     } else {
       if(res.data.userType==='hospital'){
         console.log(res)
-        const d: any = [res.data.name,res.data.city,res.data.email,res.data.description,res.data.hospitalQuantity,res.data.phoneNumber]
+        const d: any = [res.data.name,res.data.city,res.data.email,res.data.description,res.data.hospitalQuantity,res.data.phoneNumber,res.data.prefernceArray]
         return d
       }
       else if(res.data.userType==='intern')
@@ -139,9 +154,33 @@ const getUserById = async (id:string) =>{
         console.log(res)
         const d: any = [res.data.name,res.data.city,res.data.email,
           res.data.description,res.data.GPA,res.data.phoneNumber,res.data.avatarUrl,
-          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern ,res.data.preferenceArray]
+          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern ,res.data.preferenceArray, res.data.userType]
         return d
       }
+    }
+  }catch(err) {
+    console.log('fail getting user from db by ID ' + err)
+  }
+}
+
+const getUserByIdIntern = async (id:string) =>{
+  console.log("getUserByIdIntern")
+  if(!id){
+    console.log("fail getting user from db by ID || User ID WRONG");
+    return null
+  }
+  try{
+    const res = await UserApi.getUserByIdIntern(id);
+    console.log('RES')
+    console.log(res)
+    if(!res.ok) {
+      console.log("fail getting user from db by ID");
+    } else {
+        console.log(res)
+        const d: any = [res.data.name,res.data.city,res.data.email,
+          res.data.description,res.data.GPA,res.data.phoneNumber,res.data.avatarUrl,
+          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern ,res.data.preferenceArray,res.data._id]
+        return d
     }
   }catch(err) {
     console.log('fail getting user from db by ID ' + err)
@@ -162,6 +201,47 @@ const addNewPost = async (post:Post)=>{
   }
 }
 
+const getAllHospitalsUsers=async()=>{
+  const res:any = await UserApi.getAllHospitalsUsers()
+  console.log('GetALlHospitalsUsers')
+  console.log('GetALlHospitalsUsers')
+  console.log('GetALlHospitalsUsers')
+  console.log('res')
+  console.log(res)
+  let d = Array<UserHospital>()
+  if (res.data) {
+    res.data.forEach((obj: any) => {
+      
+        const p: UserHospital = {
+         name:obj.name, 
+         email: obj.email,
+         city: obj.city,
+                     hospitalQuantity:obj.hospitalQuantity,
+                     description: obj.description,
+                     phoneNumber:obj.phoneNumber,
+                     userType:obj.userType,
+                     password:obj.password,
+                     preferenceArray:obj.prefernceArray,
+          
+        }
+        console.log(`obj`)
+        console.log(obj)
+        d.push(p)
+        console.log('res')
+        console.log('res')
+        console.log('res')
+        console.log('res')
+        console.log('p')
+        console.log(p)
+        
+    });
+}
+console.log('res')
+console.log('res')
+console.log(d)
+console.log('res')
+return d
+}
 const getAllInternsUsers=async()=>{
   const res:any = await UserApi.getAllInternsUsers()
   console.log('res')
@@ -242,7 +322,8 @@ const upadteUserIntern = async (user_update:UserUpdateIntern) => {
                 description: user_update.description,
                 partnerID: user_update.partnerID,
                 phoneNumber:user_update.phoneNumber,
-                preferenceArray:user_update.preferenceArray
+                preferenceArray:user_update.preferenceArray,
+                userType:user_update.userType
                 
 
   }
@@ -254,6 +335,26 @@ const upadteUserIntern = async (user_update:UserUpdateIntern) => {
     console.log("update user failed: " + err)
   }
 }
+const upadteUserHospital = async (user_update:UserUpdateHospital) => {
+  const data = {
+    id: user_update.id,
+    name: user_update.name,
+    email: user_update.email,
+    city: user_update.city,     
+    hospitalQuantity:user_update.hospitalQuantity,
+                description: user_update.description,
+                phoneNumber:user_update.phoneNumber,
+                preferenceArray:user_update.preferenceArray
+                
+
+  }
+  try {
+    const res:any = await UserApi.upadteUser(data)
+    console.log('success update user')
+  } catch (err) {
+    console.log("update user failed: " + err)
+  }
+}
 
 
-export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail,getAllInternsUsers,getUserbyEmail}
+export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail,getAllInternsUsers,getUserbyEmail,getUserByIdIntern,upadteUserHospital,getAllHospitalsUsers}
