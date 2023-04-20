@@ -7,7 +7,7 @@ import UserDetailsPage from "./components/UserDetailsPage";
 import CreatePostPage from "./components/CreatePostPage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
-import AllPostsPage from "./components/AllPostsPage";
+import WatchHospitalsPage from "./components/WatchHospitalsPage";
 import SignupPageHospital from "./components/SignupPageHospital";
 import SignupPageIntern from "./components/SignupPageIntern";
 import forgetPasswordPage from "./components/forgetPassword";
@@ -52,9 +52,9 @@ const App: FC = () => {
           options={{ title: "LogInHospital" }}
         ></Stack.Screen>
         <Stack.Screen
-          name="AllPostsPage"
-          component={AllPostsPage}
-          options={{ title: "All Posts" }}
+          name="WatchHospitals"
+          component={WatchHospitalsPage}
+          options={{ title: "Watch Hospitals" }}
         ></Stack.Screen>
          <Stack.Screen
           name="SignupPageHospital"

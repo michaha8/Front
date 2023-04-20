@@ -84,7 +84,7 @@ const ListItem: FC<{ idIntern: String,
         return (
             <TouchableHighlight onPress={onClick} underlayColor={'gainsboro'}>
                 {/* <Text style={styles.iconLabel}>Choose preferens from must wanted 1 </Text> */}
-                {/* <View style={styles.listRow}></View> */}
+               
                 <View style={styles.cardItem}>
                     {avatarUrl == "" && <Image style={styles.listRowImage} source={require('../assets/avatar-icon-images-4.jpg')} />}
                     {avatarUrl != "" && <Image style={styles.listRowImage} source={{ uri: avatarUrl.toString() }} />}

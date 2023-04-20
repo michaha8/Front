@@ -15,7 +15,9 @@ const register = async (userJson: any) => {
 const login = async (userJson: any) => {
     return apiClient.post("auth/login", userJson)
 }
-
+const forgotPassword=async (userEmail:string)=>{
+  return apiClient.post('auth/forgetPassword',userEmail)
+}
 const logout = async (): Promise<void> => {
     const token = await AsyncStorage.getItem("accessToken");
     await apiClient.get<void>("/auth/logout", {}, {

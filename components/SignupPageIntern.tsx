@@ -82,7 +82,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
     } catch(err) {
       console.log('fail signup' + err)
     }
-    // navigation.goBack()
+    navigation.goBack()
   };
 
   const onConfirmPasswordChange = (text: string) => {

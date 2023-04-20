@@ -29,9 +29,8 @@ export type UserUpdateHospital = {
 
 
 export type Post = {
-  message: String,
-  sender: String,
-  avatarUrl: String
+  sender: String
+ 
 }
 export type UserIntern = {
   idIntern: String,
@@ -78,6 +77,28 @@ const getUserTypeByEmail = async (email: string) => {
     console.log('im here')
     const res = await UserApi.getUserTypeByEmail(email);
     console.log('resrrrr'+ JSON.stringify(res))
+    if (!res.ok) {
+      console.log("fail getting user from db by email");
+      return null;
+    } else {
+    return res.data.userType;
+    }
+  } catch (err) {
+    console.log('fail getting user from db by email ' + err);
+    return null;
+  }
+};
+const getUserTypeByID = async (id: string) => {
+  console.log('getUserTypeByID')
+  console.log(id)
+  // if (!email) {
+  //   console.log("User email WRONG");
+  //   return null;
+  // }
+  try {
+    console.log('im here')
+    const res = await UserApi.getUserTypeByID(id);
+    console.log('resrrrr'+JSON.stringify(res))
     if (!res.ok) {
       console.log("fail getting user from db by email");
       return null;
@@ -189,9 +210,8 @@ const getUserByIdIntern = async (id:string) =>{
 
 const addNewPost = async (post:Post)=>{
   const data = {
-    message: post.message,
     sender: post.sender,
-    avatarUrl: post.avatarUrl
+    
   }
   try {
       const res = await UserApi.addNewPost(data)
@@ -295,13 +315,10 @@ const getAllPosts = async () => {
       res.data.forEach((obj: any) => {
         const s = obj.avatarUrl
           const p: Post = {
-            message: obj.message,
             sender: obj.sender,
-            avatarUrl: s
           }
           console.log(obj)
           console.log(p.sender)
-          console.log(p.message)
           d.push(p)
       });
   }
@@ -357,4 +374,4 @@ const upadteUserHospital = async (user_update:UserUpdateHospital) => {
 }
 
 
-export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail,getAllInternsUsers,getUserbyEmail,getUserByIdIntern,upadteUserHospital,getAllHospitalsUsers}
+export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail,getAllInternsUsers,getUserbyEmail,getUserByIdIntern,upadteUserHospital,getAllHospitalsUsers,getUserTypeByID }

@@ -77,12 +77,12 @@ const ListItem: FC<{
             );
           };
         return (
-            <TouchableHighlight onPress={onClick} underlayColor={'gainsboro'}>
-                {/* <Text style={styles.iconLabel}>Choose preferens from must wanted 1 </Text> */}
-                {/* <View style={styles.listRow}></View> */}
-                <View style={styles.cardItem}>
+          <TouchableHighlight onPress={onClick} underlayColor={'gainsboro'}>
+          {/* <Text style={styles.iconLabel}>Choose preferens from must wanted 1 </Text> */}
+          {/* <View style={styles.listRow}></View> */}
+          <View style={styles.cardItem}>
 
-                   < View style={{  alignItems: 'center' }}>
+             < View style={{  alignItems: 'center' }}>
                     <View style={styles.listRowTextContainer}>
                         <IconValu label='Name' value={name} />
                         <IconValu label='Email' value={email} />
@@ -118,7 +118,7 @@ const ListItem: FC<{
     }
 
 
-const AllPostsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }) => {
+const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }) => {
 
 
 
@@ -432,4 +432,4 @@ const styles = StyleSheet.create({
       },
 });
 
-export default AllPostsPage
+export default WatchHospitalsPage

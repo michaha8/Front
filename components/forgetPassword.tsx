@@ -12,9 +12,33 @@ import {
   ImageBackground,
 
 } from "react-native";
-import AuthModel, { User } from "../model/AuthModel";
-const ForgetPasswordPage: FC<{ navigation: any }> = ({ navigation }) => {
+import UserModel, {Post} from "../model/UserModel";
 
+const ForgetPasswordPage: FC<{ navigation: any }> = ({ navigation }) => {
+  const handleResetPassword = async () => {
+    if (!userEmail) {
+      Alert.alert("Please enter your email address");
+      return;
+    }
+    try {
+      const reqFP:Post={
+        sender:userEmail
+      }
+      try{
+        await UserModel.addNewPost(reqFP)
+        console.log('success Sent Request Forget Password')
+        Alert.alert("success Sent Request Forget Password");
+      } catch(err) {
+        console.log('fail Sent Request Forget Password' + err)
+        Alert.alert("fail Sent Request Forget Password");
+      }
+      
+      navigation.goBack();
+    } catch (err) {
+      Alert.alert("fail Sent Request Forget Password");
+    }
+  };
+  
     const [userEmail, setEmail] = useState<string>("");
     const pressHandlerGoBack = () => {
         navigation.goBack();
@@ -32,7 +56,7 @@ return(
             Forget Password
         </Text>
         <Text style={styles.tText}>
-            Enter your email and we`ll send you a link to reset your password
+        Enter your email and our support team will get back to you as soon as possible for password recovery
         </Text>
         <View style={styles.input}>
       <AntDesign name='mail' size={24} color='gray' style={{ position: 'absolute', left: 12,top:5 }} />
@@ -46,7 +70,7 @@ return(
       />
     </View>
     <View style={styles.buttonsContainer}>
-    <TouchableOpacity style={styles.button}>
+    <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
     <Text>
         Sudmit
     </Text>
@@ -167,10 +191,13 @@ const styles = StyleSheet.create({
     
   },
   tText: {
+    flex:1,
     padding: 10,
     alignSelf:'center',
     fontSize: 13,
     color:'black'
+    ,justifyContent:'center',
+    textAlign: 'center'
     
   },
 });

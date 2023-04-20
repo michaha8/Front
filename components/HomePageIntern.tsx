@@ -50,7 +50,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   let idUse=''
   const handleWatchHospitals = () => {
   
-    navigation.navigate('AllPostsPage')
+    navigation.navigate('WatchHospitals')
          
       }
     
@@ -86,38 +86,6 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     
   }
 
-//   const loadUserPartner = async (id:string)=>{
-
-
-//     try{
-//       const res = await UserModel.getUserByIdIntern(id)
-//       console.log('ID OF PArtner LOad User '+ id)
-//     setNamePartner(res[0])
-//     setCityPartner(res[1])
-//     setEmailPartner(res[2])
-//     setDescriptionPartner(res[3])
-//     setGPAPartner(res[4])
-//     setPhoneNuberPartner(res[5])
-//     setAvatrUriPartner(res[6])
-//     setInstitutionPartner(res[7])
-//     setPartnerIDPartner(res[9])
-//     setSpecializationPartner(res[10])
-//     setIDInternPartner(res[11])
-//     setPreferenceArrayPartner(res[12])
-// console.log(namePartner)
-// console.log(res)
-// const RealIdMoongoPartner=res[13]
-// console.log( "RealIdMoongoPartner "+  RealIdMoongoPartner)
-// idUse=id
-// LoadPartnerUserload=true
-// return RealIdMoongoPartner
-//     }
-//    catch(err){
-//       Alert.alert('There Is No Intern with The Id '+ id)
-//       console.log('Failed To Add Partner Id '+ err)
-//     }
-  
-//   }
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
@@ -365,7 +333,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     };
     
       return (
-        <View style={styles.rootContainer}>
+       
         <ScrollView>
           <View style={styles.container}>
           <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
@@ -402,7 +370,6 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         </View>
       </View>
     </ScrollView>
-    </View>
     );
     };
     
@@ -415,6 +382,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     padding: 20,
     },
     profilePictureContainer: {
+      alignSelf:'center',
       marginVertical: 20,
     }, profilePicture1: {
       width: 110,

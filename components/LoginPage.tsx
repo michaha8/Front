@@ -54,11 +54,23 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   const[partnerID,setPartnerID]=useState<string>("")
   const [isValidEmail, setIsValidEmail] = useState(false);
   const[userTypeCheck,setUserType]=useState<string>("")
-  //Stay LoggedIn
+  // Stay LoggedIn
   //  useEffect(() => {
   //    AsyncStorage.getItem('refreshToken').then(async token => {
+  //     console.log("Token")
+  //     console.log(token)
   //      if (token) {
-  //        navigation.replace("UserDetailsPage");
+  //       const email = await AsyncStorage.getItem('email');
+  //       const userType= await UserModel.getUserTypeByEmail(email)
+  //       console.log("User TYpe")
+  //       console.log(userType)
+  //       console.log(email)
+  //       if (userType === 'intern') {
+  //         navigation.replace("HomePageIntern");
+  //       } else {
+  //         navigation.replace("HomePageHospital");
+  //       }
+        
   //      }
   //   });
   //  }, [navigation]);
