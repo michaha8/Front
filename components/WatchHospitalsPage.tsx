@@ -26,14 +26,9 @@ const ListItem: FC<{
             onRowSelected(email,rating)
         }
         const [rating, setRating] = useState<number>(0);
-        const [userPic, setPic] = useState<String>("");
-        const [emailU, setEmail] = useState<string>("");
-        const [password, setPassword] = useState<string>("");
+    
          const [nameU, setName] = useState<string>("");
-        const[idInternU,setIDIntern]=useState<string>("");
-        const[institution,setInstitution]=useState<string>("");
-         const[specialization,setSpecialization]=useState<string>("")
-        const[phoneNumberU,setPhoneNuber]=useState<string>("")
+      
          const[GPAU,setGPA]=useState<string>("")
          const[cityU,setCity]=useState<string>("")
          const[partnerIDU,setPartnerID]=useState<string>("")
@@ -401,6 +396,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 40,
+        marginVertical: 3, // add margin between each card
       },
       iconContainer: {
         alignItems: 'center',

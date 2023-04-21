@@ -102,7 +102,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
           {!avatarUri && <Text style={styles.choosePhotoText}>Choose Photo</Text>}
         </View>
       </TouchableOpacity>
-      <TouchableOpacity onPress={handleTakePhoto}>
+      <TouchableOpacity onPress={handleChoosePhoto}>
         <Text style={styles.takePhotoText}>Take Photo</Text>
       </TouchableOpacity>
       <TextInput

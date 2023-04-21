@@ -167,7 +167,14 @@ const getUserById = async (id:string) =>{
     } else {
       if(res.data.userType==='hospital'){
         console.log(res)
-        const d: any = [res.data.name,res.data.city,res.data.email,res.data.description,res.data.hospitalQuantity,res.data.phoneNumber,res.data.prefernceArray]
+        const d: any = [res.data.name
+          ,res.data.city
+          ,res.data.email
+          ,res.data.description,
+          res.data.hospitalQuantity,
+          res.data.phoneNumber
+          ,res.data.prefernceArray
+          ,res.data.hospitalQuantity]
         return d
       }
       else if(res.data.userType==='intern')

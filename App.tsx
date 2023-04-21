@@ -1,9 +1,6 @@
 import React,{ FC } from "react";
 import { Button, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import LoginPage from "./components/LoginPage";
-import LoginPageAsIntern from "./components/LoginPageAsIntern";
-import LoginPageAsHospital from "./components/LoginPageAsHospital";
-import UserDetailsPage from "./components/UserDetailsPage";
 import CreatePostPage from "./components/CreatePostPage";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -13,8 +10,7 @@ import SignupPageIntern from "./components/SignupPageIntern";
 import forgetPasswordPage from "./components/forgetPassword";
 import HomePageHospital from "./components/HomePageHospital";
 import HomePageIntern from "./components/HomePageIntern"
-import EditHospital from "./components/EditHospital";
-import EditIntern from "./components/EditIntern";
+
 import WatchInternsPage from "./components/WatcInternsPage";
 
 const Stack = createNativeStackNavigator();
@@ -29,72 +25,48 @@ const App: FC = () => {
         <Stack.Screen
           name="LoginPage"
           component={LoginPage}
-          options={{ title: "Login" }}
+          options={{ title: "Login",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
-        <Stack.Screen
-          name="UserDetailsPage"
-          component={UserDetailsPage}
-          options={{ title: "User Details" }}
-        ></Stack.Screen>
+ 
         <Stack.Screen
           name="CreatePostPage"
           component={CreatePostPage}
           options={{ title: "Create Post" }}
         ></Stack.Screen>
-         <Stack.Screen
-          name="LogInIntern"
-          component={LoginPageAsIntern}
-          options={{ title: "LogInIntern" }}
-        ></Stack.Screen>
-        <Stack.Screen
-          name="LogInHospital"
-          component={LoginPageAsHospital}
-          options={{ title: "LogInHospital" }}
-        ></Stack.Screen>
         <Stack.Screen
           name="WatchHospitals"
           component={WatchHospitalsPage}
-          options={{ title: "Watch Hospitals" }}
+          options={{ title: "Watch Hospitals", headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
          <Stack.Screen
           name="SignupPageHospital"
           component={SignupPageHospital}
-          options={{ title: "Sign Up As Hospital" }}
+          options={{ title: "Sign Up As Hospital",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
         <Stack.Screen
           name="SignupPageIntern"
           component={SignupPageIntern}
-          options={{ title: "Sign Up As Intern" }}
+          options={{ title: "Sign Up As Intern",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
         <Stack.Screen
           name="forgetPassword"
           component={forgetPasswordPage}
-          options={{ title: "Forget Password" }}
+          options={{ title: "Forget Password",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
          <Stack.Screen
           name="HomePageIntern"
           component={HomePageIntern}
-          options={{ title: "Home page Intern" }}
+          options={{ title: "Home page Intern",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
          <Stack.Screen
           name="HomePageHospital"
           component={HomePageHospital}
-          options={{ title: "Home page Hospital" }}
-        ></Stack.Screen>
-           <Stack.Screen
-          name="EditHospital"
-          component={EditHospital}
-          options={{ title: "Edit Hospital details" }}
-        ></Stack.Screen>
-           <Stack.Screen
-          name="EditIntern"
-          component={EditIntern}
-          options={{ title: "Edit Intern details" }}
+          options={{ title: "Home page Hospital",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color,}}
         ></Stack.Screen>
           <Stack.Screen
           name="WatchInterns"
           component={WatchInternsPage}
-          options={{ title: "Watch Interns And Choose Preference" }}
+          options={{ title: "Watch Interns And Choose Preference",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
@@ -105,11 +77,22 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#fff",
+  },  headerTitle: {
+    color: 'lightslategrey',
+    fontSize: 20,
+    fontWeight: 'bold',
+  },
+  header: {
+    backgroundColor: 'aliceblue',
   },
   textStyle: {
     color: "green",
     fontWeight: "bold",
+   
     fontSize: 50,
+  },headerTintColor: {
+    color: 'lightsteelblue',
+
   },
 });
 

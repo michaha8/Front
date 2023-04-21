@@ -226,9 +226,7 @@ interface ValueProps {
     <View style={styles.rootContainer}>
     <ScrollView>
       <View style={styles.container}>
-        <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
-          <Text style={styles.buttonText}>Log Out</Text>
-        </TouchableOpacity>
+        
         <Value label="Name" value={name} onChange={setName} />
 <Value label="Email" value={email} onChange={setEmail} />
 <Value label="Phone Number" value={phoneNumber} onChange={setPhoneNumber} />
@@ -246,6 +244,9 @@ interface ValueProps {
       >
         <Text style={styles.buttonText}>Watch Interns and choose preference</Text>
       </TouchableOpacity>
+      <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
+          <Text style={styles.buttonText}>Log Out</Text>
+        </TouchableOpacity>
     </View>
   </View>
 </ScrollView>

@@ -2,8 +2,8 @@ import React from 'react';
 import { FC, useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler, TextInputComponent, ScrollView } from 'react-native';
 import { UserIntern } from '../model/AuthModel';
-import UserModel, { Post, UserUpdateHospital, UserUpdateIntern } from '../model/UserModel';
-import { Rating } from 'react-native-ratings';
+import UserModel, { UserUpdateHospital} from '../model/UserModel';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -51,19 +51,18 @@ const ListItem: FC<{ idIntern: String,
             setShowFullDescription(!showFullDescription);
         };
     
-        const getUserDetails = async ()=>{
-            try{
-                console.log("sender : "+ name)
-                const user = await UserModel.getUserbyEmail(email)
-                console.log("getting user by ID " +JSON.stringify(user))
-                setName(user.name)
-            }catch(err){
-                console.log("fail getting user by ID " + err)
-            }
-        }
+        // const getUserDetails = async ()=>{
+        //     try{
+        //         console.log("sender : "+ name)
+        //         const user = await UserModel.getUserbyEmail(email)
+        //         console.log("getting user by ID " +JSON.stringify(user))
+        //     }catch(err){
+        //         console.log("fail getting user by ID " + err)
+        //     }
+        // }
 
         useEffect(()=>{
-            getUserDetails()
+            // getUserDetails()
             console.log("its me "+ name)
         })
         interface ValueProps {
@@ -127,18 +126,12 @@ const ListItem: FC<{ idIntern: String,
 
 const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigation }) => {
 
-    const [avatarUri, setAvatrUri] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
+   
     const [email, setEmail] = useState<string>("");
     const [name, setName] = useState<string>("");
-    const[idIntern,setIDIntern]=useState<string>("");
-    const[institution,setInstitution]=useState<string>("");
-    const[specialization,setSpecialization]=useState<string>("")
     const[phoneNumber,setPhoneNumber]=useState<string>("")
     const [hospitalQuantity,setHospitalQuantity]= useState<string>("");
-    const[GPA,setGPA]=useState<string>("")
     const[city,setCity]=useState<string>("")
-    const[partnerID,setPartnerID]=useState<string>("")
-    var UriAfretChange = ""
     const[description,setDescription]=useState<string>(``)
     const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
   
@@ -290,7 +283,6 @@ const styles = StyleSheet.create({
         marginTop: StatusBar.currentHeight,
         flex: 1,
         flexDirection:'column',
-     
         alignItems:'center',
         backgroundColor: "whitesmoke",
     },
@@ -379,7 +371,7 @@ const styles = StyleSheet.create({
       },
       cardItem: {
         backgroundColor: 'whitesmoke',
-        borderRadius: 70,
+        borderRadius: 110,
       borderColor:"lightcyan",
       borderWidth:2,
         padding: 30,
@@ -391,6 +383,7 @@ const styles = StyleSheet.create({
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 40,
+        marginVertical: 2, // add margin between each card
       },
       iconContainer: {
         alignItems: 'center',
@@ -402,7 +395,7 @@ const styles = StyleSheet.create({
       },
       iconLabel: {
         fontSize: 15,
-        marginBottom:5,
+        marginBottom:2,
         fontWeight: 'bold',
         color:'black',
         textAlign: 'center',

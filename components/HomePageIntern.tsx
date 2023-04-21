@@ -336,9 +336,6 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
        
         <ScrollView>
           <View style={styles.container}>
-          <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
-      <AntDesign name="logout" size={15} color="black" />
-        </TouchableOpacity>
           <View style={styles.profilePictureContainer}>
         <Image style={styles.profilePicture} source={{ uri: avatarUri }} />
         <View style={styles.editButtonContainer}>
@@ -367,6 +364,9 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
           >
             <Text style={styles.buttonText}>Watch Hospitals and choose preference</Text>
           </TouchableOpacity>
+          <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
+      <AntDesign name="logout" size={15} color="black" />
+        </TouchableOpacity>
         </View>
       </View>
     </ScrollView>
@@ -421,6 +421,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       // borderStyle:'dotted',
       // borderColor:'blue',
       // borderBottomWidth:10,
+      marginVertical: 10, // add margin between each card
       borderWidth:1,
       marginBottom: 0,
       alignSelf:'center',

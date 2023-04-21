@@ -1,5 +1,4 @@
-import MaterialButtonPrimary from "../buttons/LogInBt"
-import MaterialButtonDark from "../buttons/LogInBt"
+
 import React, { Component , useEffect,FC, useState, useCallback }from "react";
 import {
   StyleSheet,
@@ -103,7 +102,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
      if (!response) {
        console.log('login failed');
        setIsValidEmail(false)
-       Alert.alert("Wrong Email or password");
+       Alert.alert("Wrong Password");
        return;
      }
  
@@ -122,7 +121,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
    } catch (error) {
      console.log('login failed:', error);
      setIsValidEmail(false)
-     Alert.alert("Wrong Email or password");
+     Alert.alert("Wrong Password");
    }
   }
   else if(userTypeCheck==='hospital'){
@@ -143,14 +142,14 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
       console.log("RESPONSE"+JSON.stringify(response))
       if (!response) {
         console.log('login failed');
-        Alert.alert("Wrong Email or password");
+        Alert.alert("Wrong Password");
         return;
       }
   
       const [accessToken, id, refreshToken, userType] = response;
       console.log(user)
       
-      console.log('userType:', user.userType);
+      console.log('userType: ', user.userType);
       await AsyncStorage.setItem('accessToken', accessToken);
       await AsyncStorage.setItem('id', id);
       await AsyncStorage.setItem('refreshToken', refreshToken);
@@ -171,7 +170,6 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   
   }, [password]);
   
-  
 
   const pressHandlerSignUpHospital = () => {
     navigation.navigate("SignupPageHospital");
@@ -182,6 +180,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   const pressHandlerForgetPassword = () => {
     navigation.navigate("forgetPassword");
   };
+
   const pressHandlerSendEmail=async()=>{
     console.log('try Log In '+ userEmail)
     const type= await UserModel.getUserTypeByEmail(userEmail)
@@ -191,11 +190,12 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
     setIsValidEmail(true)
     return type}
     else
-      return undefined
+      Alert.alert('The Email Dont Exsist In system , Please try again')
    
   }
  
   return (
+    <View style={styles.container}>
 <ScrollView>
   {isValidEmail ? (
        <KeyboardAvoidingView style={styles.container} behavior='padding'>
@@ -263,7 +263,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
     </View>
   )}
 </ScrollView>
-  
+</View>
   
   );
 }
@@ -271,6 +271,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'aliceblue'
   },
   FPBT:{
     alignSelf: "center",
@@ -316,9 +317,11 @@ const styles = StyleSheet.create({
     margin: 12,
     borderWidth: 1,
     padding: 10,
+    borderColor:"lightslategrey",
     borderRadius: 10,
     marginTop: 20,
   },
+  
   inputError: {
     borderColor: "red",
   },
@@ -331,13 +334,17 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "mintcream",
+    borderColor:'lightslategrey',
+    borderWidth:2,
+    borderStyle:'solid',
     borderRadius: 100,
     padding: 5,
    
   },
   buttonText: {
     padding: 10,
+    color:'lightslategrey'
   },
   buttonTextFPBT: {
     padding: 10,

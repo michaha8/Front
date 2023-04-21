@@ -1,7 +1,5 @@
 import React, { Component } from "react";
-import MaterialButtonPrimary from "../buttons/MaterialButtonPrimary";
 import { FC, useState } from "react";
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view';
 import {
   StyleSheet,
   Text,
@@ -13,7 +11,6 @@ import {
   Alert,
 } from "react-native";
 import AuthModel, { UserHospital } from "../model/AuthModel";
-import * as ImagePicker from 'expo-image-picker';
 
 
 
@@ -71,7 +68,7 @@ return (
       <TextInput
         style={styles.input}
         onChangeText={setName}
-        placeholder="Enter Full Name"
+        placeholder="Enter Hospital Name"
         value={name}
         autoFocus
         
@@ -144,18 +141,18 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   input: {
-    height: 47,
-    margin: 12,
-    borderWidth: 4,
+    height: 40,
+    margin: 10,
+    borderWidth: 2,
     borderColor:'black',
     padding: 10,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 10,
   },
   inputDescription: {
     height: 80,
     margin: 12,
-    borderWidth: 4,
+    borderWidth: 2,
     borderColor:'black',
     padding: 10,
     paddingTop: 0,
