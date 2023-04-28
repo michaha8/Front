@@ -111,6 +111,7 @@ return (
       />
        <TextInput
         style={styles.inputDescription}
+        placeholderTextColor="grey"
         onChangeText={setDescription}
         placeholder="Description -
               Add Some Information about the hospital."
@@ -135,25 +136,28 @@ return (
 }
 const styles = StyleSheet.create({
   containerKey: {
+    
+    backgroundColor:'aliceblue',
     flex: 1,
   },
   contentContainer: {
     padding: 20,
+    backgroundColor:'aliceblue'
   },
   input: {
     height: 40,
     margin: 10,
     borderWidth: 2,
-    borderColor:'black',
+    borderColor:'mediumturquoise',
     padding: 10,
     borderRadius: 10,
     marginTop: 10,
   },
   inputDescription: {
     height: 80,
-    margin: 12,
+    margin: 10,
     borderWidth: 2,
-    borderColor:'black',
+    borderColor:'mediumturquoise',
     padding: 10,
     paddingTop: 0,
     borderRadius: 10,
@@ -166,16 +170,13 @@ const styles = StyleSheet.create({
   },
   button: {
     flex: 1,
-    margin: 20,
-    alignItems: 'center',
-    backgroundColor: "#DDDDDD",
+    margin: 10,
+    alignItems: "center",
+    backgroundColor: "mintcream",
+    borderColor:'darkturquoise',
+    borderWidth:2,
     padding: 5,
     borderRadius: 10,
-    borderWidth: 2, // add border width
-    borderColor: "black", // set border color
-  },
-  buttonText: {
-    padding: 10,
   },
   buttonContainer:{
     flex:1,
@@ -183,189 +184,14 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    backgroundColor: "white"
+    backgroundColor:'aliceblue'
   },inputError: {
     borderColor: "red",
   },
-  rect1: {
-    width: 298,
-    alignItems:'center',
-    height: 46,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: 121,
-    marginLeft: 50
+  buttonText: {
+    color:'grey',
+    padding: 10,
   },
-  rect7: {
-    width: 298,
-    alignItems:'center',
-    height: 70,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: 320,
-    marginLeft: 50
-  },
-  textInput6: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    alignItems:'center',
-    height: 27,
-    width: 259,
-    marginTop: 7,
-    marginLeft: 12
-  },textInput7: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    alignItems:'center',
-    height: 50,
-    width: 259,
-    marginTop: 0,
-    marginLeft: 10
-  },
-  rect2: {
-    width: 298,
-    height: 46,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: 198,
-    marginLeft: 50
-  },
-  textInput2: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 27,
-    width: 259,
-    marginTop: 10,
-    marginLeft: 10
-  },
-  rect3: {
-    width: 298,
-    height: 46,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: -106,
-    marginLeft: 50
-  },
-  textInput3: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 17,
-    width: 259,
-    marginTop: 15,
-    marginLeft: 10
-  },
-  rect4: {
-    width: 298,
-    height: 46,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: -104,
-    marginLeft: 50
-  },
-  textInput4: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 27,
-    width: 259,
-    marginTop: 11,
-    marginLeft: 10
-  },
-  rect5: {
-    width: 298,
-    height: 46,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: -111,
-    marginLeft: 50
-  },
-  textInput5: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 27,
-    width: 259,
-    marginTop: 10,
-    marginLeft: 10
-  },
-  rect6: {
-    width: 298,
-    height: 46,
-    backgroundColor: "rgba(230,230, 230,1)",
-    borderWidth: 3,
-    borderColor: "rgba(0,0,0,1)",
-    borderStyle: "solid",
-    borderRadius: 100,
-    marginTop: -169,
-    marginLeft: 50
-  },
-  textInput1: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    height: 27,
-    width: 259,
-    marginTop: 9,
-    marginLeft: -14
-  },
-  materialButtonPrimary1: {
-    height: 44,
-    width: 142,
-    borderRadius: 100
-  },
-  materialButtonPrimary2: {
-    height: 44,
-    width: 137,
-    borderWidth: 1,
-    borderColor: "#000000",
-    borderRadius: 55,
-    marginLeft: 19
-  },
-  materialButtonPrimary1Row: {
-    height: 44,
-    flexDirection: "row",
-    marginTop: "auto",
-    alignSelf: "center",
-    marginRight: 20,
-    marginBottom: 25,
-  }, containerSaveBt: {
-   backgroundColor: "rgba(0,0,0,1)",
-  justifyContent: "center",
-  alignItems: "center",
-  flexDirection: "row",
-  borderRadius: 100,
-  shadowColor: "#000",
-  shadowOffset: {
-    width: 0,
-    height: 1
-  },
-  shadowOpacity: 0.35,
-  shadowRadius: 5,
-  elevation: 2,
-  minWidth: 88,
-  paddingLeft: 16,
-  paddingRight: 16
-},
-  
-  captionSaveBt: {
-    color: "#fff",
-    fontSize: 14
-  }
 });
 
 

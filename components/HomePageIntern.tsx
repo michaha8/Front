@@ -33,21 +33,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   const[description,setDescription]=useState<string>(``)
   const[userType,setUserType]=useState<string>(``)
   const [preferenceArray, setPreferenceArray] = useState<string[]>(['0']);
-  const [avatarUriPartner, setAvatrUriPartner] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
-  const [emailPartner, setEmailPartner] = useState<string>("");
-  const [namePartner, setNamePartner] = useState<string>("");
-  const[idInternPartner,setIDInternPartner]=useState<string>("");
-  const[institutionPartner,setInstitutionPartner]=useState<string>("");
-  const[specializationPartner,setSpecializationPartner]=useState<string>("")
-  const[phoneNumberPartner,setPhoneNuberPartner]=useState<string>("")
-  const[GPAPartner,setGPAPartner]=useState<string>("")
-  const[cityPartner,setCityPartner]=useState<string>("")
-  const[partnerIDPartner,setPartnerIDPartner]=useState<string>("")
-  const[descriptionPartner,setDescriptionPartner]=useState<string>(``)
-  const [preferenceArrayPartner, setPreferenceArrayPartner] = useState<string[]>(['0']);
-  const[tempcity,settempCity]=useState<string>("")
-  let LoadPartnerUserload = false
-  let idUse=''
+
   const handleWatchHospitals = () => {
   
     navigation.navigate('WatchHospitals')
@@ -325,7 +311,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
               </ReadMore>
             </View>
             <TouchableOpacity onPress={() => setIsEditing(true)}>
-              <AntDesign name="edit" size={24} color="black" />
+              <AntDesign name="edit" size={24} color="mediumturquoise" />
             </TouchableOpacity>
           </View>
         );
@@ -376,58 +362,33 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     const styles = StyleSheet.create({
     container: {
     flex: 1,
-    backgroundColor: "whitesmoke",
+    backgroundColor: "aliceblue",
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
     },
     profilePictureContainer: {
       alignSelf:'center',
-      marginVertical: 20,
-    }, profilePicture1: {
-      width: 110,
-      height: 110,
-      borderRadius: 50,
-      borderWidth: 3,
-      borderColor: "black",
-    },  editButtonContainer1: {
-      position: "absolute",
-      width: 40,
-      height: 40,
-      borderRadius: 25,
-      backgroundColor: "#f5f5f5",
-      justifyContent: "center",
-      alignItems: "center",
-      right: 10,
-      bottom: 10,
-      elevation: 2,
-      shadowColor: "#000",
-      shadowOffset: {
-        width: 0,
-        height: 2,
-      },
-      shadowOpacity: 0.25,
-      shadowRadius: 3.84,
+      marginVertical: 15,
     }, 
-    title: {
-    fontSize: 24,
-    fontWeight: "bold",
-    marginBottom: 20,
-    },
     button: {
-      backgroundColor: "whitesmoke",
-      padding: 15,
+        padding: 7,
       borderRadius: 12,
       // borderStyle:'dotted',
       // borderColor:'blue',
       // borderBottomWidth:10,
       marginVertical: 10, // add margin between each card
-      borderWidth:1,
+      
+      backgroundColor: "mintcream",
+      borderColor:'darkturquoise',
+      borderWidth:2,
       marginBottom: 0,
       alignSelf:'center',
       },
     buttonText: {
     fontSize: 18,
+    color:'grey',
+    padding: 10,
     fontWeight: "bold",
     textAlign: "center",
     },
@@ -438,7 +399,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         borderWidth: 2,
         borderRadius: 10,
         padding:12,
-        borderColor:'black',
+    borderColor:'mediumturquoise',
         flexWrap: 'wrap'
       },
     label: {
@@ -446,7 +407,8 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     fontSize: 18,
     fontWeight: "bold",
     marginRight: 10,
-    alignSelf:'flex-start'
+    alignSelf:'flex-start',
+    color:'mediumturquoise'
     
     
     },
@@ -457,6 +419,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     textOverflow: 'ellipsis',
     marginRight: 10,
     alignSelf:'flex-start',
+    color:'grey',
     right:0
     
     },
@@ -498,9 +461,9 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     profilePicture: {
       width: 150,
       height: 150,
-      borderRadius: 10,
-      borderWidth: 3,
-      borderColor: "black",
+      borderRadius: 70,
+      borderWidth: 2,
+      borderColor:'mediumturquoise',
     },
     });
 

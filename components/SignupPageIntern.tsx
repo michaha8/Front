@@ -194,6 +194,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor:'aliceblue'
   },
   userPictureStyle: {
     marginTop: 10,
@@ -234,7 +235,7 @@ const styles = StyleSheet.create({
     height: 40,
     margin: 10,
     borderWidth: 2,
-    borderColor:'black',
+    borderColor:'mediumturquoise',
     padding: 10,
     borderRadius: 10,
     marginTop: 10,
@@ -243,7 +244,7 @@ const styles = StyleSheet.create({
     height: 80,
     margin: 10,
     borderWidth: 2,
-    borderColor:'black',
+    borderColor:'mediumturquoise',
     padding: 10,
     paddingTop: 0,
     borderRadius: 10,
@@ -261,11 +262,14 @@ const styles = StyleSheet.create({
     flex: 1,
     margin: 10,
     alignItems: "center",
-    backgroundColor: "#DDDDDD",
+    backgroundColor: "mintcream",
+    borderColor:'darkturquoise',
+    borderWidth:2,
     padding: 5,
     borderRadius: 10,
   },
   buttonText: {
+    color:'grey',
     padding: 10,
   },
 });

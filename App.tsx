@@ -10,6 +10,7 @@ import SignupPageIntern from "./components/SignupPageIntern";
 import forgetPasswordPage from "./components/forgetPassword";
 import HomePageHospital from "./components/HomePageHospital";
 import HomePageIntern from "./components/HomePageIntern"
+import AdminHomePage from "./components/AdminHomePage";
 
 import WatchInternsPage from "./components/WatcInternsPage";
 
@@ -32,6 +33,11 @@ const App: FC = () => {
           name="CreatePostPage"
           component={CreatePostPage}
           options={{ title: "Create Post" }}
+        ></Stack.Screen>
+          <Stack.Screen
+          name="AdminHomePage"
+          component={AdminHomePage}
+          options={{ title: "Admin home page" }}
         ></Stack.Screen>
         <Stack.Screen
           name="WatchHospitals"

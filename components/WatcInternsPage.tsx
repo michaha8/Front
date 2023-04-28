@@ -284,7 +284,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection:'column',
         alignItems:'center',
-        backgroundColor: "whitesmoke",
+        backgroundColor: "aliceblue",
     },
     flatlist: {
         flex: 1,
@@ -358,8 +358,9 @@ const styles = StyleSheet.create({
         marginEnd: 20
       },
       card: {
-        backgroundColor: 'whitesmoke',
+        backgroundColor: 'aliceblue',
         borderRadius: 10,
+        padding: 0,
         flexDirection: 'row',
         justifyContent: 'space-between',
         alignItems: 'center',
@@ -370,20 +371,20 @@ const styles = StyleSheet.create({
         elevation: 5,
       },
       cardItem: {
-        backgroundColor: 'whitesmoke',
-        borderRadius: 110,
+        backgroundColor: 'aliceblue',
+        borderRadius: 70,
       borderColor:"lightcyan",
       borderWidth:2,
-        padding: 30,
+        padding: 20,
         flexDirection: 'row',
-        justifyContent: 'space-around',
+        justifyContent: 'space-evenly',
         alignItems: 'center',
         shadowColor: '#000',
         shadowOffset: { width: 0, height: 2 },
         shadowOpacity: 0.25,
         shadowRadius: 3.84,
         elevation: 40,
-        marginVertical: 2, // add margin between each card
+        marginVertical: 3, // add margin between each card
       },
       iconContainer: {
         alignItems: 'center',
@@ -397,7 +398,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginBottom:2,
         fontWeight: 'bold',
-        color:'black',
+        color:'mediumturquoise',
         textAlign: 'center',
       },
       iconValue: {
@@ -409,7 +410,7 @@ const styles = StyleSheet.create({
       },value: {
         fontSize: 16,
         fontWeight: 'bold',
-        color:'#808080',
+        color:'grey',
         marginRight: 8,
         alignSelf:'center'
       },

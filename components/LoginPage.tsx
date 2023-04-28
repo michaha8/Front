@@ -162,6 +162,10 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
       Alert.alert("Wrong Email or password");
     }
   }
+  else if(userTypeCheck==='admin'){
+     navigation.replace("AdminHomePage");
+     setIsValidEmail(false)
+  }
   else{
     console.log(userEmail)
     console.log(password)
@@ -203,6 +207,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
        <View style={styles.container}>
          <TextInput
          style={styles.input}
+         placeholderTextColor="grey"
          placeholder="Enter Email"
          onChangeText={setEmail}
          value={userEmail}
@@ -275,55 +280,17 @@ const styles = StyleSheet.create({
   },
   FPBT:{
     alignSelf: "center",
-    color:'red'
-  },
-  userPictureStyle: {
-    marginTop: 10,
-    height: 150,
-    resizeMode: "contain",
-    alignSelf: "center",
-    marginBottom: 20,
-  },
-  choosePhotoText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#999",
-    textAlign:'center'
-  },
-  takePhotoText: {
-    fontSize: 18,
-    fontWeight: "bold",
-    color: "#007aff",
-    marginBottom: 20,
-    resizeMode: "contain",
-    alignSelf: "center",
-  },
-  imageContainer: {
-    backgroundColor: "#f0f0f0",
-    width: 100,
-    height: 100,
-    alignItems: "center",
-    justifyContent: "center",
-    resizeMode: "contain",
-    alignSelf: "center",
-    marginBottom: 20,
-  },
-  image: {
-    width: "100%",
-    height: "100%",
+    color:'lavender'
   },
   input: {
     height: 40,
     margin: 12,
     borderWidth: 1,
     padding: 10,
-    borderColor:"lightslategrey",
+    color:'grey',
+    borderColor:"darkturquoise",
     borderRadius: 10,
     marginTop: 20,
-  },
-  
-  inputError: {
-    borderColor: "red",
   },
   buttonsContainer: {
     flexDirection: "row",
@@ -335,7 +302,7 @@ const styles = StyleSheet.create({
     margin: 10,
     alignItems: "center",
     backgroundColor: "mintcream",
-    borderColor:'lightslategrey',
+    borderColor:'darkturquoise',
     borderWidth:2,
     borderStyle:'solid',
     borderRadius: 100,
@@ -344,7 +311,7 @@ const styles = StyleSheet.create({
   },
   buttonText: {
     padding: 10,
-    color:'lightslategrey'
+    color:'grey'
   },
   buttonTextFPBT: {
     padding: 10,

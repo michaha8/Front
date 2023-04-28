@@ -94,7 +94,7 @@ return(
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        backgroundColor: 'white',
+        backgroundColor: 'aliceblue',
       },
   container: {
     flex: 1,

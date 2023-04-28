@@ -379,6 +379,11 @@ const upadteUserHospital = async (user_update:UserUpdateHospital) => {
     console.log("update user failed: " + err)
   }
 }
+const runAlgorithm1= async () => {
+  UserApi.runAlgorithm1()
+}
+const runAlgorithm2= async () => {
+  UserApi.runAlgorithm2()
+}
 
-
-export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail,getAllInternsUsers,getUserbyEmail,getUserByIdIntern,upadteUserHospital,getAllHospitalsUsers,getUserTypeByID }
+export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail,getAllInternsUsers,getUserbyEmail,getUserByIdIntern,upadteUserHospital,getAllHospitalsUsers,getUserTypeByID ,runAlgorithm1,runAlgorithm2}

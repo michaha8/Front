@@ -215,7 +215,7 @@ interface ValueProps {
           </ReadMore>
         </View>
         <TouchableOpacity onPress={() => setIsEditing(true)}>
-          <AntDesign name="edit" size={24} color="black" />
+          <AntDesign name="edit" size={24} color="mediumturquoise" />
         </TouchableOpacity>
       </View>
     );
@@ -245,7 +245,7 @@ interface ValueProps {
         <Text style={styles.buttonText}>Watch Interns and choose preference</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
-          <Text style={styles.buttonText}>Log Out</Text>
+      <AntDesign name="logout" size={15} color="black" />
         </TouchableOpacity>
     </View>
   </View>
@@ -257,51 +257,25 @@ interface ValueProps {
 const styles = StyleSheet.create({
   rootContainer: {
       flex: 1,
-      backgroundColor: "whitesmoke",
+      backgroundColor: "aliceblue",
     },
 container: {
 flex: 1,
 
 alignItems: "center",
 justifyContent: "center",
-backgroundColor: "whitesmoke",
+backgroundColor: "aliceblue",
 padding: 20,
 },
-profilePictureContainer: {
-marginVertical: 20,
-}, profilePicture1: {
-width: 110,
-height: 110,
-borderRadius: 50,
-borderWidth: 3,
-borderColor: "black",
-},  editButtonContainer1: {
-position: "absolute",
-width: 40,
-height: 40,
-borderRadius: 25,
-backgroundColor: "#f5f5f5",
-justifyContent: "center",
-alignItems: "center",
-right: 10,
-bottom: 10,
-elevation: 2,
-shadowColor: "#000",
-shadowOffset: {
-  width: 0,
-  height: 2,
-},
-shadowOpacity: 0.25,
-shadowRadius: 3.84,
-}, 
+
 title: {
 fontSize: 24,
 fontWeight: "bold",
 marginBottom: 20,
 },
 button: {
-  backgroundColor: 'lightcyan',
-  borderRadius: 10,
+
+  borderRadius: 25,
   padding: 7,
   flexDirection: 'row',
   justifyContent: 'space-between',
@@ -312,12 +286,15 @@ button: {
   shadowRadius: 3.84,
   elevation: 5,
 borderWidth:2,
-borderColor:'gainsboro',
+backgroundColor: "mintcream",
+      borderColor:'darkturquoise',
+
 marginBottom: 10,
 alignSelf:'center',
 },
 buttonText: {
 fontSize: 18,
+color:'grey',
 fontWeight: "bold",
 textAlign: "center",
 },
@@ -328,36 +305,37 @@ valueContainer: {
   borderWidth: 2,
   borderRadius: 25,
   padding:12,
-  borderColor:'#808080',
+  borderColor:'mediumturquoise',
   flexWrap: 'wrap'
 },
 label: {
-alignItems:'center',
-fontSize: 18,
-fontWeight: "bold",
-marginRight: 10,
-alignSelf:'flex-start',
-color:'black',
-},
-value: {
-fontSize: 18,
-flex:1,
-fontWeight:'bold',
-color:'#808080',
-overflow: 'hidden',
-textOverflow: 'ellipsis',
-marginRight: 10,
-alignSelf:'flex-start',
-right:0
-
-},
-input: {
-fontSize: 18,
-padding: 5,
-borderRadius: 10,
-marginRight: 10,
-flex: 1,
-},
+  alignItems:'center',
+  fontSize: 18,
+  fontWeight: "bold",
+  marginRight: 10,
+  alignSelf:'flex-start',
+  color:'mediumturquoise'
+  
+  
+  },
+  value: {
+  fontSize: 18,
+  flex:1,
+  overflow: 'hidden',
+  textOverflow: 'ellipsis',
+  marginRight: 10,
+  alignSelf:'flex-start',
+  color:'grey',
+  right:0
+  
+  },
+  input: {
+  fontSize: 18,
+  padding: 5,
+  borderRadius: 10,
+  marginRight: 10,
+  flex: 1,
+  },
 buttonContainer: {
 alignSelf: 'center',
 marginHorizontal: 20,

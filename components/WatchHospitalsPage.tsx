@@ -290,7 +290,7 @@ const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, naviga
 
 const styles = StyleSheet.create({
     color:{
-        borderColor:"lightcyan",
+        borderColor:"mediumturquoise",
     },
 
     container: {
@@ -298,7 +298,7 @@ const styles = StyleSheet.create({
         flex: 1,
         flexDirection:'column',
         alignItems:'center',
-        backgroundColor: "whitesmoke",
+        backgroundColor: "aliceblue",
     },
     flatlist: {
         flex: 1,
@@ -370,7 +370,7 @@ const styles = StyleSheet.create({
         marginEnd: 20
       },
       card: {
-        backgroundColor: 'whitesmoke',
+        backgroundColor: 'aliceblue',
         borderRadius: 10,
         padding: 0,
         flexDirection: 'row',
@@ -383,7 +383,7 @@ const styles = StyleSheet.create({
         elevation: 5,
       },
       cardItem: {
-        backgroundColor: 'whitesmoke',
+        backgroundColor: 'aliceblue',
         borderRadius: 70,
       borderColor:"lightcyan",
       borderWidth:2,
@@ -410,7 +410,7 @@ const styles = StyleSheet.create({
         fontSize: 15,
         marginBottom:10,
         fontWeight: 'bold',
-        color:'black',
+        color:'mediumturquoise',
         textAlign: 'center',
       },
       iconValue: {
@@ -422,7 +422,7 @@ const styles = StyleSheet.create({
       },value: {
         fontSize: 16,
         fontWeight: 'bold',
-        color:'#808080',
+        color:'grey',
         marginRight: 8,
         alignSelf:'center'
       },
