@@ -107,14 +107,15 @@ const ListItem: FC<{ idIntern: String,
                             </TouchableOpacity>
                         )}
                        
-                        <TextInput
-                          style={styles.iconLabel}
-                          placeholder="Enter rating"
-                        keyboardType="numeric"
-                         onChangeText={(text) => {  
-                       updatePreference(name.toString(), Number(text)); 
-                          }}
-                          />
+                       <TextInput
+                         style={styles.iconLabel}
+                         placeholder="Enter rating"
+                         keyboardType="numeric"
+                         onEndEditing={(event) => {
+                         const text = event.nativeEvent.text;
+                         updatePreference(name.toString(), Number(text));
+                         }}
+                        />
                         </View>
                     </View>
                 </View>
@@ -159,10 +160,14 @@ const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigati
 
 
      const handlerSaveBT=async()=>{
-        setPreferenceArray(preference)
+      const filteredArray = preference.filter((value) => {
+        return value !== undefined && value !== 'none';
+      });
+      console.log(filteredArray)
+        setPreferenceArray(filteredArray)
         console.log('HANDLE SAVE '+ preferenceArray)
         console.log('HANDLE SAVE '+ preference)
-       try{ await handleSaveToMongoo(preference)
+       try{ await handleSaveToMongoo(filteredArray)
        }catch(err){
         console.log('Error Save to Mongo '+ err)
        }
