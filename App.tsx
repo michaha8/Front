@@ -11,7 +11,7 @@ import forgetPasswordPage from "./components/forgetPassword";
 import HomePageHospital from "./components/HomePageHospital";
 import HomePageIntern from "./components/HomePageIntern"
 import AdminHomePage from "./components/AdminHomePage";
-
+import PreferenceList from "./components/PreferenceListPage";
 import WatchInternsPage from "./components/WatcInternsPage";
 
 const Stack = createNativeStackNavigator();
@@ -28,7 +28,11 @@ const App: FC = () => {
           component={LoginPage}
           options={{ title: "Login",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
- 
+      <Stack.Screen
+          name="PreferenceListPage"
+          component={PreferenceList}
+          options={{ title: "Preference List" }}
+        ></Stack.Screen>
         <Stack.Screen
           name="CreatePostPage"
           component={CreatePostPage}

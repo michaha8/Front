@@ -76,7 +76,6 @@ const getUserTypeByEmail = async (email: string) => {
   try {
     console.log('im here')
     const res = await UserApi.getUserTypeByEmail(email);
-    console.log('resrrrr'+ JSON.stringify(res))
     if (!res.ok) {
       console.log("fail getting user from db by email");
       return null;
@@ -98,7 +97,6 @@ const getUserTypeByID = async (id: string) => {
   try {
     console.log('im here')
     const res = await UserApi.getUserTypeByID(id);
-    console.log('resrrrr'+JSON.stringify(res))
     if (!res.ok) {
       console.log("fail getting user from db by email");
       return null;
@@ -120,7 +118,6 @@ const getUserbyEmail = async (email: string) => {
   try {
     console.log('im here')
     const res = await UserApi.getUserTypeByEmail(email);
-    console.log('resrrrr'+ JSON.stringify(res))
     if (!res.ok) {
       console.log("fail getting user from db by email");
       return null;

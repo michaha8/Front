@@ -174,6 +174,22 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   }
  
   const handleSaveToMongoo = async (label:string, value:string) => {
+    if(label==='Add Partner ID'){
+      try{
+       const checkIfExsitInDB=await UserModel.getUserByIdIntern(value)
+       if(!checkIfExsitInDB)
+       {
+        Alert.alert(
+          'Invalid input',
+          'The ID number you entered does not exist in the system.\nAfter your partner registration, try again.',
+        );
+        return
+       }
+      }
+    catch(err){
+      Alert.alert(`Error ${err}`)
+    }
+    }
     const id_ = await AsyncStorage.getItem('id');
     const userUpdateIntern:UserUpdateIntern = {
       id: id_,
@@ -196,36 +212,6 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       const res = await UserModel.upadteUserIntern(userUpdateIntern);
       console.log("UpdateUser");
       console.log("update user success");
-      // if(label==='Add Partner ID')
-      // {
-      //   if(LoadPartnerUserload)
-      //   {
-      //     loadUserPartner(value)
-      //   }
-      //   const  RealIdMoongoPartner=await loadUserPartner(value)
-      //   console.log(`ID OF PARTNER ${RealIdMoongoPartner}}`)
-      //   const partner:UserUpdateIntern = {
-      //     id: RealIdMoongoPartner,
-      //     idIntern: idInternPartner ,
-      //     educationalInstitution: institutionPartner,
-      //     partnerID: idIntern,
-      //     typeOfInternship: specializationPartner,
-      //     description: descriptionPartner,
-      //     GPA: GPAPartner,
-      //     city: cityPartner,
-      //     name: namePartner,
-      //     phoneNumber:phoneNumberPartner,
-      //     email: emailPartner,
-      //     avatarUrl:avatarUriPartner,
-      //     preferenceArray:  preferenceArrayPartner
-      //   };
-      //   try{
-      //     const res= await UserModel.upadteUserIntern(partner)
-      //   }catch (error) {
-      //     console.log(error);
-      //   }
-
-      // }
     } catch(err) {
       console.log("update user failed " + err);
     }

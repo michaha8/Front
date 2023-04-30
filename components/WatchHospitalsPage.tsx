@@ -100,8 +100,9 @@ const ListItem: FC<{
                           style={styles.iconLabel}
                           placeholder="Enter rating"
                         keyboardType="numeric"
-                         onChangeText={(text) => {  
-                       updatePreference(name.toString(), Number(text)); 
+                        onEndEditing={(event) => {
+                          const text = event.nativeEvent.text;
+                          updatePreference(name.toString(), Number(text));
                           }}
                           />
                         </View>
@@ -161,16 +162,20 @@ const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, naviga
       }
 
 
-
-     const handlerSaveBT=async()=>{
-        setPreferenceArray(preference)
-        console.log('HANDLE SAVE '+ preferenceArray)
-        console.log('HANDLE SAVE '+ preference)
-       try{ await handleSaveToMongoo(preference)
-       }catch(err){
-        console.log('Error Save to Mongo '+ err)
-       }
-      }
+      const handlerSaveBT=async()=>{
+        const filteredArray = preference.filter((value) => {
+          return value !== undefined && value !== 'none';
+        });
+        console.log(filteredArray)
+          setPreferenceArray(filteredArray)
+          console.log('HANDLE SAVE '+ preferenceArray)
+          console.log('HANDLE SAVE '+ preference)
+         try{ await handleSaveToMongoo(filteredArray)
+          navigation.navigate('PreferenceListPage', { preferenceArray: filteredArray,userType:'Intern' });
+         }catch(err){
+          console.log('Error Save to Mongo '+ err)
+         }
+        }
 
   const handleSaveToMongoo = async (prefArray: string[]) => {
     const id_ = await AsyncStorage.getItem('id')

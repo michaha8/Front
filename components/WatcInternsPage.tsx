@@ -168,6 +168,7 @@ const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigati
         console.log('HANDLE SAVE '+ preferenceArray)
         console.log('HANDLE SAVE '+ preference)
        try{ await handleSaveToMongoo(filteredArray)
+        navigation.navigate('PreferenceListPage', { preferenceArray: filteredArray,userType:'Hospital' });
        }catch(err){
         console.log('Error Save to Mongo '+ err)
        }
