@@ -46,7 +46,12 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
   }
   
     const [userEmail, setEmail] = useState<string>("");
-  
+  const handleBt3=async () => {
+    const res=await UserModel.checkIfAllInternsAddPreference()
+    console.log("handleBt3")
+    console.log(res.hospitals)
+    console.log(res.interns)
+  }
 
 return(
     <View style={styles.container}>
@@ -56,8 +61,8 @@ return(
     <TouchableOpacity style={styles.button}onPress={runAlgorithm2Handler}>
       <Text style={styles.buttonText}>Algorithm 2 (Tabu Search)</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={styles.button}>
-      <Text style={styles.buttonText}>Button 3</Text>
+    <TouchableOpacity onPress={handleBt3}style={styles.button}>
+      <Text style={styles.buttonText} >Button 3</Text>
     </TouchableOpacity>
     <TouchableOpacity style={styles.button} onPress={handlerGoBack}>
       <Text style={styles.buttonText}>Go Back</Text>

@@ -382,5 +382,40 @@ const runAlgorithm1= async () => {
 const runAlgorithm2= async () => {
   UserApi.runAlgorithm2()
 }
+const checkIfAllInternsAddPreference = async () => {
+  console.log("I'm Here --- checkIfAllInternsAddPreference");
+  const res = await UserApi.checkIfAllInternsAddPreference();
 
-export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail,getAllInternsUsers,getUserbyEmail,getUserByIdIntern,upadteUserHospital,getAllHospitalsUsers,getUserTypeByID ,runAlgorithm1,runAlgorithm2}
+  let hospitals = Array()
+  if (res.data.hospitals) {
+    res.data.hospitals.forEach((obj: any) => {
+        const p = {
+         name:obj.name, 
+         email: obj.email,
+         phoneNumber:obj.phoneNumber
+        }
+        hospitals.push(p)
+    });
+}
+let interns = Array()
+if (res.data.interns) {
+  res.data.interns.forEach((obj: any) => {
+      const p = {
+       name:obj.name, 
+       email: obj.email,
+       phoneNumber:obj.phoneNumber
+      }
+      interns.push(p)
+  });
+}
+
+console.log(interns)
+console.log(hospitals)
+
+  // Return the arrays
+  return { interns, hospitals };
+};
+
+export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail
+  ,getAllInternsUsers,getUserbyEmail,getUserByIdIntern,upadteUserHospital,getAllHospitalsUsers
+  ,getUserTypeByID ,runAlgorithm1,runAlgorithm2,checkIfAllInternsAddPreference}

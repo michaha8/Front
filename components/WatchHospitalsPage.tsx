@@ -45,7 +45,6 @@ const ListItem: FC<{
             try{
                 console.log("sender : "+ name)
                 const user = await UserModel.getUserbyEmail(email)
-                console.log("getting user by ID " +JSON.stringify(user))
                 setName(user.name)
             }catch(err){
                 console.log("fail getting user by ID " + err)
@@ -102,9 +101,14 @@ const ListItem: FC<{
                         keyboardType="numeric"
                         onEndEditing={(event) => {
                           const text = event.nativeEvent.text;
-                          updatePreference(name.toString(), Number(text));
-                          }}
-                          />
+                          if (isNaN(text)) {
+                            Alert.alert('Please enter a valid number');
+                            console.log("Input is not a number");
+                          } else {
+                            updatePreference(name.toString(), Number(text));
+                          }
+                        }}
+                      />
                         </View>
                     </View>
                 </View>

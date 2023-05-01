@@ -112,9 +112,14 @@ const ListItem: FC<{ idIntern: String,
                          placeholder="Enter rating"
                          keyboardType="numeric"
                          onEndEditing={(event) => {
-                         const text = event.nativeEvent.text;
-                         updatePreference(name.toString(), Number(text));
-                         }}
+                          const text = event.nativeEvent.text;
+                          if (isNaN(text)) {
+                            Alert.alert('Please enter a valid number');
+                            console.log("Input is not a number");
+                          } else {
+                            updatePreference(name.toString(), Number(text));
+                          }
+                        }}
                         />
                         </View>
                     </View>

@@ -47,6 +47,10 @@ const runAlgorithm2= async () => {
     console.log('Im here run algorithm 2')
     return apiClient.get("user/algorithm/runTabuSearchAlgorithm")
 }
+const checkIfAllInternsAddPreference=async () => {
+    console.log('checkIfAllInternsAddPreference')
+    return apiClient.get('user/checkIfAllInternsAddPreference/checkIfAllInternsAddPreference')
+}
 const getAllPosts = async () => {
     return apiClient.get("post/")
 }
@@ -55,4 +59,6 @@ const upadteUser = async (userUpdatJson:any) => {
     return apiClient.put("user/",userUpdatJson)
 }
 
-export default {uploadImage, getUserById,addNewPost,getAllPosts,upadteUser,getUserTypeByEmail,getAllInternsUsers,getUserByEmail,getUserByIdIntern,getAllHospitalsUsers,getUserTypeByID,runAlgorithm1,runAlgorithm2 };
+export default {uploadImage, getUserById,addNewPost,getAllPosts,
+    upadteUser,getUserTypeByEmail,getAllInternsUsers,getUserByEmail
+    ,getUserByIdIntern,getAllHospitalsUsers,getUserTypeByID,runAlgorithm1,runAlgorithm2,checkIfAllInternsAddPreference };

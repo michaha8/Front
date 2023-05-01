@@ -312,7 +312,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         <Image style={styles.profilePicture} source={{ uri: avatarUri }} />
         <View style={styles.editButtonContainer}>
           <TouchableOpacity onPress={handleEditPicture}>
-            <AntDesign name="picture" size={50} color="black" />
+            <AntDesign name="picture" size={24} color="black" />
           </TouchableOpacity>
         </View>
       </View>
