@@ -41,7 +41,7 @@ const App: FC = () => {
           <Stack.Screen
           name="AdminHomePage"
           component={AdminHomePage}
-          options={{ title: "Admin home page" }}
+          options={{ title: "Admin home page" ,headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
         <Stack.Screen
           name="WatchHospitals"
