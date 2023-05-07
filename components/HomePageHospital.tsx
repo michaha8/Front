@@ -7,6 +7,7 @@ import {
   TouchableOpacity,
   View,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import bcrypt from 'bcrypt'
 import ReadMore from 'react-native-read-more-text';
@@ -33,9 +34,10 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
   const [tempPhoneNumber, setTempPhoneNumber] = useState(phoneNumber);
   const [tempCity, setTempCity] = useState(city);
   const [tempDescription, setTempDescription] = useState(description);
-
+  const [isLoading, setIsLoading] = useState(false);
  
   const loadUser = async ()=>{
+    setIsLoading(true)
     const id = await AsyncStorage.getItem('id')
     const res = await UserModel.getUserById(id)
     setName(res[0])
@@ -45,12 +47,14 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     setHospitalQuantity(res[4])
     setPhoneNumber(res[5])
     setPreferenceArray(res[6])
+    setIsLoading(false)
     
   }
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
       console.log('focus')
+      setIsLoading(true);
     try{
       loadUser()
       console.log("LoadUser")
@@ -62,6 +66,7 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
       console.log('fail signup' + err)
     }
     })
+    setIsLoading(false);
     return unsubscribe
   }, []);
   async function clearStorage() {
@@ -88,6 +93,7 @@ navigation.navigate('WatchInterns')
 
   const handleSaveToMongoo = async (label:string, value:string) => {
     const id_ = await AsyncStorage.getItem('id');
+    setIsLoading(true);
     const userUpdateHospital:UserUpdateHospital = {
       id: id_,
       description: label === 'Description' ? value : description,
@@ -136,6 +142,7 @@ navigation.navigate('WatchInterns')
     } catch(err) {
       console.log("update user failed " + err);
     }
+    setIsLoading(false);
   };
 interface ValueProps {
     label: string;
@@ -221,7 +228,14 @@ interface ValueProps {
     );
   }
 };
-
+if (isLoading) {
+  // show loading icon
+  return (
+    <View style={styles.loadingContainer}>
+      <ActivityIndicator size="large" color="black"/>
+    </View>
+  );
+}
   return (
     <View style={styles.rootContainer}>
     <ScrollView>
@@ -234,8 +248,7 @@ interface ValueProps {
 <Value label="Hospital Quantity" value={hospitalQuantity} onChange={setHospitalQuantity} />
 <Value label="Description" value={description} onChange={setDescription} />
 
-<View style={styles.buttonContainer}>
-    </View>
+
     <View style={styles.buttonContainer}>
       <TouchableOpacity
         style={styles.button}
@@ -274,23 +287,23 @@ fontWeight: "bold",
 marginBottom: 20,
 },
 button: {
-
-  borderRadius: 25,
   padding: 7,
-  flexDirection: 'row',
-  justifyContent: 'space-between',
-  alignItems: 'center',
-  shadowColor: '#000',
-  shadowOffset: { width: 0, height: 2 },
-  shadowOpacity: 0.25,
-  shadowRadius: 3.84,
-  elevation: 5,
-borderWidth:2,
-backgroundColor: "mintcream",
-      borderColor:'darkturquoise',
+borderRadius: 12,
+// borderStyle:'dotted',
+// borderColor:'blue',
+// borderBottomWidth:10,
+marginVertical: 10, // add margin between each card
 
-marginBottom: 10,
+backgroundColor: "mintcream",
+borderColor:'darkturquoise',
+borderWidth:2,
+marginBottom: 0,
 alignSelf:'center',
+},loadingContainer: {
+  flex: 1,
+  backgroundColor: "aliceblue",
+  justifyContent: "center",
+  alignItems: "center",
 },
 buttonText: {
 fontSize: 18,
@@ -336,10 +349,10 @@ label: {
   marginRight: 10,
   flex: 1,
   },
-buttonContainer: {
-alignSelf: 'center',
-marginHorizontal: 20,
-},
+  buttonContainer: {
+    alignSelf: 'center',
+    marginHorizontal: 20,
+    },
 buttonsContainer: {
 flexDirection: "row",
 alignSelf: "baseline",

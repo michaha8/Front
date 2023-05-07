@@ -1,6 +1,6 @@
 import React from 'react';
 import { FC, useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler, TextInputComponent, ScrollView } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler, TextInputComponent, ScrollView, ActivityIndicator } from 'react-native';
 import { UserIntern } from '../model/AuthModel';
 import UserModel, { UserUpdateHospital} from '../model/UserModel';
 
@@ -140,9 +140,9 @@ const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigati
     const[city,setCity]=useState<string>("")
     const[description,setDescription]=useState<string>(``)
     const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
-  
+    const [isLoading, setIsLoading] = useState(false);
     const loadUser = async ()=>{
-
+setIsLoading(true)
         //Thats way i know how is log in
         const id = await AsyncStorage.getItem('id')
         const res = await UserModel.getUserById(id)
@@ -154,7 +154,7 @@ const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigati
         setPhoneNumber(res[5])
         setPreferenceArray(res[6])
         
-        
+        setIsLoading(false)
         console.log('USerLogIN')
         console.log(id)
         console.log(res[12])
@@ -233,6 +233,7 @@ const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigati
     };
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
+          setIsLoading(true)
             console.log('focus')
             loadUser()
             Alert.alert(
@@ -252,11 +253,19 @@ const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigati
                 console.log("fail fetching Users " + err)
             }
             console.log("fetching finish")
+            setIsLoading(false)
             setUsers(useres)
         })
         return unsubscribe
     }, [])
-
+    if (isLoading) {
+      // show loading icon
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="black"/>
+        </View>
+      );
+    }
     return (
         <>
         <ScrollView>
@@ -296,6 +305,11 @@ const styles = StyleSheet.create({
         flexDirection:'column',
         alignItems:'center',
         backgroundColor: "aliceblue",
+    },  loadingContainer: {
+      flex: 1,
+      backgroundColor: "aliceblue",
+      justifyContent: "center",
+      alignItems: "center",
     },
     flatlist: {
         flex: 1,

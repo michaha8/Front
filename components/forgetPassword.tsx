@@ -14,7 +14,7 @@ import {
 } from "react-native";
 import UserModel, {Post} from "../model/UserModel";
 
-const ForgetPasswordPage: FC<{ navigation: any }> = ({ navigation }) => {
+const ForgetPasswordPage: FC<{ navigation: any,route:any }> = ({ navigation,route }) => {
   const handleResetPassword = async () => {
     if (!userEmail) {
       Alert.alert("Please enter your email address");

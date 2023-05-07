@@ -9,6 +9,7 @@ import {
   Image,
   ScrollView,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import ReadMore from 'react-native-read-more-text';
 import AuthModel from "../model/AuthModel";
@@ -28,12 +29,13 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   const[phoneNumber,setPhoneNuber]=useState<string>("")
   const[GPA,setGPA]=useState<string>("")
   const[city,setCity]=useState<string>("")
+  const[matching,setMatching]=useState<string>("")
   const[partnerID,setPartnerID]=useState<string>("")
   var UriAfretChange = ""
   const[description,setDescription]=useState<string>(``)
   const[userType,setUserType]=useState<string>(``)
   const [preferenceArray, setPreferenceArray] = useState<string[]>(['0']);
-
+  const [isLoading, setIsLoading] = useState(false);
   const handleWatchHospitals = () => {
   
     navigation.navigate('WatchHospitals')
@@ -47,6 +49,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       
 
   const loadUser = async ()=>{
+    setIsLoading(true)
     const id = await AsyncStorage.getItem('id')
     const res = await UserModel.getUserById(id)
     setName(res[0])
@@ -62,12 +65,12 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     setIDIntern(res[11])
     setPreferenceArray(res[12])
     setUserType(res[13])
-    console.log(res[13])
-     console.log(userType)
-    console.log('HomePageIntern')
-    console.log(id)
-    console.log(res[12])
-    console.log(preferenceArray)
+    setMatching(res[14])
+    setIsLoading(false)
+    // if(res[14]){
+    //   navigation.replace("MatchingPage",{matching: res[14]});
+    // }
+   
     
     
   }
@@ -75,18 +78,17 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', async () => {
-      console.log('focus')
-    try{
-      loadUser()
-      console.log("LoadUser")
-      console.log("LoadUser")
-      console.log("LoadUser")
-      console.log("LoadUser")
-      console.log("LoadUser")
-    } catch(err) {
-      console.log('fail signup' + err)
-    }
-    })
+      setIsLoading(true);
+
+      try {
+        await loadUser();
+      } catch(err) {
+        console.log('fail signup' + err)
+      } finally {
+        setIsLoading(false);
+      }
+    });
+
     return unsubscribe
   }, []);
 
@@ -303,7 +305,14 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         );
       }
     };
-    
+    if (isLoading) {
+      // show loading icon
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="black"/>
+        </View>
+      );
+    }
       return (
        
         <ScrollView>
@@ -326,8 +335,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     <Value label="GPA" value={GPA} onChange={setGPA} />
     <Value label="Description" value={description} onChange={setDescription} />
     <Value label="Add Partner ID" value={partnerID} onChange={setPartnerID} />
-    <View style={styles.buttonContainer}>
-        </View>
+ 
         <View style={styles.buttonContainer}>
        
           <TouchableOpacity
@@ -352,6 +360,11 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     alignItems: "center",
     justifyContent: "center",
     padding: 20,
+    },loadingContainer: {
+      flex: 1,
+      backgroundColor: "aliceblue",
+      justifyContent: "center",
+      alignItems: "center",
     },
     profilePictureContainer: {
       alignSelf:'center',

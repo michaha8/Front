@@ -179,7 +179,7 @@ const getUserById = async (id:string) =>{
         console.log(res)
         const d: any = [res.data.name,res.data.city,res.data.email,
           res.data.description,res.data.GPA,res.data.phoneNumber,res.data.avatarUrl,
-          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern ,res.data.preferenceArray, res.data.userType]
+          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern ,res.data.preferenceArray, res.data.userType, res.data.matchingArray]
         return d
       }
     }

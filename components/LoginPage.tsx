@@ -53,6 +53,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   const[partnerID,setPartnerID]=useState<string>("")
   const [isValidEmail, setIsValidEmail] = useState(false);
   const[userTypeCheck,setUserType]=useState<string>("")
+  
   // Stay LoggedIn
   //  useEffect(() => {
   //    AsyncStorage.getItem('refreshToken').then(async token => {

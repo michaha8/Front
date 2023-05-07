@@ -1,6 +1,6 @@
 import React from 'react';
 import { FC, useState, useEffect } from 'react';
-import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler, TextInputComponent, ScrollView } from 'react-native';
+import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler, TextInputComponent, ScrollView, ActivityIndicator } from 'react-native';
 import { UserHospital, UserIntern } from '../model/AuthModel';
 import UserModel, { Post, UserUpdateHospital, UserUpdateIntern } from '../model/UserModel';
 import { Rating } from 'react-native-ratings';
@@ -138,10 +138,12 @@ const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, naviga
     const [description, setDescription] = useState<string>(
         ""
       );
+      const [isLoading, setIsLoading] = useState(false);
   
     const loadUser = async ()=>{
 
         //Thats way i know how is log in
+        setIsLoading(true)
         const id = await AsyncStorage.getItem('id')
         const res = await UserModel.getUserById(id)
         setName(res[0])
@@ -162,11 +164,12 @@ const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, naviga
         console.log(id)
         console.log(res[12])
         console.log(preferenceArray)
-
+        setIsLoading(false)
       }
 
 
       const handlerSaveBT=async()=>{
+        
         const filteredArray = preference.filter((value) => {
           return value !== undefined && value !== 'none';
         });
@@ -240,6 +243,7 @@ const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, naviga
     };
     useEffect(() => {
         const unsubscribe = navigation.addListener('focus', async () => {
+          setIsLoading(true)
             console.log('focus')
             loadUser()
             Alert.alert(
@@ -261,9 +265,17 @@ const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, naviga
             console.log("fetching finish")
             setUsers(useres)
         })
+        setIsLoading(false)
         return unsubscribe
     }, [])
-
+    if (isLoading) {
+      // show loading icon
+      return (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="black"/>
+        </View>
+      );
+    }
     return (
         <>
         <ScrollView>
@@ -301,7 +313,12 @@ const styles = StyleSheet.create({
     color:{
         borderColor:"mediumturquoise",
     },
-
+    loadingContainer: {
+      flex: 1,
+      backgroundColor: "aliceblue",
+      justifyContent: "center",
+      alignItems: "center",
+    },
     container: {
         marginTop: StatusBar.currentHeight,
         flex: 1,

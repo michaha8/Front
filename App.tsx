@@ -13,6 +13,7 @@ import HomePageIntern from "./components/HomePageIntern"
 import AdminHomePage from "./components/AdminHomePage";
 import PreferenceList from "./components/PreferenceListPage";
 import WatchInternsPage from "./components/WatcInternsPage";
+import MatchingPage from "./components/MatchingPage";
 
 const Stack = createNativeStackNavigator();
 
@@ -77,6 +78,11 @@ const App: FC = () => {
           name="WatchInterns"
           component={WatchInternsPage}
           options={{ title: "Watch Interns And Choose Preference",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
+        ></Stack.Screen>
+          <Stack.Screen
+          name="MatchingPage"
+          component={MatchingPage}
+          options={{ title: "Youre Matching",headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
       </Stack.Navigator>
     </NavigationContainer>
