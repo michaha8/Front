@@ -1,4 +1,6 @@
 import { AntDesign } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { CommonActions } from "@react-navigation/native";
 import React, { Component , useEffect,FC, useState }from "react";
 import {
   StyleSheet,
@@ -12,17 +14,64 @@ import {
   ImageBackground,
 
 } from "react-native";
+import AuthModel from "../model/AuthModel";
 import UserModel, {Post} from "../model/UserModel";
 
 const MatchingPage: FC<{ navigation: any,route:any }> = ({ navigation,route }) => {
+  console.log(route)  
+  async function clearStorage() {
+    await AsyncStorage.clear();
+  }
 
+  const pressHandlerLogOut = async () => {
+    console.log("Logging out...");
+    await AuthModel.logout();
+    console.log("Clearing storage...");
+    await clearStorage();
+    console.log("Resetting navigation stack...");
+    navigation.dispatch(
+      CommonActions.reset({
+        index: 0,
+        routes: [{ name: 'LoginPage' }],
+      })
+    );
+    console.log("Loading user details...");
+   
+  };
+  const pressHandlerLWatchInterns = async () => {
+navigation.navigate('WatchInterns')
+  };
+if(route.params.type==='hospital')
+{
+  return(
+    <View style={styles.containerModal}>
+    <View style={styles.modal}>
+      <Text style={[styles.modalTitle, { color: 'black' , fontSize: 16 }]}>
+        You're Matching:
+      </Text>
+      {route.params.matching.map((item, index) => (
+        <Text key={index} style={styles.modalText}>
+          {item}
+        </Text>
+      ))}
+    </View>
+    
+  </View>
+  )
+}
 return(
       <View style={styles.containerModal}>
     <View style={styles.modal}>
-      <Text style={[styles.modalTitle, { color: 'black' , fontSize: 16 }]}>Youre Matching is ${route.params.matching}</Text>
+      <Text style={[styles.modalTitle, { color: 'black' , fontSize: 16 }]}>Youre Matching is {route.params.matching}</Text>
     </View>
+    <View style={styles.buttonContainer}>
+    <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
+      <AntDesign name="logout" size={22} color="black" />
+        </TouchableOpacity>
+        </View>
     </View>
     //Add LogOut BT
+  
 )
 
 }
@@ -41,6 +90,14 @@ const styles = StyleSheet.create({
   },userScrollView: {
     maxHeight: 200,
     
+  },modalText: {
+    fontSize: 14,
+    fontWeight: '500',
+    color: 'black',
+    marginTop: 10,
+    marginBottom: 20,
+    textAlign: 'center',
+    letterSpacing: 2,
   },
   userContainer: {
     borderWidth: 1,
@@ -118,7 +175,13 @@ const styles = StyleSheet.create({
   }, buttonContainer: {
     alignSelf: 'center',
     marginHorizontal: 20,
+    minWidth: "24%",
+    maxWidth: "25%",
     },
 });
 
 export default MatchingPage
+
+function clearStorage() {
+  throw new Error("Function not implemented.");
+}

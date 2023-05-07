@@ -47,7 +47,12 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     setHospitalQuantity(res[4])
     setPhoneNumber(res[5])
     setPreferenceArray(res[6])
+    if(res[8]){
+      navigation.replace("MatchingPage",{matching: res[8],type:'hospital'});
+    }
     setIsLoading(false)
+    console.log(res[8])
+ 
     
   }
 

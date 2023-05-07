@@ -66,11 +66,11 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     setPreferenceArray(res[12])
     setUserType(res[13])
     setMatching(res[14])
+    if(res[14]){
+      navigation.replace("MatchingPage",{matching: res[14]});
+    }
     setIsLoading(false)
-    // if(res[14]){
-    //   navigation.replace("MatchingPage",{matching: res[14]});
-    // }
-   
+ 
     
     
   }

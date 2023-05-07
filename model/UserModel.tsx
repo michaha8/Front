@@ -171,7 +171,7 @@ const getUserById = async (id:string) =>{
           res.data.hospitalQuantity,
           res.data.phoneNumber
           ,res.data.prefernceArray
-          ,res.data.hospitalQuantity]
+          ,res.data.hospitalQuantity,res.data.matchingArray]
         return d
       }
       else if(res.data.userType==='intern')
