@@ -13,6 +13,7 @@ import {
 
 } from "react-native";
 import UserModel, {Post} from "../model/UserModel";
+import AuthModel from "../model/AuthModel";
 
 const ForgetPasswordPage: FC<{ navigation: any,route:any }> = ({ navigation,route }) => {
   const handleResetPassword = async () => {
@@ -38,7 +39,7 @@ const ForgetPasswordPage: FC<{ navigation: any,route:any }> = ({ navigation,rout
       Alert.alert("fail Sent Request Forget Password");
     }
   };
-  
+ 
     const [userEmail, setEmail] = useState<string>("");
     const pressHandlerGoBack = () => {
         navigation.goBack();
@@ -72,7 +73,7 @@ return(
     <View style={styles.buttonsContainer}>
     <TouchableOpacity style={styles.button} onPress={handleResetPassword}>
     <Text>
-        Sudmit
+        Submit
     </Text>
     </TouchableOpacity>
     </View>
@@ -94,7 +95,7 @@ return(
 const styles = StyleSheet.create({
     rootContainer: {
         flex: 1,
-        backgroundColor: 'aliceblue',
+        backgroundColor: 'white',
       },
   container: {
     flex: 1,
