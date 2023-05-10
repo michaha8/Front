@@ -22,14 +22,7 @@ const MatchingPage: FC<{ navigation: any,route:any }> = ({ navigation,route }) =
   async function clearStorage() {
     await AsyncStorage.clear();
   }
-  const loadUser = async ()=>{
-    
-    const id = await AsyncStorage.getItem('id')
-    const res = await UserModel.getUserById(id)
-  
- 
-    
-  }
+
  
   const pressHandlerLogOut = async () => {
     console.log("Logging out...");
@@ -43,8 +36,7 @@ const MatchingPage: FC<{ navigation: any,route:any }> = ({ navigation,route }) =
         routes: [{ name: 'LoginPage' }],
       })
     );
-    console.log("Loading user details...");
-    loadUser();
+    
   };
   
 if(route.params.type==='hospital')
