@@ -100,7 +100,8 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     console.log("Logging out...");
     await AuthModel.logout();
     console.log("Clearing storage...");
-    await clearStorage();
+    //Await
+    clearStorage();
     console.log("Resetting navigation stack...");
     navigation.dispatch(
       CommonActions.reset({
@@ -108,8 +109,8 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         routes: [{ name: 'LoginPage' }],
       })
     );
-    console.log("Loading user details...");
-    loadUser();
+    // console.log("Loading user details...");
+    // loadUser();
   };
   const handleEditPicture = async () => {
     let result: any;

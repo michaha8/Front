@@ -8,7 +8,10 @@ import {
   View,
   TextInput,
   ScrollView,
+  FlatList,
   Alert,
+  KeyboardAvoidingView,
+  KeyboardAvoidingViewComponent,
 } from "react-native";
 import AuthModel, { UserIntern } from "../model/AuthModel";
 import * as ImagePicker from 'expo-image-picker';
@@ -94,8 +97,9 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   };
 
   return (
-    <ScrollView>
-    <View style={styles.container}>
+    <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
+    <ScrollView contentContainerStyle={styles.container}>
+  
       <TouchableOpacity onPress={handleChoosePhoto}>
         <View style={styles.imageContainer}>
           {avatarUri && <Image source={{uri:avatarUri}} style={styles.image} />}
@@ -186,15 +190,22 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
           <Text style={styles.buttonText}>Cancle</Text>
         </TouchableOpacity>
       </View>
-    </View>
+     
     </ScrollView>
+    </KeyboardAvoidingView>
+ 
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
+    justifyContent: "center",
     backgroundColor:'aliceblue'
+  },
+  content: {
+ 
+    padding: 16,
   },
   userPictureStyle: {
     marginTop: 10,
