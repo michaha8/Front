@@ -1,8 +1,18 @@
 import apiClient from "./ClientApi";
 
 const uploadImage = async (image: any) => {
+    
     return apiClient.post("/file/file", image)
 }
+const getImage = async (filename: string) => {
+    const response = await apiClient.get(`/uploads/${filename}`, { responseType: 'blob' });
+  
+    // Convert blob to an object URL (Browsers only)
+    const imageUrl = URL.createObjectURL(response.data as Blob);
+  
+    return imageUrl;
+}
+
 
 const getUserById = async (userId:String) => {
     return apiClient.get("user/" + userId)
@@ -59,6 +69,6 @@ const upadteUser = async (userUpdatJson:any) => {
     return apiClient.put("user/",userUpdatJson)
 }
 
-export default {uploadImage, getUserById,addNewPost,getAllPosts,
+export default {uploadImage,getImage, getUserById,addNewPost,getAllPosts,
     upadteUser,getUserTypeByEmail,getAllInternsUsers,getUserByEmail
     ,getUserByIdIntern,getAllHospitalsUsers,getUserTypeByID,runAlgorithm1,runAlgorithm2,checkIfAllInternsAddPreference };

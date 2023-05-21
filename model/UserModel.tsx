@@ -132,24 +132,45 @@ const getUserbyEmail = async (email: string) => {
 
 const uploadImage = async (imageURI: String) => {
   var body = new FormData();
-  body.append("file", { name: "name", type: "image/jpeg", uri: imageURI });
+  console.log(`ImageUrl in UploadImage ${imageURI}`)
+  body.append('file', { name: "name", type: 'image/jpeg', uri: imageURI });
   try {
-    const res = await UserApi.uploadImage(body);
-    if (!res.ok) {
-      console.log("save failed " + res.problem);
-    } else {
-      if(res.data){
-        const d: any = res.data
-        console.log("url: " + d.url)
-        return d.url
+      const res = await UserApi.uploadImage(body)
+      if (!res.ok) {
+          console.log("save failed " + res.problem)
+      } else {
+          if (res.data) {
+              const d: any = res.data
+              console.log("----= url:" + d.url)
+              
+              // Replace \ with / in the URL
+              let fixedUrl = d.url.replace(/\\/g, '/');
+              console.log("fixed url: " + fixedUrl)
+
+              return fixedUrl
+          }
       }
-    }
   } catch (err) {
-    console.log("save failed " + err);
+      console.log("save failed " + err)
   }
   return ""
-};
+}
 
+const getImage = async (filename: string) => {
+  try{
+    console.log(`fileNAme ${filename}`)
+    const x= await UserApi.getImage(filename)
+    console.log(`X ${x}`)
+    if(x){
+      return x
+    }
+    else 
+    console.log('Faield get Image')
+  }catch (err) {
+    console.log("Faield get Image " + err)
+}
+ 
+}
 const getUserById = async (id:string) =>{
   if(!id){
     console.log("fail getting user from db by ID || User ID WRONG");
@@ -416,6 +437,6 @@ console.log(hospitals)
   return { interns, hospitals };
 };
 
-export default {uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail
+export default {getImage,uploadImage,getUserById,addNewPost,getAllPosts,upadteUserIntern,getUserTypeByEmail
   ,getAllInternsUsers,getUserbyEmail,getUserByIdIntern,upadteUserHospital,getAllHospitalsUsers
   ,getUserTypeByID ,runAlgorithm1,runAlgorithm2,checkIfAllInternsAddPreference}

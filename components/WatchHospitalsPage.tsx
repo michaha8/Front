@@ -80,7 +80,7 @@ const ListItem: FC<{
                     <View style={styles.listRowTextContainer}>
                         <IconValu label='Name' value={name} />
                         <IconValu label='Email' value={email} />
-                        <IconValu label='Hospital Quantity' value={hospitalQuantity} />
+                        <IconValu label='Required amount of interns' value={hospitalQuantity} />
                         <IconValu label='phoneNumber' value={phoneNumber} />
                         <View style={styles.listRowTextContainer}>
                         <Text style={styles.iconLabel}>

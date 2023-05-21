@@ -21,6 +21,7 @@ import * as Permissions from 'expo-permissions';
 
 const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   const [avatarUri, setAvatrUri] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
+ 
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
   const[idIntern,setIDIntern]=useState<string>("");
@@ -41,10 +42,6 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     navigation.navigate('WatchHospitals')
          
       }
-    
-      const handleAddPartner = () => {
-        console.log(partnerID)
-      };
       
       
 
@@ -58,7 +55,8 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     setDescription(res[3])
     setGPA(res[4])
     setPhoneNuber(res[5])
-    setAvatrUri(res[6])
+
+    setAvatrUri(res[6]);    
     setInstitution(res[7])
     setPartnerID(res[9])
     setSpecialization(res[10])
@@ -114,7 +112,6 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   };
   const handleEditPicture = async () => {
     let result: any;
-    await handleTakePhoto()
     try {
       result = await ImagePicker.launchImageLibraryAsync({
         mediaTypes: ImagePicker.MediaTypeOptions.Images,
@@ -122,60 +119,47 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         aspect: [4, 3],
         quality: 1,
       });
-      if (!result.cancelled) {
-        setAvatrUri(result.uri);
-        const id_ = await AsyncStorage.getItem('id')
-        const up : UserUpdateIntern = {
+      console.log(result)
+      console.log(`result.canceled ${result.canceled}`)
+      if (result.canceled !== true) {
+        setAvatrUri(result.assets[0].uri);
+        const id_ = await AsyncStorage.getItem('id');
+        console.log("uploading image")
+        const url = await UserModel.uploadImage(result.assets[0].uri)
+        console.log("got url from upload: " + url)
+        const up: UserUpdateIntern = {
           id: id_,
-          idIntern:idIntern,
-          educationalInstitution:institution,
-          partnerID:partnerID,
-          typeOfInternship:specialization,
-          description:description,
-          phoneNumber:phoneNumber,
-          GPA:GPA,
-          city:city,
+          idIntern: idIntern,
+          educationalInstitution: institution,
+          partnerID: partnerID,
+          typeOfInternship: specialization,
+          description: description,
+          phoneNumber: phoneNumber,
+          GPA: GPA,
+          city: city,
           name: name,
-          email:email,
-          avatarUrl: result.uri,
-          preferenceArray:preferenceArray
-        }
-        try{
-          const res = await UserModel.upadteUserIntern(up)
-          console.log("UpdateUser") 
-          console.log("UpdateUser") 
-          console.log("UpdateUser") 
-          console.log("UpdateUser") 
-          console.log(up)
-          console.log("update user success")
-        } catch(err){
-          console.log("update user failed " + err)
+          userType:'intern',
+          email: email,
+          avatarUrl: url,
+          preferenceArray: preferenceArray,
+        };
+        try {
+          const res = await UserModel.upadteUserIntern(up);
+          console.log("UpdateUser");
+          console.log(up);
+          console.log("update user success");
+        } catch (err) {
+          console.log("update user failed " + err);
         }
       }
     } catch (error) {
       console.log(error);
     }
   };
+
+
  
-  const handleTakePhoto = async () => {
-    try {
-      const res = await ImagePicker.launchCameraAsync()
-      if (res.cancelled) {
-        console.log("User cancelled the camera")
-        return
-      }
-      if (res.assets && res.assets.length > 0) {
-        const uri = res.assets[0].uri;
-        UriAfretChange = uri
-        console.log("while: " + uri)
-        console.log("while: " + UriAfretChange)
-        setAvatrUri(uri)
-        console.log("while pp: " + avatarUri)
-      }
-    } catch (err) {
-      console.log("open camera error" + err)
-    }
-  }
+
  
   const handleSaveToMongoo = async (label:string, value:string) => {
     if(label==='Add Partner ID'){

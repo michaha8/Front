@@ -81,7 +81,7 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     console.log("Logging out...");
     await AuthModel.logout();
     console.log("Clearing storage...");
-    await clearStorage();
+     clearStorage();
     console.log("Resetting navigation stack...");
     navigation.dispatch(
       CommonActions.reset({
