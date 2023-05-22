@@ -10,6 +10,7 @@ import {
   Alert,
   ScrollView,
   ImageBackground,
+  StatusBar,
 
 } from "react-native";
 import UserModel, {Post} from "../model/UserModel";
@@ -53,10 +54,12 @@ const PreferenceList: FC<{ navigation: any ,route:any}> = ({ navigation, route }
     
     const styles = StyleSheet.create({
       container: {
+        marginTop: StatusBar.currentHeight,
         flex: 1,
-        padding: 16,
-        backgroundColor: "#fff",
-      }, buttonContainer: {
+        flexDirection:'column',
+        alignItems:'center',
+        backgroundColor: "aliceblue",
+    }, buttonContainer: {
         position: 'absolute',
         bottom: 0,
         left: 0,

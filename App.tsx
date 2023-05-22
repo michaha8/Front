@@ -32,12 +32,12 @@ const App: FC = () => {
       <Stack.Screen
           name="PreferenceListPage"
           component={PreferenceList}
-          options={{ title: "Preference List" }}
+          options={{ title: "Preference" ,headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
         <Stack.Screen
           name="CreatePostPage"
           component={CreatePostPage}
-          options={{ title: "Create Post" }}
+          options={{ title: "Create Post" ,headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
           <Stack.Screen
           name="AdminHomePage"

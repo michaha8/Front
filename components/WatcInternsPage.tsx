@@ -142,7 +142,7 @@ const WatchInternsPage: FC<{ route: any, navigation: any }> = ({ route, navigati
     const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
     const [isLoading, setIsLoading] = useState(false);
     const loadUser = async ()=>{
-setIsLoading(true)
+        setIsLoading(true)
         //Thats way i know how is log in
         const id = await AsyncStorage.getItem('id')
         const res = await UserModel.getUserById(id)
@@ -170,10 +170,10 @@ setIsLoading(true)
       });
       console.log(filteredArray)
         setPreferenceArray(filteredArray)
+        navigation.navigate('PreferenceListPage', { preferenceArray: filteredArray,userType:'Hospital' });
         console.log('HANDLE SAVE '+ preferenceArray)
         console.log('HANDLE SAVE '+ preference)
        try{ await handleSaveToMongoo(filteredArray)
-        navigation.navigate('PreferenceListPage', { preferenceArray: filteredArray,userType:'Hospital' });
        }catch(err){
         console.log('Error Save to Mongo '+ err)
        }
@@ -267,8 +267,7 @@ setIsLoading(true)
       );
     }
     return (
-        <>
-        <ScrollView>
+     <>
          <View style={styles.card}>
         <FlatList style={styles.flatlist}
             data={users}
@@ -287,8 +286,7 @@ setIsLoading(true)
             </Text>
         </TouchableOpacity>
     </View>
-    </ScrollView>
-        </>
+    </>
      
     );
 };
