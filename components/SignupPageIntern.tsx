@@ -121,12 +121,15 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
         placeholder="name"
         value={name}
       />
-        <TextInput
-        style={styles.input}
-        onChangeText={setEmail}
-        placeholder="email"
-        value={email}
-      />
+   <TextInput
+    style={styles.input}
+    onChangeText={(text) => setEmail(text.toLowerCase())}
+    placeholder="Enter Email"
+    value={email}
+    autoComplete='email'
+    keyboardType='email-address'
+/>
+
       <TextInput
         style={styles.input}
         onChangeText={setPassword}
@@ -257,7 +260,6 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor:'mediumturquoise',
     padding: 10,
-    paddingTop: 0,
     borderRadius: 10,
     marginTop: 5,
 

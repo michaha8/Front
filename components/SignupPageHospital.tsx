@@ -73,15 +73,15 @@ return (
         autoFocus
         
       />
-       <TextInput
-        style={styles.input}
-        onChangeText={setEmail}
-        placeholder="Enter Email"
-        value={email}
-        autoComplete='email'
-        keyboardType='email-address'
-        
-      />
+    <TextInput
+    style={styles.input}
+    onChangeText={(text) => setEmail(text.toLowerCase())}
+    placeholder="Enter Email"
+    value={email}
+    autoComplete='email'
+    keyboardType='email-address'
+/>
+
        <TextInput
         style={styles.input}
         onChangeText={setCity}
@@ -111,7 +111,6 @@ return (
       />
        <TextInput
         style={styles.inputDescription}
-        placeholderTextColor="grey"
         onChangeText={setDescription}
         placeholder="Description -
               Add Some Information about the hospital."
@@ -120,6 +119,7 @@ return (
         numberOfLines={4}
         maxLength={200}>
       </TextInput>
+      
 
       <View style={styles.buttonsContainer}>
         <TouchableOpacity style={styles.button} onPress={pressHandlerSignUp}>
@@ -159,9 +159,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor:'mediumturquoise',
     padding: 10,
-    paddingTop: 0,
     borderRadius: 10,
-    marginTop: 5,
+    marginTop: 10,
+    
 
   },
   buttonsContainer: {

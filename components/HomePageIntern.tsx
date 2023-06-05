@@ -275,7 +275,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
             <Text style={styles.label}>{label}: </Text>
             <View style={{ flex: 1 }}>
               <ReadMore
-                numberOfLines={3}
+                numberOfLines={2}
                 renderTruncatedFooter={_renderTruncatedFooter}
                 renderRevealedFooter={_renderRevealedFooter}
               >
@@ -319,8 +319,9 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     <Value label="institution" value={institution} onChange={setInstitution} />
     <Value label="specialization" value={specialization} onChange={setSpecialization} />
     <Value label="GPA" value={GPA} onChange={setGPA} />
-    <Value label="Description" value={description} onChange={setDescription} />
     <Value label="Add Partner ID" value={partnerID} onChange={setPartnerID} />
+    <Value label="Description" value={description} onChange={setDescription} />
+    
  
         <View style={styles.buttonContainer}>
        
@@ -331,7 +332,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
             <Text style={styles.buttonText}>Watch Hospitals and choose preference</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={pressHandlerLogOut}>
-      <AntDesign name="logout" size={15} color="black" />
+      <AntDesign name="logout" size={16} color="black" />
         </TouchableOpacity>
         </View>
       </View>

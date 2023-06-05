@@ -189,7 +189,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
          style={styles.input}
          placeholderTextColor="grey"
          placeholder="Enter Email"
-         onChangeText={setEmail}
+         onChangeText={(text)=>setEmail(text.toLowerCase())}
          value={userEmail}
          />
            <TextInput
@@ -226,7 +226,7 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
       <TextInput
         style={styles.input}
         placeholder="Enter Email"
-        onChangeText={setEmail}
+        onChangeText={(text)=>setEmail(text.toLowerCase())}
         value={userEmail}
       />
       <TouchableOpacity style={styles.button} onPress={pressHandlerSendEmail}>
