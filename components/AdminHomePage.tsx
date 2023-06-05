@@ -36,8 +36,17 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
   };
 
   const runAlgorithm2Handler = async () => {
-    console.log("run Algorithm 2");
-    UserModel.runAlgorithm2();
+    const check=await handleBt3()
+    console.log(check)
+    if(check){
+      console.log("run Tabu Search Algorithm ");
+      UserModel.runAlgorithm2();
+      }
+    
+  };
+  const runAnyway = async () => {
+      console.log("run Tabu Search Algorithm ");
+      UserModel.runAlgorithm2();
   };
 
   async function clearStorage() {
@@ -72,11 +81,11 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
-      <TouchableOpacity style={styles.button} onPress={runAlgorithm1Handler}>
+      {/* <TouchableOpacity style={styles.button} onPress={runAlgorithm1Handler}>
         <Text style={styles.buttonText}>Algorithm 1</Text>
-      </TouchableOpacity>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.button} onPress={runAlgorithm2Handler}>
-        <Text style={styles.buttonText}>Algorithm 2 (Tabu Search)</Text>
+        <Text style={styles.buttonText}>Run Tabu Search Algorithm</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.button} onPress={handlerGoBack}>
         <Text style={styles.buttonText}>Go Back</Text>
@@ -113,9 +122,19 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
         ))}
       </ScrollView>
       <View style={styles.buttonContainer}></View>
+      <TouchableOpacity style={{padding:5, marginVertical: 10,minWidth: "50%",
+    maxWidth: "60%",
+    alignItems: "center",marginBottom:0 ,alignSelf:"center"}} onPress={runAnyway}>
+        <Text style={{fontSize: 18,
+    color:'red',
+    padding: 10,
+    fontWeight: "bold",
+    textAlign: "center",}}>Run Anyway</Text>
+      </TouchableOpacity>
       <TouchableOpacity style={styles.modalButton} onPress={toggleModal}>
         <Text style={styles.buttonText}>Close</Text>
       </TouchableOpacity>
+    
     </View>
   </View>
 </Modal>
@@ -164,7 +183,6 @@ const styles = StyleSheet.create({
     minWidth: "80%",
     maxWidth: "80%",
     alignItems: "center",
-    borderStyle:'dotted',
     borderBottomWidth:5,
     backgroundColor: "mintcream",
     borderColor:'darkturquoise',

@@ -15,27 +15,6 @@ import AuthModel, { UserIntern,UserHospital } from "../model/AuthModel";
 import { AsyncStorage } from 'react-native';
 import UserApi from "../api/UserApi";
 import UserModel from "../model/UserModel";
-// const getUserTypeById = async (id: string): Promise<string | undefined> => {
-//   try {
-//     // Retrieve user ID from AsyncStorage
-//     const storedId = await AsyncStorage.getItem('id');
-//     if (!storedId || storedId !== id) {
-//       throw new Error('User ID not found in AsyncStorage');
-//     }
-    
-//     // Query server or local storage for user info
-//     const user = await fetchUserById(id); // replace with your own function to fetch user by ID
-//     if (!user) {
-//       throw new Error('User not found');
-//     }
-
-//     // Return user type
-//     return user.userType;
-//   } catch (error) {
-//     console.log('Error retrieving user type:', error);
-//     return undefined;
-//   }
-// };
 const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   const [userEmail, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
