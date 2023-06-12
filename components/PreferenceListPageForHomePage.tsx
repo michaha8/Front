@@ -15,40 +15,51 @@ import {
 } from "react-native";
 import UserModel, {Post} from "../model/UserModel";
 
-const PreferenceList: FC<{ navigation: any ,route:any}> = ({ navigation, route }) => {
+const PreferenceListForHomePage: FC<{ navigation: any ,route:any}> = ({ navigation, route }) => {
     const [preferences, setPreferences] = useState(route.params.preferenceArray);
 
     const onSave = () => {
         console.log(route.params.userType)
         console.log(route.params)
-         navigation.navigate(`HomePage${route.params.userType}`)
+       
+        if(route.params.userType==='Intern'){
+          console.log("im ?HERE")
+          navigation.replace('WatchHospitals')
+        }
+        else if(route.params.userType==='Hospital'){
+          navigation.replace(`WatchInterns`)
+         }
+         else{
+          navigation.goBack();
+         }
 
     };
+  
   
    
   
     return (
       <ScrollView>
-      <View style={styles.container}>
-      <Text style={styles.title}>Your preferences:</Text>
-      {preferences.map((preference, index) => (
-        <View key={index} style={styles.preferenceRow}>
-          <View style={styles.preferenceContainer}>
-          <View style={styles.preferenceLabelContainer}>
-            <Text style={styles.preferenceLabel}>Preference {index + 1}: </Text>
-          </View>
-          <View style={styles.preferenceContainer}>
-            <Text style={styles.preferenceValue}>{preference}</Text>
-          </View>
-          </View>
-         </View>
+        <View style={styles.container}>
+          <Text style={styles.title}>Your preferences:</Text>
+          {preferences.map((preference, index) => (
+            <View key={index} style={styles.preferenceRow}>
+              <View style={styles.preferenceContainer}>
+              <View style={styles.preferenceLabelContainer}>
+                <Text style={styles.preferenceLabel}>Preference {index + 1}: </Text>
+              </View>
+              <View style={styles.preferenceContainer}>
+                <Text style={styles.preferenceValue}>{preference}</Text>
+              </View>
+              </View>
+             </View>
           ))}
           <View style={styles.buttonsContainer}>
           <TouchableOpacity style={styles.button} onPress={onSave}>
-            <Text style={styles.buttonText}>Save preferences</Text>
+            <Text style={styles.buttonText}>Change Preference</Text>
           </TouchableOpacity>
           <TouchableOpacity style={styles.button} onPress={()=>navigation.goBack()}>
-            <Text style={styles.buttonText}>Change preferences</Text>
+            <Text style={styles.buttonText}>Go Back</Text>
           </TouchableOpacity>
           </View>
         </View>
@@ -133,4 +144,4 @@ const PreferenceList: FC<{ navigation: any ,route:any}> = ({ navigation, route }
             },
           });
     
-    export default PreferenceList;
+    export default PreferenceListForHomePage;

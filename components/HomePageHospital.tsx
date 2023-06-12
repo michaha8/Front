@@ -46,6 +46,7 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     setHospitalQuantity(res[4])
     setPhoneNumber(res[5])
     setPreferenceArray(res[6])
+    console.log(res[6])
     if(res[8].length!=0){
       navigation.replace("MatchingPage",{matching: res[8],type:'hospital'});
     }
@@ -98,7 +99,9 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
   const pressHandlerLWatchInterns = async () => {
 navigation.navigate('WatchInterns')
   };
-
+  const pressHandlerSeePreferenceList=()=>{
+    navigation.navigate('PreferenceListForHomePage', { preferenceArray: preferenceArray,userType:'Hospital' });
+  }
   const handleSaveToMongoo = async (label:string, value:string) => {
     const id_ = await AsyncStorage.getItem('id');
     setIsLoading(true);
@@ -258,6 +261,12 @@ if (isLoading) {
 
 
     <View style={styles.buttonContainer}>
+    <TouchableOpacity
+            // style={styles.button}
+            onPress={pressHandlerSeePreferenceList}
+          >
+            <Text style={{fontSize: 18, color:'grey',fontWeight: "bold",textAlign: "center",}}>Watch preference</Text>
+          </TouchableOpacity>
       <TouchableOpacity
         style={styles.button}
         onPress={pressHandlerLWatchInterns}

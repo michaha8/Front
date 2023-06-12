@@ -191,8 +191,8 @@ const getUserById = async (id:string) =>{
           ,res.data.description,
           res.data.hospitalQuantity,
           res.data.phoneNumber
-          ,res.data.prefernceArray
-          ,res.data.hospitalQuantity,res.data.matchingArray]
+          ,res.data.preferenceArray
+          ,res.data.hospitalQuantity,res.data.matchingArrayTabuSearch]
         return d
       }
       else if(res.data.userType==='intern')
@@ -200,7 +200,7 @@ const getUserById = async (id:string) =>{
         console.log(res)
         const d: any = [res.data.name,res.data.city,res.data.email,
           res.data.description,res.data.GPA,res.data.phoneNumber,res.data.avatarUrl,
-          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern ,res.data.preferenceArray, res.data.userType, res.data.matchingArray]
+          res.data.educationalInstitution,res.data.id,res.data.partnerID,res.data.typeOfInternship,res.data.idIntern ,res.data.preferenceArray, res.data.userType, res.data.matchingArrayTabuSearch]
         return d
       }
     }

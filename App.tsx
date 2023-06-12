@@ -14,6 +14,7 @@ import AdminHomePage from "./components/AdminHomePage";
 import PreferenceList from "./components/PreferenceListPage";
 import WatchInternsPage from "./components/WatcInternsPage";
 import MatchingPage from "./components/MatchingPage";
+import PreferenceListForHomePage from "./components/PreferenceListPageForHomePage"
 
 const Stack = createNativeStackNavigator();
 
@@ -32,6 +33,11 @@ const App: FC = () => {
       <Stack.Screen
           name="PreferenceListPage"
           component={PreferenceList}
+          options={{ title: "Preference" ,headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
+        ></Stack.Screen>
+        <Stack.Screen
+          name="PreferenceListForHomePage"
+          component={PreferenceListForHomePage}
           options={{ title: "Preference" ,headerTitleStyle: styles.headerTitle ,headerStyle:styles.header,headerTintColor: styles.headerTintColor.color, }}
         ></Stack.Screen>
         <Stack.Screen

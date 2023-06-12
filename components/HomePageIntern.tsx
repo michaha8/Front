@@ -37,11 +37,9 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   const[userType,setUserType]=useState<string>(``)
   const [preferenceArray, setPreferenceArray] = useState<string[]>(['0']);
   const [isLoading, setIsLoading] = useState(false);
+
   const handleWatchHospitals = () => {
-  
-    navigation.navigate('WatchHospitals')
-         
-      }
+    navigation.navigate('WatchHospitals')}
       
       
 
@@ -109,6 +107,9 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       })
     );
   };
+  const pressHandlerSeePreferenceList=()=>{
+    navigation.navigate('PreferenceListForHomePage', { preferenceArray: preferenceArray,userType:'Intern' });
+  }
 
   const handleEditPicture = async () => {
     let result: any;
@@ -324,7 +325,12 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     
  
         <View style={styles.buttonContainer}>
-       
+        <TouchableOpacity
+            // style={styles.button}
+            onPress={pressHandlerSeePreferenceList}
+          >
+           <Text style={{fontSize: 18, color:'grey',fontWeight: "bold",textAlign: "center",}}>Watch preference</Text>
+          </TouchableOpacity>
           <TouchableOpacity
             style={styles.button}
             onPress={handleWatchHospitals}
