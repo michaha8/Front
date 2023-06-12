@@ -49,15 +49,15 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
       UserModel.runAlgorithm2();
   };
 
-  async function clearStorage() {
-    await AsyncStorage.clear();
-  }
+  // async function clearStorage() {
+  //   await AsyncStorage.clear();
+  // }
 
   const handlerGoBack = async () => {
     console.log("Logging out...");
-    await AuthModel.logout();
+     AuthModel.logout();
     console.log("Clearing storage...");
-    clearStorage();
+    await AsyncStorage.clear();
     console.log("Resetting navigation stack...");
     navigation.dispatch(
       CommonActions.reset({
@@ -66,6 +66,8 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
       })
     );
   };
+  
+  
 
   const handleBt3 = async () => {
     const res = await UserModel.checkIfAllInternsAddPreference();
