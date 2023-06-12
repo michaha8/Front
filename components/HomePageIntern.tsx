@@ -183,7 +183,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
       id: id_,
       idIntern: label === 'ID' ? value :idIntern ,
       educationalInstitution: label === 'institution' ? value : institution,
-      partnerID: label === 'Add Partner ID' ? value : partnerID,
+      partnerID: label === 'Partner ID' ? value : partnerID,
       typeOfInternship: label === 'specialization' ? value : specialization,
       description: label === 'Description' ? value : description,
       GPA: label === 'GPA' ? value : GPA,
@@ -319,7 +319,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     <Value label="institution" value={institution} onChange={setInstitution} />
     <Value label="specialization" value={specialization} onChange={setSpecialization} />
     <Value label="GPA" value={GPA} onChange={setGPA} />
-    <Value label="Add Partner ID" value={partnerID} onChange={setPartnerID} />
+    <Value label="Partner ID" value={partnerID} onChange={setPartnerID} />
     <Value label="Description" value={description} onChange={setDescription} />
     
  
