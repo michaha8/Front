@@ -13,7 +13,7 @@ import {
 } from "react-native";
 import ReadMore from 'react-native-read-more-text';
 import AuthModel from "../model/AuthModel";
-import AsyncStorage from '@react-native-async-storage/async-storage'
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import { CommonActions } from '@react-navigation/native';
 import UserModel, { UserUpdateIntern } from "../model/UserModel";
 import * as ImagePicker from 'expo-image-picker';
@@ -90,26 +90,26 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
 
     return unsubscribe
   }, []);
-
-  async function clearStorage() {
-    await AsyncStorage.clear();
-  }
   const pressHandlerLogOut = async () => {
     console.log("Logging out...");
-    await AuthModel.logout();
-    console.log("Clearing storage...");
-    //Await
-    clearStorage();
-    console.log("Resetting navigation stack...");
+    
+    // Clear storage
+    try {
+      await AsyncStorage.clear();
+      console.log("Storage cleared successfully.");
+    } catch (error) {
+      console.error("Failed to clear storage:", error);
+    }
+    
+    // Reset navigation stack
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
         routes: [{ name: 'LoginPage' }],
       })
     );
-    // console.log("Loading user details...");
-    // loadUser();
   };
+
   const handleEditPicture = async () => {
     let result: any;
     try {

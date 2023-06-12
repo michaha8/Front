@@ -12,7 +12,7 @@ import {
   KeyboardAvoidingView,
 } from "react-native";
 import AuthModel, { UserIntern,UserHospital } from "../model/AuthModel";
-import { AsyncStorage } from 'react-native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import UserApi from "../api/UserApi";
 import UserModel from "../model/UserModel";
 const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
@@ -53,6 +53,31 @@ const LoginPage: FC<{ navigation: any }> = ({ navigation }) => {
   //      }
   //   });
   //  }, [navigation]);
+  // useEffect(() => {
+  //   const checkStayLoggedIn = async () => {
+  //     const refreshToken = await AsyncStorage.getItem('refreshToken');
+  //     if (refreshToken) {
+  //       try {
+  //         const email = await AsyncStorage.getItem('email');
+  //         const userType = await UserModel.getUserTypeByEmail(email);
+  
+  //         if (userType === 'intern') {
+  //           navigation.replace("HomePageIntern");
+  //         } else {
+  //           navigation.replace("HomePageHospital");
+  //         }
+  //       } catch (error) {
+  //         console.error("Error retrieving user type:", error);
+  //       }
+  //     } else {
+  //       // Additional action when refreshToken is null
+  //       console.log("Refresh token is null");
+  //       // Perform any necessary logic here
+  //     }
+  //   };
+  
+  //   checkStayLoggedIn();
+  // }, [navigation]);
 
   const pressHandlerLogin = useCallback(async () => {
     console.log('Press Log In BT');

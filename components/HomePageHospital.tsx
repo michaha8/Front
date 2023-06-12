@@ -9,7 +9,6 @@ import {
   ScrollView,
   ActivityIndicator,
 } from "react-native";
-import bcrypt from 'bcrypt'
 import ReadMore from 'react-native-read-more-text';
 import AuthModel from "../model/AuthModel";
 import { CommonActions } from '@react-navigation/native';
@@ -79,18 +78,22 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
   }
   const pressHandlerLogOut = async () => {
     console.log("Logging out...");
-    await AuthModel.logout();
-    console.log("Clearing storage...");
-     clearStorage();
-    console.log("Resetting navigation stack...");
+    
+    // Clear storage
+    try {
+      await AsyncStorage.clear();
+      console.log("Storage cleared successfully.");
+    } catch (error) {
+      console.error("Failed to clear storage:", error);
+    }
+    
+    // Reset navigation stack
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
         routes: [{ name: 'LoginPage' }],
       })
     );
-    console.log("Loading user details...");
-    loadUser();
   };
   const pressHandlerLWatchInterns = async () => {
 navigation.navigate('WatchInterns')
@@ -106,7 +109,7 @@ navigation.navigate('WatchInterns')
       name: label === 'Name' ? value : name,
       phoneNumber: label === 'Phone Number' ? value : phoneNumber,
       email: label === 'Email' ? value : email,
-      hospitalQuantity:label === 'Hospital Quantity' ? value : hospitalQuantity,
+      hospitalQuantity:label === 'Amount of interns required' ? value : hospitalQuantity,
       preferenceArray:  preferenceArray
     };
     console.log(userUpdateHospital);
@@ -250,7 +253,7 @@ if (isLoading) {
 <Value label="Email" value={email} onChange={setEmail} />
 <Value label="Phone Number" value={phoneNumber} onChange={setPhoneNumber} />
 <Value label="City" value={city} onChange={setCity} />
-<Value label="Hospital Quantity" value={hospitalQuantity} onChange={setHospitalQuantity} />
+<Value label="Amount of interns required" value={hospitalQuantity} onChange={setHospitalQuantity} />
 <Value label="Description" value={description} onChange={setDescription} />
 
 

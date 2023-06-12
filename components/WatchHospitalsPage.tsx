@@ -278,7 +278,7 @@ const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, naviga
     }
     return (
         <>
-        <ScrollView>
+        
          <View style={styles.card}>
         <FlatList style={styles.flatlist}
             data={users}
@@ -302,7 +302,7 @@ const WatchHospitalsPage: FC<{ route: any, navigation: any }> = ({ route, naviga
             </Text>
         </TouchableOpacity>
     </View>
-    </ScrollView>
+
         </>
      
     );

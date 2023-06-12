@@ -19,24 +19,27 @@ import UserModel, {Post} from "../model/UserModel";
 
 const MatchingPage: FC<{ navigation: any,route:any }> = ({ navigation,route }) => {
   console.log(route)  
-  async function clearStorage() {
-    await AsyncStorage.clear();
-  }
+ 
 
  
   const pressHandlerLogOut = async () => {
     console.log("Logging out...");
-    await AuthModel.logout();
-    console.log("Clearing storage...");
-    clearStorage();
-    console.log("Resetting navigation stack...");
+    
+    // Clear storage
+    try {
+      await AsyncStorage.clear();
+      console.log("Storage cleared successfully.");
+    } catch (error) {
+      console.error("Failed to clear storage:", error);
+    }
+    
+    // Reset navigation stack
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
         routes: [{ name: 'LoginPage' }],
       })
     );
-    
   };
   
 if(route.params.type==='hospital')
@@ -127,7 +130,6 @@ const styles = StyleSheet.create({
     minWidth: "80%",
     maxWidth: "80%",
     alignItems: "center",
-    borderStyle:'dotted',
     borderBottomWidth:5,
     backgroundColor: "mintcream",
     borderColor:'darkturquoise',
@@ -183,6 +185,3 @@ const styles = StyleSheet.create({
 
 export default MatchingPage
 
-function clearStorage() {
-  throw new Error("Function not implemented.");
-}
