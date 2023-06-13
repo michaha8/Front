@@ -3,7 +3,7 @@ import { FC, useState, useEffect } from 'react';
 import { StatusBar, StyleSheet, Text, View, Image, TouchableOpacity, Button, Alert, TextInput, FlatList, TouchableHighlight, BackHandler, TextInputComponent, ScrollView, ActivityIndicator } from 'react-native';
 import { UserIntern } from '../model/AuthModel';
 import UserModel, { UserUpdateHospital} from '../model/UserModel';
-
+import { newIP } from "../constants";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
@@ -86,7 +86,7 @@ const ListItem: FC<{ idIntern: String,
                
                 <View style={styles.cardItem}>
                     {avatarUrl == "" && <Image style={styles.listRowImage} source={require('../assets/avatar-icon-images-4.jpg')} />}
-                    {avatarUrl != "" && <Image style={styles.listRowImage} source={{ uri: avatarUrl.toString() }} />}
+                    {avatarUrl != "" && <Image style={styles.listRowImage} source={{ uri: newIP+avatarUrl.toString() }} />}
                    < View style={{  alignItems: 'center' }}>
                     <View style={styles.listRowTextContainer}>
                         <IconValu label='Name' value={name} />

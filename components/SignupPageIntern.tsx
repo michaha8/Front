@@ -15,9 +15,11 @@ import {
 } from "react-native";
 import AuthModel, { UserIntern } from "../model/AuthModel";
 import * as ImagePicker from 'expo-image-picker';
+import UserModel from "../model/UserModel";
 
 const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   const [avatarUri, setAvatrUri] = useState("https://img.freepik.com/premium-vector/doctor-icon-avatar-white_136162-58.jpg?w=2000")
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [confirmPassword, setConfirmPassword] = useState<string>("");
@@ -31,18 +33,35 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   const[description,setDescription]=useState<string>("")
   const[partnerID,setPartnerID]=useState<string>("None")
   const [preferenceArray, setPreferenceArray] = useState<string[]>([]);
-
+const [url,setUrl]=useState('/uploads/1686673404387.jpg')
 
 
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
 
   const handleChoosePhoto = async () => {
-    try{
-      const res = await ImagePicker.launchImageLibraryAsync()
-      if(!res.canceled && res.assets.length > 0){
-        const uri = res.assets[0].uri;
-        setAvatrUri(uri)
-      }
+    // try{
+    //   const res = await ImagePicker.launchImageLibraryAsync()
+    //   if(!res.canceled && res.assets.length > 0){
+    //     const uri = res.assets[0].uri;
+    //     setAvatrUri(uri)
+    //   }
+    let result: any;
+    try {
+      result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.Images,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
+      });
+      console.log(result)
+      console.log(`result.canceled ${result.canceled}`)
+      if (result.canceled !== true) {
+        setAvatrUri(result.assets[0].uri);
+        
+        console.log("uploading image")
+        const tempurl = await UserModel.uploadImage(result.assets[0].uri)
+        setUrl(tempurl)
+        console.log("got url from upload: " + url)}
     }catch(err){
       console.log("open camera error" + err)
     }
@@ -66,7 +85,7 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
       email: email,
       name: name,
       password: password,
-      avatarUrl: avatarUri,
+      avatarUrl: url,
       idIntern:idIntern,
       institution:institution,
       description:description,
@@ -102,8 +121,8 @@ const SignupPage: FC<{ navigation: any }> = ({ navigation }) => {
   
       <TouchableOpacity onPress={handleChoosePhoto}>
         <View style={styles.imageContainer}>
-          {avatarUri && <Image source={{uri:avatarUri}} style={styles.image} />}
-          {!avatarUri && <Text style={styles.choosePhotoText}>Choose Photo</Text>}
+          {avatarUri!="https://img.freepik.com/premium-vector/doctor-icon-avatar-white_136162-58.jpg?w=2000" && <Image source={{uri:avatarUri}} style={styles.image} />}
+          {avatarUri==="https://img.freepik.com/premium-vector/doctor-icon-avatar-white_136162-58.jpg?w=2000" && <Text style={styles.choosePhotoText}>Choose Photo</Text>}
         </View>
       </TouchableOpacity>
       <TouchableOpacity onPress={handleChoosePhoto}>

@@ -18,9 +18,9 @@ import { CommonActions } from '@react-navigation/native';
 import UserModel, { UserUpdateIntern } from "../model/UserModel";
 import * as ImagePicker from 'expo-image-picker';
 import * as Permissions from 'expo-permissions';
-
+import { newIP } from "../constants";
 const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
-  const [avatarUri, setAvatrUri] = useState("https://cdn3.vectorstock.com/i/1000x1000/78/32/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
+  const [avatarUri, setAvatrUri] = useState("../assets/male-doctor-with-stethoscope-avatar-vector-31657832.jpg")
  
   const [email, setEmail] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -108,7 +108,9 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     );
   };
   const pressHandlerSeePreferenceList=()=>{
-    navigation.navigate('PreferenceListForHomePage', { preferenceArray: preferenceArray,userType:'Intern' });
+    // navigation.navigate('PreferenceListForHomePage', { preferenceArray: preferenceArray,userType:'Intern' });
+    console.log(avatarUri)
+    console.log(newIP+avatarUri)
   }
 
   const handleEditPicture = async () => {
@@ -149,6 +151,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
           console.log("UpdateUser");
           console.log(up);
           console.log("update user success");
+          
         } catch (err) {
           console.log("update user failed " + err);
         }
@@ -305,7 +308,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         <ScrollView>
           <View style={styles.container}>
           <View style={styles.profilePictureContainer}>
-        <Image style={styles.profilePicture} source={{ uri: avatarUri }} />
+        <Image style={styles.profilePicture} source={{ uri: newIP+avatarUri}} />
         <View style={styles.editButtonContainer}>
           <TouchableOpacity onPress={handleEditPicture}>
             <AntDesign name="picture" size={24} color="black" />
