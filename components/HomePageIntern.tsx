@@ -41,7 +41,7 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
   const handleWatchHospitals = () => {
     navigation.navigate('WatchHospitals')}
       
-      
+   
 
   const loadUser = async ()=>{
     setIsLoading(true)
@@ -108,9 +108,8 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     );
   };
   const pressHandlerSeePreferenceList=()=>{
-    // navigation.navigate('PreferenceListForHomePage', { preferenceArray: preferenceArray,userType:'Intern' });
-    console.log(avatarUri)
-    console.log(newIP+avatarUri)
+    navigation.navigate('PreferenceListForHomePage', { preferenceArray: preferenceArray,userType:'Intern' });
+  
   }
 
   const handleEditPicture = async () => {
@@ -181,6 +180,24 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     catch(err){
       Alert.alert(`Error ${err}`)
     }
+    
+    }
+
+
+
+    if(label==='GPA'){
+      try{
+     const GoodGPA= handleGPAChange(value)
+     if(!GoodGPA){
+     Alert.alert(
+      'Invalid input GPA',
+    );
+    return
+     }
+  }
+      catch(err){
+        Alert.alert(`Error ${err}`)
+      }
     }
     const id_ = await AsyncStorage.getItem('id');
     const userUpdateIntern:UserUpdateIntern = {
@@ -209,14 +226,25 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
     }
   };
 
+  const handleGPAChange = (text) => {
+    // Convert the entered value to a number
+    const enteredGPA = Number(text);
 
+    // Check if the enteredGPA is within the valid range
+    if (enteredGPA >= 0 && enteredGPA <= 100) {
+      setGPA(text); // Update the state if the value is valid
+      return true
+    }
+    return false
+  };
       interface ValueProps {
         label: string;
         value: string;
         onChange: (value: string) => void;
+        editable: boolean; // Add editable prop
       }
   
-      const Value: FC<ValueProps> = ({ label, value, onChange }) => {
+      const Value: FC<ValueProps> = ({ label, value, onChange ,editable}) => {
         const [isEditing, setIsEditing] = useState(false);
         const [tempValue, setTempValue] = useState(value);
         
@@ -256,45 +284,57 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
         return (
             <View style={styles.valueContainer}>
               <Text style={styles.label}>{label}: </Text>
-              <TextInput
-                style={[styles.input]}
-                multiline={label === "Description"}
-              numberOfLines={label === "Description" ? 4 : 1}
-                value={tempValue}
-                onChangeText={setTempValue}
-              />
-              <View style={styles.buttonContainer}>
-                <TouchableOpacity onPress={handleSave}>
-                  <AntDesign name="save" size={24} color="black" />
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleCancel}>
-                  <AntDesign name="close" size={24} color="black" />
-                </TouchableOpacity>
-              </View>
-            </View>
-          );
-      } else {
-        return (
-          <View style={styles.valueContainer}>
-            <Text style={styles.label}>{label}: </Text>
-            <View style={{ flex: 1 }}>
-              <ReadMore
-                numberOfLines={2}
-                renderTruncatedFooter={_renderTruncatedFooter}
-                renderRevealedFooter={_renderRevealedFooter}
-              >
-                <Text numberOfLines={isEditing ? 10 : 3} style={styles.value}>
-                  {value}
-                </Text>
-              </ReadMore>
-            </View>
-            <TouchableOpacity onPress={() => setIsEditing(true)}>
-              <AntDesign name="edit" size={24} color="mediumturquoise" />
-            </TouchableOpacity>
-          </View>
-        );
-      }
-    };
+              {editable ? ( // Check if the value is editable
+          <TextInput
+            style={[styles.input]}
+            multiline={label === 'Description'}
+            numberOfLines={label === 'Description' ? 4 : 1}
+            value={tempValue}
+            onChangeText={setTempValue}
+          />
+        ) : (
+          // Render non-editable value
+          <Text style={styles.value}>{value}</Text>
+        )}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleSave}>
+            <AntDesign name="save" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleCancel}>
+            <AntDesign name="close" size={24} color="black" />
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.valueContainer}>
+        <Text style={styles.label}>{label}: </Text>
+        <View style={{ flex: 1 }}>
+          {editable ? ( // Check if the value is editable
+            <ReadMore
+              numberOfLines={2}
+              renderTruncatedFooter={_renderTruncatedFooter}
+              renderRevealedFooter={_renderRevealedFooter}
+            >
+              <Text numberOfLines={isEditing ? 10 : 3} style={styles.value}>
+                {value}
+              </Text>
+            </ReadMore>
+          ) : (
+            // Render non-editable value
+            <Text style={styles.value}>{value}</Text>
+          )}
+        </View>
+        {editable && ( // Render the edit button only if the value is editable
+          <TouchableOpacity onPress={() => setIsEditing(true)}>
+            <AntDesign name="edit" size={24} color="mediumturquoise" />
+          </TouchableOpacity>
+        )}
+      </View>
+    );
+  }
+};
     if (isLoading) {
       // show loading icon
       return (
@@ -315,17 +355,16 @@ const HomePageIntern: FC<{ navigation: any }> = ({ navigation }) => {
           </TouchableOpacity>
         </View>
       </View>
-     <Value label="Name" value={name} onChange={setName} />
-    <Value label="Email" value={email} onChange={setEmail} />
-    <Value label="Phone Number" value={phoneNumber} onChange={setPhoneNuber} />
-    <Value label="City" value={city} onChange={setCity}/>
-    <Value label="ID" value={idIntern} onChange={setIDIntern} />
-    <Value label="institution" value={institution} onChange={setInstitution} />
-    <Value label="specialization" value={specialization} onChange={setSpecialization} />
-    <Value label="GPA" value={GPA} onChange={setGPA} />
-    <Value label="Partner ID" value={partnerID} onChange={setPartnerID} />
-    <Value label="Description" value={description} onChange={setDescription} />
-    
+      <Value label="ID" value={idIntern} onChange={setIDIntern}editable={false} />
+      <Value label="Email" value={email.toLowerCase()} onChange={setEmail} editable={false}/>
+     <Value label="Name" value={name} onChange={setName} editable={true} />
+    <Value label="Phone Number" value={phoneNumber} onChange={setPhoneNuber}editable={true} />
+    <Value label="City" value={city} onChange={setCity}editable={true}/>
+    <Value label="institution" value={institution} onChange={setInstitution}editable={true} />
+    <Value label="specialization" value={specialization} onChange={setSpecialization}editable={true} />
+    <Value label="GPA" value={GPA} onChange={setGPA}editable={true} />
+    <Value label="Partner ID" value={partnerID} onChange={setPartnerID} editable={true}/>
+    <Value label="Description" value={description} onChange={setDescription}editable={true} />
  
         <View style={styles.buttonContainer}>
         <TouchableOpacity

@@ -74,9 +74,7 @@ const HomePageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     setIsLoading(false);
     return unsubscribe
   }, []);
-  async function clearStorage() {
-    await AsyncStorage.clear();
-  }
+  
   const pressHandlerLogOut = async () => {
     console.log("Logging out...");
     
@@ -159,9 +157,10 @@ interface ValueProps {
     label: string;
     value: string;
     onChange: (value: string) => void;
+    editable: boolean; // Add editable prop
   }
   
-  const Value: FC<ValueProps> = ({ label, value, onChange }) => {
+  const Value: FC<ValueProps> = ({ label, value, onChange ,editable}) => {
     const [isEditing, setIsEditing] = useState(false);
     const [tempValue, setTempValue] = useState(value);
     const [isExpanded, setIsExpanded] = useState(false);
@@ -200,41 +199,53 @@ interface ValueProps {
     return (
         <View style={styles.valueContainer}>
           <Text style={styles.label}>{label}: </Text>
+              {editable ? ( // Check if the value is editable
           <TextInput
             style={[styles.input]}
-            multiline={label === "Description"}
-          numberOfLines={label === "Description" ? 4 : 1}
+            multiline={label === 'Description'}
+            numberOfLines={label === 'Description' ? 4 : 1}
             value={tempValue}
             onChangeText={setTempValue}
           />
-          <View style={styles.buttonContainer}>
-            <TouchableOpacity onPress={handleSave}>
-              <AntDesign name="save" size={24} color="black" />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={handleCancel}>
-              <AntDesign name="close" size={24} color="black" />
-            </TouchableOpacity>
-          </View>
+        ) : (
+          // Render non-editable value
+          <Text style={styles.value}>{value}</Text>
+        )}
+        <View style={styles.buttonContainer}>
+          <TouchableOpacity onPress={handleSave}>
+            <AntDesign name="save" size={24} color="black" />
+          </TouchableOpacity>
+          <TouchableOpacity onPress={handleCancel}>
+            <AntDesign name="close" size={24} color="black" />
+          </TouchableOpacity>
         </View>
-      );
+      </View>
+    );
   } else {
     return (
       <View style={styles.valueContainer}>
         <Text style={styles.label}>{label}: </Text>
         <View style={{ flex: 1 }}>
-          <ReadMore
-            numberOfLines={3}
-            renderTruncatedFooter={_renderTruncatedFooter}
-            renderRevealedFooter={_renderRevealedFooter}
-          >
-            <Text numberOfLines={isEditing ? 10 : 3} style={styles.value}>
-              {value}
-            </Text>
-          </ReadMore>
+          {editable ? ( // Check if the value is editable
+            <ReadMore
+              numberOfLines={2}
+              renderTruncatedFooter={_renderTruncatedFooter}
+              renderRevealedFooter={_renderRevealedFooter}
+            >
+              <Text numberOfLines={isEditing ? 10 : 3} style={styles.value}>
+                {value}
+              </Text>
+            </ReadMore>
+          ) : (
+            // Render non-editable value
+            <Text style={styles.value}>{value}</Text>
+          )}
         </View>
-        <TouchableOpacity onPress={() => setIsEditing(true)}>
-          <AntDesign name="edit" size={24} color="mediumturquoise" />
-        </TouchableOpacity>
+        {editable && ( // Render the edit button only if the value is editable
+          <TouchableOpacity onPress={() => setIsEditing(true)}>
+            <AntDesign name="edit" size={24} color="mediumturquoise" />
+          </TouchableOpacity>
+        )}
       </View>
     );
   }
@@ -251,13 +262,13 @@ if (isLoading) {
     <View style={styles.rootContainer}>
     <ScrollView>
       <View style={styles.container}>
-        
-        <Value label="Name" value={name} onChange={setName} />
-<Value label="Email" value={email} onChange={setEmail} />
-<Value label="Phone Number" value={phoneNumber} onChange={setPhoneNumber} />
-<Value label="City" value={city} onChange={setCity} />
-<Value label="Amount of interns required" value={hospitalQuantity} onChange={setHospitalQuantity} />
-<Value label="Description" value={description} onChange={setDescription} />
+      <Value label="Email" value={email} onChange={setEmail}editable={false} />
+        <Value label="Name" value={name} onChange={setName}editable={true} />
+
+<Value label="Phone Number" value={phoneNumber} onChange={setPhoneNumber}editable={true} />
+<Value label="City" value={city} onChange={setCity}editable={true} />
+<Value label="Amount of interns required" value={hospitalQuantity} onChange={setHospitalQuantity}editable={true} />
+<Value label="Description" value={description} onChange={setDescription}editable={true} />
 
 
     <View style={styles.buttonContainer}>
@@ -369,6 +380,7 @@ label: {
   buttonContainer: {
     alignSelf: 'center',
     marginHorizontal: 20,
+    bottom:-150
     },
 buttonsContainer: {
 flexDirection: "row",

@@ -39,35 +39,52 @@ const PreferenceListForHomePage: FC<{ navigation: any ,route:any}> = ({ navigati
    
   
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <Text style={styles.title}>Your preferences:</Text>
-          {preferences.map((preference, index) => (
-            <View key={index} style={styles.preferenceRow}>
-              <View style={styles.preferenceContainer}>
-              <View style={styles.preferenceLabelContainer}>
-                <Text style={styles.preferenceLabel}>Preference {index + 1}: </Text>
-              </View>
-              <View style={styles.preferenceContainer}>
-                <Text style={styles.preferenceValue}>{preference}</Text>
-              </View>
-              </View>
-             </View>
-          ))}
-          <View style={styles.buttonsContainer}>
-          <TouchableOpacity style={styles.button} onPress={onSave}>
-            <Text style={styles.buttonText}>Change Preference</Text>
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.button} onPress={()=>navigation.goBack()}>
-            <Text style={styles.buttonText}>Go Back</Text>
-          </TouchableOpacity>
+      <View style={styles.containerAll}>
+        <ScrollView>
+          <View style={styles.container}>
+            <Text style={styles.title}>Your preferences:</Text>
+            {preferences.length === 0 ? (
+              <Text style={styles.emptyText}>You have not selected your preference list yet</Text>
+            ) : (
+              preferences.map((preference, index) => (
+                <View key={index} style={styles.preferenceRow}>
+                  <View style={styles.preferenceContainer}>
+                    <View style={styles.preferenceLabelContainer}>
+                      <Text style={styles.preferenceLabel}>Preference {index + 1}: </Text>
+                    </View>
+                    <View style={styles.preferenceContainer}>
+                      <Text style={styles.preferenceValue}>{preference}</Text>
+                    </View>
+                  </View>
+                </View>
+              ))
+            )}
+            <View style={styles.buttonsContainer}>
+              <TouchableOpacity style={styles.button} onPress={onSave}>
+                <Text style={styles.buttonText}>Change Preference</Text>
+              </TouchableOpacity>
+              <TouchableOpacity style={styles.button} onPress={()=>navigation.goBack()}>
+                <Text style={styles.buttonText}>Go Back</Text>
+              </TouchableOpacity>
+            </View>
           </View>
-        </View>
         </ScrollView>
-      );
-          };      
+      </View>
+    );
+  };   
     
           const styles = StyleSheet.create({
+            containerAll:{
+              backgroundColor: "aliceblue",
+              flex:1
+            },emptyText: {
+              fontSize: 24,
+              fontWeight: 'bold',
+              textAlign: 'center',
+              marginTop: 50,
+              marginBottom: 50,
+              letterSpacing: 2,
+            },
             container: {
               marginTop: StatusBar.currentHeight,
               flex: 1,
@@ -106,17 +123,18 @@ const PreferenceListForHomePage: FC<{ navigation: any ,route:any}> = ({ navigati
             },
             buttonsContainer: {
               flexDirection: "row",
-              
+              alignSelf: 'stretch',
               justifyContent: 'center', // Centers the buttons horizontally
               marginBottom: 10, // Adds some spacing at the bottom
+             
             },
             button: {
               flex: 1,
               margin: 10,
-              alignItems: "center",
-              backgroundColor: "mintcream",
-              borderColor:'darkturquoise',
-              borderWidth:2,
+              alignItems: 'center',
+              backgroundColor: 'mintcream',
+              borderColor: 'darkturquoise',
+              borderWidth: 2,
               padding: 5,
               borderRadius: 10,
             },

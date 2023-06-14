@@ -11,6 +11,7 @@ import {
   Alert,
 } from "react-native";
 import AuthModel, { UserHospital } from "../model/AuthModel";
+import UserModel from "../model/UserModel";
 
 
 
@@ -31,8 +32,12 @@ const SignupPageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     alert("All fields are required");
   }
   else{
-  
-    alert("Hi " + name + " Welcome to the app , please log in");
+    const checkEmail=await UserModel.getUserbyEmail(email)
+    if(checkEmail){
+      Alert.alert('The Email you entered exist in system ')
+      return
+    }
+    
     const user: UserHospital = {
       email: email,
       name: name,
@@ -46,13 +51,17 @@ const SignupPageHospital: FC<{ navigation: any }> = ({ navigation }) => {
     try{
       await AuthModel.registerHospital(user)
       console.log('success signup signUpPage')
+      alert("Hi " + name + " Welcome to the app , please log in");
     } catch(err) {
       console.log('fail signup' + err)
     }
     navigation.goBack()
   }
   };
-
+  const validateEmail = (email) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
   const onConfirmPasswordChange = (text: string) => {
     setConfirmPassword(text);
     setPasswordsMatch(text === password);
@@ -63,7 +72,7 @@ const SignupPageHospital: FC<{ navigation: any }> = ({ navigation }) => {
   };
 
 return (
-  <ScrollView>
+  <ScrollView style={styles.containerKey}>
     <View style={styles.container}>
       <TextInput
         style={styles.input}
@@ -73,13 +82,18 @@ return (
         autoFocus
         
       />
-    <TextInput
+   <TextInput
     style={styles.input}
     onChangeText={(text) => setEmail(text.toLowerCase())}
     placeholder="Enter Email"
     value={email}
     autoComplete='email'
     keyboardType='email-address'
+    onBlur={() => {
+      if (email && !validateEmail(email)) {
+        Alert.alert('Please provide a valid email')
+      }
+    }}
 />
 
        <TextInput

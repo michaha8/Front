@@ -38,6 +38,16 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
 
   const [passwordsMatch, setPasswordsMatch] = useState<boolean>(true);
 
+
+  const handleGPAChange = (text) => {
+    // Convert the entered value to a number
+    const enteredGPA = Number(text);
+
+    // Check if the enteredGPA is within the valid range
+    if (enteredGPA >= 0 && enteredGPA <= 100) {
+      setGPA(text); // Update the state if the value is valid
+    }
+  };
   const handleChoosePhoto = async () => {
     // try{
     //   const res = await ImagePicker.launchImageLibraryAsync()
@@ -66,7 +76,10 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
       console.log("open camera error" + err)
     }
   };
-
+  const validateEmail = (email) => {
+    const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i;
+    return emailRegex.test(email);
+  };
   const handleTakePhoto = async () => {
     try{
       const res = await ImagePicker.launchCameraAsync()
@@ -80,7 +93,20 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
   };
 
   const pressHandlerSignUp = async () => {
-    alert("Hi " + name + " Welcome to the app , please log in");
+    if (!name || !email || !phoneNumber || !password || !confirmPassword || !city||!idIntern||!institution||!specialization||!GPA||!city) {
+      alert("All fields are required");
+      return
+    }
+    const checkID=await UserModel.getUserByIdIntern(idIntern)
+    const checkEmail=await UserModel.getUserbyEmail(email)
+    if(checkID){
+      Alert.alert('The ID number you entered exist in system ')
+      return
+    }
+    if(checkEmail){
+      Alert.alert('The Email you entered exist in system ')
+      return
+    }
     const user: UserIntern = {
       email: email,
       name: name,
@@ -100,6 +126,7 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
     }
     try{
       await AuthModel.registerIntern(user)
+      alert("Hi " + name + " Welcome to the app , please log in");
       console.log('success signup signuppage')
     } catch(err) {
       console.log('fail signup' + err)
@@ -115,6 +142,27 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
     navigation.goBack()
   };
 
+
+// const handleID =async (event) => {
+//   const text = event.nativeEvent.text; // Get the entered text from the event
+//   // Update the ID value
+//   setIDIntern(text);
+//   try{
+//     const checkIfExsitInDB=await UserModel.getUserByIdIntern(text)
+//     if(checkIfExsitInDB)
+//     {
+//      Alert.alert(
+//        'Invalid input',
+//        'The ID number you entered exist in system.\n'
+//      );
+//      return
+//     }
+//    }
+//  catch(err){
+//    Alert.alert(`Error ${err}`)
+//  }
+
+// };
   return (
     <KeyboardAvoidingView style={styles.container} behavior="padding" enabled>
     <ScrollView contentContainerStyle={styles.container}>
@@ -133,6 +181,7 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
         onChangeText={setIDIntern}
         placeholder="ID"
         value={idIntern}
+        keyboardType="numeric"
       />
        <TextInput
         style={styles.input}
@@ -147,6 +196,11 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
     value={email}
     autoComplete='email'
     keyboardType='email-address'
+    onBlur={() => {
+      if (email && !validateEmail(email)) {
+        Alert.alert('Please provide a valid email')
+      }
+    }}
 />
 
       <TextInput
@@ -180,13 +234,15 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
         onChangeText={setPhoneNuber}
         placeholder="Phone Number"
         value={phoneNumber}
+        keyboardType="numeric"
       />
-      <TextInput
-        style={styles.input}
-        onChangeText={setGPA}
-        placeholder="GPA"
-        value={GPA}
-      />
+     <TextInput
+      style={styles.input}
+      onChangeText={handleGPAChange}
+      placeholder="GPA"
+      value={GPA}
+      keyboardType="numeric"
+    />
       <TextInput
         style={styles.input}
         onChangeText={setCity}
