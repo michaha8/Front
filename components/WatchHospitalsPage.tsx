@@ -80,6 +80,7 @@ const ListItem: FC<{
                     <View style={styles.listRowTextContainer}>
                         <IconValu label='Name' value={name} />
                         <IconValu label='Email' value={email} />
+                        <IconValu label='City' value={city} />
                         <IconValu label='Required amount of interns' value={hospitalQuantity} />
                         <IconValu label='phoneNumber' value={phoneNumber} />
                         <View style={styles.listRowTextContainer}>
@@ -322,6 +323,7 @@ const styles = StyleSheet.create({
     container: {
         marginTop: StatusBar.currentHeight,
         flex: 1,
+       
         flexDirection:'column',
         alignItems:'center',
         backgroundColor: "aliceblue",
@@ -438,10 +440,12 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color:'mediumturquoise',
         textAlign: 'center',
+        padding:2,
       },
       iconValue: {
         flexDirection: 'row',
         alignItems: 'center',
+        padding:2,
         justifyContent: 'center',
      
         

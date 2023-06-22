@@ -94,6 +94,7 @@ const ListItem: FC<{ idIntern: String,
                         <IconValu label='ID' value={idIntern} />
                         <IconValu label='phoneNumber' value={phoneNumber} />
                         <IconValu label='GPA' value={GPA} />
+                        <IconValu label='City' value={city} />
                         <View style={styles.listRowTextContainer}>
                         <Text style={styles.iconLabel}>
                            Description 
@@ -428,12 +429,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignItems: 'center',
         justifyContent: 'center',
+        padding:2,
      
         
       },value: {
         fontSize: 16,
         fontWeight: 'bold',
         color:'grey',
+        padding:7,
         marginRight: 8,
         alignSelf:'center'
       },
