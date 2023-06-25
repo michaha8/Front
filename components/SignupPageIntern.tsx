@@ -186,7 +186,7 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
        <TextInput
         style={styles.input}
         onChangeText={setName}
-        placeholder="name"
+        placeholder="Name"
         value={name}
       />
    <TextInput
@@ -206,14 +206,14 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
       <TextInput
         style={styles.input}
         onChangeText={setPassword}
-        placeholder="password"
+        placeholder="Password"
         value={password}
         secureTextEntry={true}
       />
       <TextInput
         style={[styles.input, !passwordsMatch ? styles.inputError : null]}
         onChangeText={onConfirmPasswordChange}
-        placeholder="confirm password"
+        placeholder="Confirm Password"
         value={confirmPassword}
         secureTextEntry={true}
       />
@@ -265,7 +265,7 @@ const [url,setUrl]=useState('/uploads/1686673404387.jpg')
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={pressHandlerGoBack}>
-          <Text style={styles.buttonText}>Cancle</Text>
+          <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
      

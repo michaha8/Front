@@ -119,7 +119,7 @@ return (
        <TextInput
         style={[styles.input, !passwordsMatch ? styles.inputError : null]}
         onChangeText={onConfirmPasswordChange}
-        placeholder="Confirme Password"
+        placeholder="Confirm Password"
         value={confirmPassword}
         secureTextEntry={true}
       />
@@ -140,7 +140,7 @@ return (
           <Text style={styles.buttonText}>Sign Up</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button} onPress={onCanceleHandler}>
-          <Text style={styles.buttonText}>Cacnel</Text>
+          <Text style={styles.buttonText}>Cancel</Text>
         </TouchableOpacity>
       </View>
       </View>
