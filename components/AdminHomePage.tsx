@@ -21,6 +21,7 @@ import UserModel, { Post } from "../model/UserModel";
 const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [res, setRes] = useState({ interns: [], hospitals: [] });
+  const [afterAlgorithm, setAfterAlgorithm] = useState(false);
 
   const toggleModal = () => {
     setIsModalVisible(!isModalVisible);
@@ -30,8 +31,15 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
     const check=await handleBt3()
     console.log(check)
     if(check){
-    console.log("run Algorithm 1");
-    UserModel.runAlgorithm1();
+      try{
+      console.log("run Algorithm 1");
+      await  UserModel.runAlgorithm1();
+        setAfterAlgorithm(true)
+      }
+      catch(err)
+    {
+console.log("Failed " + err)
+      }
     }
   };
 
@@ -40,13 +48,16 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
     console.log(check)
     if(check){
       console.log("run Tabu Search Algorithm ");
-      UserModel.runAlgorithm2();
+      await UserModel.runAlgorithm2();
+      Alert.alert('Tabu Serach Run')
+      handlerGoBack()
       }
     
   };
   const runAnyway = async () => {
       console.log("run Tabu Search Algorithm ");
-      UserModel.runAlgorithm2();
+      await UserModel.runAlgorithm2();
+     
   };
 
   // async function clearStorage() {
@@ -59,6 +70,7 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
     console.log("Clearing storage...");
     await AsyncStorage.clear();
     console.log("Resetting navigation stack...");
+   
     navigation.dispatch(
       CommonActions.reset({
         index: 0,
@@ -72,14 +84,14 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
   const handleBt3 = async () => {
     const res = await UserModel.checkIfAllInternsAddPreference();
     console.log("handleBt3");
-    if (res) {
+    if (res.hospitals.length>0||res.interns.length) {
       setRes(res);
       setIsModalVisible(true);
     }
     else
     return true
   };
- 
+
   return (
     <View style={styles.container}>
       <View style={styles.buttonContainer}>
@@ -89,6 +101,9 @@ const AdminHomePage: FC<{ navigation: any }> = ({ navigation }) => {
       <TouchableOpacity style={styles.button} onPress={runAlgorithm2Handler}>
         <Text style={styles.buttonText}>Run Tabu Search Algorithm</Text>
       </TouchableOpacity>
+      {/* <TouchableOpacity style={styles.button} onPress={runAlgorithm1Handler}>
+        <Text style={styles.buttonText}>Run  Algorithm</Text>
+      </TouchableOpacity> */}
       <TouchableOpacity style={styles.button} onPress={handlerGoBack}>
         <Text style={styles.buttonText}>Go Back</Text>
       </TouchableOpacity>
@@ -157,6 +172,13 @@ const styles = StyleSheet.create({
   },userScrollView: {
     maxHeight: 200,
     
+  },emptyText: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    textAlign: 'center',
+    marginTop: 50,
+    marginBottom: 50,
+    letterSpacing: 2,
   },
   userContainer: {
     borderWidth: 1,

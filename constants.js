@@ -1,1 +1,1 @@
-export const newIP="http://192.168.1.211:3000"
+export const newIP="http://172.20.10.2:3000"
